@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LandingPage from './components/LandingPage';
-import Karya from './components/Karya'; 
+import Karya from './components/Karya';
+import SliderPage from './components/SliderPage';
 
 function App() {
   useEffect(() => {
@@ -75,6 +76,7 @@ function App() {
     <div className="app">
       <LandingPage />
       <Karya />
+      <SliderPage />
     </div>
   );
 }
