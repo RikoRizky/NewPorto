@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import WhatIDoIcon from '/img/whatido.svg';
 
 const Karya = () => {
-  // ==================== ANIMASI WHAT I DO ====================
+  // ==================== ANIMASI WHAT I DO (tidak berubah) ====================
   useEffect(() => {
     const loadGSAPAndScrollTrigger = () => {
       if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -68,9 +68,8 @@ const Karya = () => {
     loadGSAPAndScrollTrigger();
   }, []);
 
-  // ==================== SLIDER CINEMATIC (DIPERBAIKI) ====================
+  // ==================== SLIDER DENGAN PERBAIKAN PREVIEW ====================
   useEffect(() => {
-    // Preload semua gambar
     const SLIDE_DATA = [
       { name: "BYD SEAL",         img: "img/byd.jpg",          link: "https://bydcirebon.id/" },
       { name: "Mariposas Tour",   img: "img/mariposas.png",    link: "https://tourmariposas.vercel.app" },
@@ -82,7 +81,7 @@ const Karya = () => {
     ];
     const TOTAL = SLIDE_DATA.length;
 
-    // Preload images
+    // Preload semua gambar
     SLIDE_DATA.forEach(item => {
       const img = new Image();
       img.src = item.img;
@@ -98,41 +97,27 @@ const Karya = () => {
       }
 
       gsap.registerPlugin(CustomEase);
-      CustomEase.create("hop", "M0,0 C0.488,0.02 0.467,0.286 0.5,0.5 0.532,0.712 0.58,1 1,1");
+      CustomEase.create("smoothSlide", "M0,0 C0.25,0.1 0.25,0.9 1,1");
 
       const titleDiv = slider.querySelector('.slider-title');
       const counterSpan = slider.querySelector('.slider-counter p span:first-child');
       const totalSpan = slider.querySelector('.slider-counter p span:last-child');
       const previewDiv = slider.querySelector('.slider-preview');
       const captionDiv = slider.querySelector('.slide-caption');
-
       if (totalSpan) totalSpan.innerText = TOTAL;
 
-      let activeIdx = 1;
+      let activeIdx = 0;
       let isAnimating = false;
       let isMobile = window.innerWidth <= 760;
-      let titleTimer = null;
       let autoInterval = null;
+      let titleTimer = null;
 
-      function startAutoSlide() {
-        if (autoInterval) clearInterval(autoInterval);
-        autoInterval = setInterval(() => {
-          if (!isAnimating) transition('next');
-        }, 5000);
-      }
+      const getSlideData = (idx) => SLIDE_DATA[(idx + TOTAL) % TOTAL];
+      const updateCounter = () => {
+        if (counterSpan) counterSpan.innerText = activeIdx + 1;
+      };
 
-      function resetAutoSlide() {
-        if (autoInterval) {
-          clearInterval(autoInterval);
-          startAutoSlide();
-        }
-      }
-
-      function updateCounter(idx) {
-        if (counterSpan) counterSpan.innerText = idx;
-      }
-
-      function animateTitleToCaption(slideName) {
+      const animateTitleToCaption = (slideName) => {
         if (titleTimer) clearTimeout(titleTimer);
         gsap.killTweensOf(titleDiv);
         const h1 = titleDiv.querySelector('h1');
@@ -165,195 +150,206 @@ const Karya = () => {
           });
           titleTimer = null;
         }, 1000);
-      }
+      };
 
-      function updatePreview(content) {
+      // ========== UPDATE PREVIEW DENGAN EFEK FADE (PERBAIKAN) ==========
+      const updatePreview = (content) => {
         if (!previewDiv) return;
-        // Hapus semua img lama kecuali yang terbaru nanti
-        const oldImgs = previewDiv.querySelectorAll('img');
-        oldImgs.forEach(img => img.remove());
+        const oldImg = previewDiv.querySelector('img');
         const newImg = document.createElement('img');
         newImg.src = content.img;
         newImg.alt = content.name;
+        newImg.style.opacity = '0';
         previewDiv.appendChild(newImg);
-        gsap.fromTo(newImg, { opacity: 0, scale: 1.03 }, {
-          opacity: 1, scale: 1, duration: 1.2, ease: "power2.out", delay: 0.3
-        });
-      }
+        
+        if (oldImg) {
+          gsap.to(oldImg, { opacity: 0, duration: 0.3, onComplete: () => oldImg.remove() });
+        }
+        gsap.to(newImg, { opacity: 1, duration: 0.4, delay: 0.1 });
+      };
 
-      function createSlide(content, className) {
+      // Membuat elemen slide
+      const createSlideElement = (content, positionClass) => {
         const div = document.createElement('div');
-        div.className = `slide-container ${className}`;
-        // Gunakan gambar yang sudah dipreload
-        div.innerHTML = `<div class="slide-img"><img src="${content.img}" alt="${content.name}" loading="eager"></div>`;
+        div.className = `slide-container ${positionClass}`;
+        div.innerHTML = `<div class="slide-img"><img src="${content.img}" alt="${content.name}"></div>`;
         return div;
-      }
+      };
 
-      function getIndex(offset) {
-        let newIdx = activeIdx + offset;
-        while (newIdx < 1) newIdx += TOTAL;
-        while (newIdx > TOTAL) newIdx -= TOTAL;
-        return newIdx;
-      }
+      // Inisialisasi 3 slide pertama
+      const initSlides = () => {
+        slider.querySelectorAll('.slide-container').forEach(s => s.remove());
+        const prevIdx = (activeIdx - 1 + TOTAL) % TOTAL;
+        const nextIdx = (activeIdx + 1) % TOTAL;
+        slider.append(
+          createSlideElement(getSlideData(prevIdx), 'prev'),
+          createSlideElement(getSlideData(activeIdx), 'active'),
+          createSlideElement(getSlideData(nextIdx), 'next')
+        );
+        gsap.set('.slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+        gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
+        gsap.set('.slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+      };
 
-      function transitionDesktop(direction) {
+      // ========== TRANSISI DESKTOP (DIPERBAIKI) ==========
+      const transitionTo = (direction) => {
         if (isAnimating) return;
         isAnimating = true;
-        resetAutoSlide();
-
-        const outPos = direction === 'next' ? 'prev' : 'next';
-        const inPos = direction === 'next' ? 'next' : 'prev';
-
-        let outSlide = slider.querySelector(`.slide-container.${outPos}`);
-        const activeSlide = slider.querySelector('.slide-container.active');
-        let inSlide = slider.querySelector(`.slide-container.${inPos}`);
-
-        // Pastikan slide yang diperlukan sudah ada
-        if (!inSlide) {
-          const inIdx = getIndex(direction === 'next' ? 1 : -1);
-          inSlide = createSlide(SLIDE_DATA[inIdx-1], inPos);
-          slider.appendChild(inSlide);
-          const startLeft = (inPos === 'prev') ? '15%' : '85%';
-          gsap.set(inSlide, { left: startLeft, scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-        }
-        if (!outSlide) {
-          const outIdx = getIndex(direction === 'next' ? -1 : 1);
-          outSlide = createSlide(SLIDE_DATA[outIdx-1], outPos);
-          slider.appendChild(outSlide);
-          const startLeft = (outPos === 'prev') ? '15%' : '85%';
-          gsap.set(outSlide, { left: startLeft, scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+        if (autoInterval) {
+          clearInterval(autoInterval);
+          startAutoSlide();
         }
 
-        // Animasi masuk
-        gsap.to(inSlide, {
-          left: '50%',
-          scale: 1,
-          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-          duration: 1.6,
-          ease: "hop"
-        });
-        // Animasi slide aktif keluar
-        gsap.to(activeSlide, {
-          left: (outPos === 'prev') ? '15%' : '85%',
-          scale: 0.92,
-          clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)',
-          duration: 1.6,
-          ease: "hop"
-        });
-        // Animasi outSlide menghilang
-        gsap.to(outSlide, {
-          scale: 0,
-          opacity: 0,
-          duration: 1.4,
-          ease: "hop"
-        });
+        const currentPrev = slider.querySelector('.slide-container.prev');
+        const currentActive = slider.querySelector('.slide-container.active');
+        const currentNext = slider.querySelector('.slide-container.next');
+        if (!currentPrev || !currentActive || !currentNext) return;
 
-        // Siapkan slide jauh untuk next-next
-        const farIdx = getIndex(direction === 'next' ? 2 : -2);
-        const newSlide = createSlide(SLIDE_DATA[farIdx-1], inPos);
-        slider.appendChild(newSlide);
-        const newStartLeft = (inPos === 'prev') ? '15%' : '85%';
-        gsap.set(newSlide, { left: newStartLeft, scale: 0.92, opacity: 0, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-        gsap.to(newSlide, { scale: 0.92, opacity: 1, duration: 1.6, ease: "hop", delay: 0.1 });
+        let newActiveIdx, newPrevIdx, newNextIdx;
+        if (direction === 'next') {
+          newActiveIdx = (activeIdx + 1) % TOTAL;
+          newPrevIdx = activeIdx;
+          newNextIdx = (activeIdx + 2) % TOTAL;
+        } else {
+          newActiveIdx = (activeIdx - 1 + TOTAL) % TOTAL;
+          newPrevIdx = (activeIdx - 2 + TOTAL) % TOTAL;
+          newNextIdx = activeIdx;
+        }
 
-        // Setelah animasi selesai
-        setTimeout(() => {
-          if (outSlide && outSlide.parentNode) outSlide.remove();
-          activeSlide.className = `slide-container ${outPos}`;
-          inSlide.className = 'slide-container active';
-          newSlide.className = `slide-container ${inPos}`;
-          gsap.set('.slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-          gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
-          gsap.set('.slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-          activeIdx = getIndex(direction === 'next' ? 1 : -1);
-          isAnimating = false;
-          updateCounter(activeIdx);
-          animateTitleToCaption(SLIDE_DATA[activeIdx-1].name);
-          updatePreview(SLIDE_DATA[activeIdx-1]);
-        }, 1800);
-      }
+        // PERBAIKAN: Update preview SEBELUM animasi dimulai
+        const newSlideData = getSlideData(newActiveIdx);
+        updatePreview(newSlideData);
+        animateTitleToCaption(newSlideData.name); // judul juga bisa langsung diperbarui
 
-      function transitionMobile(direction) {
+        const newPrevSlide = createSlideElement(getSlideData(newPrevIdx), 'temp-prev');
+        const newActiveSlide = createSlideElement(getSlideData(newActiveIdx), 'temp-active');
+        const newNextSlide = createSlideElement(getSlideData(newNextIdx), 'temp-next');
+
+        gsap.set([newPrevSlide, newActiveSlide, newNextSlide], { opacity: 0 });
+        slider.append(newPrevSlide, newActiveSlide, newNextSlide);
+
+        if (direction === 'next') {
+          gsap.set(newPrevSlide, { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+          gsap.set(newActiveSlide, { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+          gsap.set(newNextSlide, { left: '130%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+
+          const tl = gsap.timeline({
+            onComplete: () => {
+              currentPrev.remove();
+              currentActive.remove();
+              currentNext.remove();
+              newPrevSlide.className = 'slide-container prev';
+              newActiveSlide.className = 'slide-container active';
+              newNextSlide.className = 'slide-container next';
+              gsap.set('.slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+              gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
+              gsap.set('.slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+              activeIdx = newActiveIdx;
+              updateCounter();
+              isAnimating = false;
+            }
+          });
+          tl.to(currentPrev, { left: '-30%', opacity: 0, duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.to(currentActive, { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.to(currentNext, { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newPrevSlide, { opacity: 0 }, { left: '15%', opacity: 1, duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newActiveSlide, { opacity: 0 }, { left: '50%', opacity: 1, scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newNextSlide, { opacity: 0 }, { left: '85%', opacity: 1, duration: 0.8, ease: "smoothSlide" }, 0);
+        } 
+        else { // prev
+          gsap.set(newPrevSlide, { left: '-30%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+          gsap.set(newActiveSlide, { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+          gsap.set(newNextSlide, { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', opacity: 0 });
+
+          const tl = gsap.timeline({
+            onComplete: () => {
+              currentPrev.remove();
+              currentActive.remove();
+              currentNext.remove();
+              newPrevSlide.className = 'slide-container prev';
+              newActiveSlide.className = 'slide-container active';
+              newNextSlide.className = 'slide-container next';
+              gsap.set('.slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+              gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
+              gsap.set('.slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+              activeIdx = newActiveIdx;
+              updateCounter();
+              isAnimating = false;
+            }
+          });
+          tl.to(currentNext, { left: '130%', opacity: 0, duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.to(currentActive, { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.to(currentPrev, { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newPrevSlide, { opacity: 0 }, { left: '15%', opacity: 1, duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newActiveSlide, { opacity: 0 }, { left: '50%', opacity: 1, scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 0.8, ease: "smoothSlide" }, 0);
+          tl.fromTo(newNextSlide, { opacity: 0 }, { left: '85%', opacity: 1, duration: 0.8, ease: "smoothSlide" }, 0);
+        }
+      };
+
+      // ========== TRANSISI MOBILE (DIPERBAIKI) ==========
+      const transitionMobile = (direction) => {
         if (isAnimating) return;
         isAnimating = true;
-        resetAutoSlide();
-
-        const newIdx = getIndex(direction === 'next' ? 1 : -1);
-        const newContent = SLIDE_DATA[newIdx-1];
+        if (autoInterval) {
+          clearInterval(autoInterval);
+          startAutoSlide();
+        }
+        const newIdx = (direction === 'next') ? (activeIdx + 1) % TOTAL : (activeIdx - 1 + TOTAL) % TOTAL;
+        const newContent = getSlideData(newIdx);
+        
+        // PERBAIKAN: update preview dan judul langsung
+        updatePreview(newContent);
+        animateTitleToCaption(newContent.name);
+        
         const activeSlide = slider.querySelector('.slide-container.active');
         const imgElement = activeSlide.querySelector('.slide-img img');
-        const currentSrc = imgElement.src;
-        const newSrc = newContent.img;
-
-        if (currentSrc === newSrc) {
-          isAnimating = false;
-          return;
-        }
-
         const tl = gsap.timeline({
           onComplete: () => {
             activeIdx = newIdx;
+            updateCounter();
             isAnimating = false;
-            updateCounter(activeIdx);
-            updatePreview(newContent);
-            animateTitleToCaption(newContent.name);
           }
         });
-        tl.to(imgElement, { opacity: 0, duration: 0.2, ease: "power2.out" })
-          .call(() => { imgElement.src = newSrc; })
-          .to(imgElement, { opacity: 1, duration: 0.3, ease: "power2.in" });
-      }
+        tl.to(imgElement, { opacity: 0, duration: 0.2 })
+          .call(() => { imgElement.src = newContent.img; imgElement.alt = newContent.name; })
+          .to(imgElement, { opacity: 1, duration: 0.3 });
+      };
 
-      function transition(direction) {
+      const transition = (direction) => {
         if (isAnimating) return;
         if (isMobile) transitionMobile(direction);
-        else transitionDesktop(direction);
-      }
+        else transitionTo(direction);
+      };
 
-      function redirectActiveSlide() {
+      const redirectActiveSlide = () => {
         if (isAnimating) return;
-        const data = SLIDE_DATA[activeIdx - 1];
+        const data = getSlideData(activeIdx);
         if (data?.link && data.link !== '#') window.open(data.link, '_blank');
-        resetAutoSlide();
-      }
-
-      function initSlides() {
-        const old = slider.querySelectorAll('.slide-container');
-        old.forEach(s => s.remove());
-
-        if (!isMobile) {
-          const prevIdx = getIndex(-1);
-          const nextIdx = getIndex(1);
-          slider.append(
-            createSlide(SLIDE_DATA[prevIdx-1], 'prev'),
-            createSlide(SLIDE_DATA[activeIdx-1], 'active'),
-            createSlide(SLIDE_DATA[nextIdx-1], 'next')
-          );
-          gsap.set('.slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-          gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
-          gsap.set('.slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-        } else {
-          slider.appendChild(createSlide(SLIDE_DATA[activeIdx-1], 'active'));
-          gsap.set('.slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
+        if (autoInterval) {
+          clearInterval(autoInterval);
+          startAutoSlide();
         }
+      };
 
-        const h1 = titleDiv.querySelector('h1');
-        if (h1) h1.innerText = "";
-        titleDiv.classList.remove('visible');
-        captionDiv.innerText = "";
-        captionDiv.classList.remove('show');
-        setTimeout(() => animateTitleToCaption(SLIDE_DATA[0].name), 500);
-        updatePreview(SLIDE_DATA[0]);
-        updateCounter(1);
-      }
+      const startAutoSlide = () => {
+        if (autoInterval) clearInterval(autoInterval);
+        autoInterval = setInterval(() => {
+          if (!isAnimating) transition('next');
+        }, 5000);
+      };
 
-      function handleResize() {
+      const handleResize = () => {
         const newMobile = window.innerWidth <= 760;
         if (newMobile !== isMobile) {
           isMobile = newMobile;
+          if (autoInterval) clearInterval(autoInterval);
           initSlides();
+          updateCounter();
+          animateTitleToCaption(getSlideData(activeIdx).name);
+          updatePreview(getSlideData(activeIdx));
+          startAutoSlide();
         }
-      }
+      };
 
       const onClickSlide = (e) => {
         if (isMobile) return;
@@ -368,14 +364,16 @@ const Karya = () => {
 
       slider.addEventListener('click', onClickSlide);
       slider.addEventListener('click', onClickActive);
-
       const prevArrow = slider.querySelector('.prev-arrow');
       const nextArrow = slider.querySelector('.next-arrow');
-      if (prevArrow) prevArrow.addEventListener('click', () => !isAnimating && transition('prev'));
-      if (nextArrow) nextArrow.addEventListener('click', () => !isAnimating && transition('next'));
+      if (prevArrow) prevArrow.addEventListener('click', () => transition('prev'));
+      if (nextArrow) nextArrow.addEventListener('click', () => transition('next'));
       window.addEventListener('resize', handleResize);
 
       initSlides();
+      updateCounter();
+      setTimeout(() => animateTitleToCaption(getSlideData(0).name), 500);
+      updatePreview(getSlideData(0));
       startAutoSlide();
 
       return () => {
@@ -389,7 +387,7 @@ const Karya = () => {
       };
     };
 
-    // Muat GSAP dan CustomEase jika diperlukan
+    // Load GSAP & CustomEase
     if (typeof gsap === 'undefined') {
       const gsapScript = document.createElement('script');
       gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
@@ -468,7 +466,7 @@ const Karya = () => {
           border-radius: 36px;
           overflow: hidden;
           cursor: pointer;
-          will-change: transform, opacity, clip-path;
+          will-change: transform, left, opacity, clip-path;
           box-shadow: 0 30px 50px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06);
           transition: box-shadow 0.4s;
           backface-visibility: hidden;
@@ -580,6 +578,7 @@ const Karya = () => {
           height: 100%;
           object-fit: cover;
           animation: slowScale 28s infinite alternate ease-in-out;
+          transition: opacity 0.4s ease-in-out; /* tambahan untuk fade */
         }
         @keyframes slowScale {
           0% { transform: scale(1); }
