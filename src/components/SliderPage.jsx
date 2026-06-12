@@ -36,7 +36,6 @@ const SliderPage = () => {
       const nextArrow = sliderRoot.querySelector('.next-arrow');
 
       if (!slider || !titleDiv || !captionDiv) return;
-
       if (totalSpan) totalSpan.innerText = TOTAL;
 
       let activeIdx = 1;
@@ -44,7 +43,7 @@ const SliderPage = () => {
       let isMobile = window.innerWidth <= 760;
       let titleAnimationTimer = null;
 
-      // Auto
+      // Auto slide
       let autoSlideInterval = null;
       const AUTO_DELAY = 5000;
 
@@ -60,10 +59,9 @@ const SliderPage = () => {
       };
 
       const resetAutoSlide = () => {
-        if (autoSlideInterval) {
-          clearInterval(autoSlideInterval);
-          startAutoSlide();
-        }
+        if (!autoSlideInterval) return startAutoSlide();
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
       };
 
       const clearTitleTimer = () => {
@@ -74,7 +72,7 @@ const SliderPage = () => {
       };
 
       const updateCounterOnly = (index) => {
-        if (counterSpan) counterSpan.innerText = index;
+        if (counterSpan) counterSpan.innerText = String(index);
       };
 
       const animateTitleToCaption = (slideName) => {
@@ -85,11 +83,11 @@ const SliderPage = () => {
         gsap.killTweensOf(h1);
 
         h1.innerText = slideName;
-        if (isMobile) h1.style.whiteSpace = 'normal';
-        else h1.style.whiteSpace = 'nowrap';
+        h1.style.whiteSpace = isMobile ? 'normal' : 'nowrap';
 
         titleDiv.classList.add('visible');
         gsap.set(titleDiv, { opacity: 1, visibility: 'visible', scale: 1, y: 0 });
+
         gsap.fromTo(
           titleDiv,
           { scale: 0.8, opacity: 0 },
@@ -119,10 +117,13 @@ const SliderPage = () => {
 
       const updatePreview = (content) => {
         if (!previewDiv) return;
+        previewDiv.innerHTML = '';
+
         const newImg = document.createElement('img');
         newImg.src = content.img;
         newImg.alt = content.name;
         previewDiv.appendChild(newImg);
+
         gsap.fromTo(
           newImg,
           { opacity: 0, scale: 1.03 },
@@ -132,10 +133,6 @@ const SliderPage = () => {
             duration: 1.2,
             ease: 'power2.out',
             delay: 0.5,
-            onComplete: () => {
-              const old = previewDiv.querySelector('img:not(:last-child)');
-              if (old) old.remove();
-            },
           }
         );
       };
@@ -163,7 +160,7 @@ const SliderPage = () => {
         const inPos = direction === 'next' ? 'next' : 'prev';
 
         let outSlide = slider.querySelector(`.slide-container.${outPos}`);
-        const activeSlide = slider.querySelector('.slide-container.active');
+        let activeSlide = slider.querySelector('.slide-container.active');
         let inSlide = slider.querySelector(`.slide-container.${inPos}`);
 
         if (!inSlide) {
@@ -177,6 +174,7 @@ const SliderPage = () => {
             clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)',
           });
         }
+
         if (!outSlide) {
           const outIdx = getIndex(direction === 'next' ? -1 : 1);
           outSlide = createSlide(SLIDE_DATA[outIdx - 1], outPos);
@@ -196,6 +194,7 @@ const SliderPage = () => {
           duration: 1.6,
           ease: 'hop',
         });
+
         gsap.to(activeSlide, {
           left: outPos === 'prev' ? '15%' : '85%',
           scale: 0.92,
@@ -203,6 +202,7 @@ const SliderPage = () => {
           duration: 1.6,
           ease: 'hop',
         });
+
         gsap.to(outSlide, {
           scale: 0,
           opacity: 0,
@@ -214,6 +214,7 @@ const SliderPage = () => {
         const farIdx = getIndex(direction === 'next' ? 2 : -2);
         const newSlide = createSlide(SLIDE_DATA[farIdx - 1], inPos);
         slider.appendChild(newSlide);
+
         const newStartLeft = inPos === 'prev' ? '15%' : '85%';
         gsap.set(newSlide, {
           left: newStartLeft,
@@ -221,6 +222,7 @@ const SliderPage = () => {
           opacity: 0,
           clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)',
         });
+
         gsap.to(newSlide, {
           scale: 0.92,
           opacity: 1,
@@ -231,6 +233,7 @@ const SliderPage = () => {
 
         setTimeout(() => {
           if (outSlide && outSlide.parentNode) outSlide.remove();
+
           activeSlide.className = `slide-container ${outPos}`;
           inSlide.className = 'slide-container active';
           newSlide.className = `slide-container ${inPos}`;
@@ -254,8 +257,9 @@ const SliderPage = () => {
           activeIdx = nextActiveIdx;
           isAnimating = false;
           updateCounterOnly(activeIdx);
-          animateTitleToCaption(SLIDE_DATA[activeIdx - 1].name);
-          updatePreview(SLIDE_DATA[activeIdx - 1]);
+          const newActive = SLIDE_DATA[activeIdx - 1];
+          animateTitleToCaption(newActive.name);
+          updatePreview(newActive);
         }, 1800);
       };
 
@@ -266,12 +270,12 @@ const SliderPage = () => {
 
         const newIdx = getIndex(direction === 'next' ? 1 : -1);
         const newContent = SLIDE_DATA[newIdx - 1];
-        const activeSlide = slider.querySelector('.slide-container.active');
-        const imgElement = activeSlide.querySelector('.slide-img img');
-        const currentSrc = imgElement.src;
-        const newSrc = newContent.img;
 
-        if (currentSrc === newSrc) {
+        const activeSlideEl = slider.querySelector('.slide-container.active');
+        const imgElement = activeSlideEl.querySelector('.slide-img img');
+        const currentSrc = imgElement.src;
+
+        if (currentSrc === newContent.img) {
           isAnimating = false;
           return;
         }
@@ -288,7 +292,7 @@ const SliderPage = () => {
           })
           .to(imgElement, { opacity: 0, duration: 0.2, ease: 'power2.out' })
           .call(() => {
-            imgElement.src = newSrc;
+            imgElement.src = newContent.img;
           })
           .to(imgElement, { opacity: 1, duration: 0.3, ease: 'power2.in' });
       };
@@ -302,15 +306,12 @@ const SliderPage = () => {
       const redirectActiveSlide = () => {
         if (isAnimating) return;
         const currentData = SLIDE_DATA[activeIdx - 1];
-        if (currentData && currentData.link && currentData.link !== '#') {
-          window.open(currentData.link, '_blank');
-        }
+        if (currentData?.link && currentData.link !== '#') window.open(currentData.link, '_blank');
         resetAutoSlide();
       };
 
       const initSlides = () => {
-        const old = slider.querySelectorAll('.slide-container');
-        old.forEach((s) => s.remove());
+        slider.querySelectorAll('.slide-container').forEach((s) => s.remove());
 
         if (!isMobile) {
           const prevIdx = getIndex(-1);
@@ -355,7 +356,6 @@ const SliderPage = () => {
           animateTitleToCaption(SLIDE_DATA[0].name);
         }, 500);
 
-        if (previewDiv) previewDiv.innerHTML = '';
         updatePreview(SLIDE_DATA[0]);
         updateCounterOnly(1);
       };
@@ -386,6 +386,7 @@ const SliderPage = () => {
         });
       };
 
+      // init
       gsap.registerPlugin(CustomEase);
       CustomEase.create(
         'hop',
@@ -395,34 +396,37 @@ const SliderPage = () => {
       initSlides();
       bindEvents();
       startAutoSlide();
+      animateTitleToCaption(SLIDE_DATA[0].name);
     };
 
+    // Load GSAP & CustomEase
     const w = window;
     const ensureScripts = () => {
-      return new Promise((resolve) => {
-        if (typeof w.gsap === 'undefined') {
+      const ensureGsap = () =>
+        new Promise((resolve) => {
+          if (typeof w.gsap !== 'undefined') return resolve();
           const s = document.createElement('script');
           s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
-          s.onload = () => resolve(ensureScripts());
+          s.onload = () => resolve();
           document.body.appendChild(s);
-          return;
-        }
-        if (typeof w.CustomEase === 'undefined') {
+        });
+
+      const ensureCustomEase = () =>
+        new Promise((resolve) => {
+          if (typeof w.CustomEase !== 'undefined') return resolve();
           const s = document.createElement('script');
           s.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js';
-          s.onload = () => resolve(ensureScripts());
+          s.onload = () => resolve();
           document.body.appendChild(s);
-          return;
-        }
-        resolve();
-      });
+        });
+
+      return ensureGsap().then(ensureCustomEase);
     };
 
-    ensureScripts().then(init);
-
-    return () => {
-      // nothing
-    };
+    ensureScripts().then(() => {
+      // wait for gsap global
+      init();
+    });
   }, []);
 
   return (
@@ -727,25 +731,30 @@ const SliderPage = () => {
             height: 55%;
             border-radius: 28px;
           }
+
           .slide-container.prev,
           .slide-container.next {
             display: none;
           }
+
           .slide-container.active {
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
             display: block;
           }
+
           .slider-title h1 {
             font-size: clamp(1.8rem, 7vw, 2.8rem);
             font-weight: 500;
             text-shadow: 0 1px 8px rgba(0,0,0,0.5);
           }
+
           .nav-arrow {
             width: 36px;
             height: 36px;
             font-size: 1.5rem;
           }
+
           .prev-arrow { left: 0.8rem; }
           .next-arrow { right: 0.8rem; }
 
