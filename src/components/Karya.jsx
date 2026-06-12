@@ -7,7 +7,7 @@ const SLIDE_DATA = [
   { name: "Cafe", img: "/img/landing.png", link: "https://rikorizky.github.io/mycafe.github.io/" },
   { name: "Aplikasi Pembelian", img: "/img/tokoreact.png", link: "https://penjualan-barang-sable.vercel.app/" },
   { name: "Happy Birthday", img: "/img/ultah.png", link: "https://rikorizky.github.io/dibuka.github.oi/" },
-  { name: "Happy Birthday pt2", img: "/img/ulfah2.png", link: "https://rikorizky.github.io/hbd.github.io/" },
+  { name: "Happy Birthday pt2", img: "/img/ultah2.png", link: "https://rikorizky.github.io/hbd.github.io/" },
   { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://github.com/MuhammadRaffaFadellah/sista-bijak" }
 ];
 
@@ -180,7 +180,8 @@ export default function Karya() {
 
   const transition = (direction) => {
     if (isAnimating) return;
-    const isMobile = window.innerWidth <= 760;
+    // BREAKPOINT DIUBAH MENJADI 1024px (IPAD & TABLET)
+    const isMobile = window.innerWidth <= 1024;
     if (isMobile) transitionMobile(direction);
     else transitionDesktop(direction);
   };
@@ -210,7 +211,8 @@ export default function Karya() {
     const old = sliderRef.current.querySelectorAll('.karya-slide-container');
     old.forEach(s => s.remove());
 
-    const isMobile = window.innerWidth <= 760;
+    // BREAKPOINT 1024px
+    const isMobile = window.innerWidth <= 1024;
     if (!isMobile) {
       const prevIdx = getIndex(-1);
       const nextIdx = getIndex(1);
@@ -256,8 +258,10 @@ export default function Karya() {
     const handlePrevArrow = () => transition('prev');
     const handleNextArrow = () => transition('next');
     const handleResize = () => {
-      const wasMobile = window.innerWidth <= 760;
-      if (wasMobile !== (window.innerWidth <= 760)) window.location.reload();
+      // BREAKPOINT 1024px
+      const wasMobile = window.innerWidth <= 1024;
+      const nowMobile = window.innerWidth <= 1024;
+      if (wasMobile !== nowMobile) window.location.reload();
     };
 
     sliderRef.current.addEventListener('click', handleClickSlide);
@@ -280,11 +284,13 @@ export default function Karya() {
       <style>{`
         .karya-slider {
           position: relative;
-          width: 100vw;
+          width: 100%;
           height: 100vh;
           overflow: hidden;
           background: radial-gradient(circle at 30% 10%, #0a0a0f, #010101);
           font-family: 'Inter', sans-serif;
+          margin: 0;
+          padding: 0;
         }
         .karya-slide-container {
           position: absolute;
@@ -479,7 +485,12 @@ export default function Karya() {
           color: #ccc;
           pointer-events: none;
         }
-        @media (max-width: 760px) {
+
+        /* MEDIA QUERY UNTUK MOBILE & TABLET (LEBAR ≤ 1024px) */
+        @media (max-width: 1024px) {
+          .karya-slider {
+            height: 100vh;
+          }
           .karya-slide-container {
             width: 80%;
             height: 55%;
@@ -530,7 +541,11 @@ export default function Karya() {
           }
         }
       `}</style>
-      <div ref={sliderRef} className="karya-slider">
+      <div 
+        ref={sliderRef} 
+        className="karya-slider"
+        style={{ marginTop: '-40vh', zIndex: 9999 }}
+      >
         <div ref={titleDivRef} className="karya-slider-title"><h1></h1></div>
         <div className="karya-slider-counter"><p><span ref={counterSpanRef}>1</span><span>/</span><span ref={totalSpanRef}>7</span></p></div>
         <div ref={previewDivRef} className="karya-slider-preview"></div>
