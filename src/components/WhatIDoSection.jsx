@@ -12,7 +12,7 @@ export default function WhatIDoSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animasi X (horizontal)
+      // Animasi X (horizontal) - menyatukan dari kiri/kanan ke tengah
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top bottom',
@@ -25,34 +25,31 @@ export default function WhatIDoSection() {
         },
       });
 
-      // Pin + efek Y & scale (menyatukan + mengecil, jarak rapat)
+      // Pin + efek Y (menyatukan dari atas/bawah) & scale (mengecilkan gambar tengah)
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
-        end: `+=${window.innerHeight * 1.2}`, // 🔽 lebih pendek agar jarak ke karya rapat
+        end: `+=${window.innerHeight * 1.2}`,
         pin: true,
         scrub: 1,
         pinSpacing: true,
         onUpdate: (self) => {
           if (self.progress <= 0.5) {
+            // Fase 1: menyatukan gambar dari atas dan bawah ke tengah
             const yProgress = self.progress / 0.5;
-            gsap.set(header1.current, { y: `${yProgress * 100}%`, scale: 1 });
-            gsap.set(header3.current, { y: `${yProgress * -100}%`, scale: 1 });
+            gsap.set(header1.current, { y: `${yProgress * 100}%`, scale: 1, opacity: 1 });
+            gsap.set(header3.current, { y: `${yProgress * -100}%`, scale: 1, opacity: 1 });
             gsap.set(header2.current, { y: '0%', scale: 1, opacity: 1 });
           } else {
+            // Fase 2: gambar samping hilang, gambar tengah mengecil
             const scaleProgress = (self.progress - 0.5) / 0.5;
-            const finalScale = 0.4; // 🔽 lebih kecil dari sebelumnya (0.6 → 0.4)
+            const finalScale = 0.4;
             const scale = 1 - scaleProgress * (1 - finalScale);
-            // 🔽 Y offset lebih kecil (0% = tetap di tengah vertikal, tidak naik terlalu tinggi)
-            const yOffset = 0; // bisa diubah -5% jika ingin agak naik sedikit
+            const yOffset = 0; // bisa diatur sedikit naik jika perlu
 
             gsap.set(header1.current, { opacity: 0 });
             gsap.set(header3.current, { opacity: 0 });
-            gsap.set(header2.current, {
-              scale: scale,
-              y: `${yOffset}%`,
-              opacity: 1,
-            });
+            gsap.set(header2.current, { scale: scale, y: `${yOffset}%`, opacity: 1 });
           }
         },
       });
@@ -87,6 +84,7 @@ export default function WhatIDoSection() {
           width: 100%;
           object-fit: contain;
         }
+        /* Posisi awal: bergeser ke samping (akan ditimpa oleh GSAP saat scroll) */
         .whatido-header:nth-child(1),
         .whatido-header:nth-child(3) {
           transform: translateX(100%) translateY(0%);
