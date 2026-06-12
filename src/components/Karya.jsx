@@ -6,7 +6,7 @@ const SLIDE_DATA = [
   { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://tourmariposas.vercel.app" },
   { name: "Cafe", img: "/img/landing.png", link: "https://rikorizky.github.io/mycafe.github.io/" },
   { name: "Aplikasi Pembelian", img: "/img/tokoreact.png", link: "https://penjualan-barang-sable.vercel.app/" },
-  { name: "Happy Birthday", img: "/img/ulfah.png", link: "https://rikorizky.github.io/dibuka.github.oi/" },
+  { name: "Happy Birthday", img: "/img/ultah.png", link: "https://rikorizky.github.io/dibuka.github.oi/" },
   { name: "Happy Birthday pt2", img: "/img/ulfah2.png", link: "https://rikorizky.github.io/hbd.github.io/" },
   { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://github.com/MuhammadRaffaFadellah/sista-bijak" }
 ];
