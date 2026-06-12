@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LandingPage from './components/LandingPage';
 import Karya from './components/Karya';
+import WhatIDoSection from './components/WhatIDoSection';
 import SliderPage from './components/SliderPage';
 
 function App() {
@@ -74,9 +75,9 @@ function App() {
 
   return (
     <div className="app">
-      <LandingPage />
+      <LandingPage /> 
+      <WhatIDoSection />
       <Karya />
-      <SliderPage />
     </div>
   );
 }
