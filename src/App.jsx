@@ -77,10 +77,10 @@ function App() {
 
   return (
     <div className="app">
+      <ProfessionalBackgroundSection />
       <LandingPage /> 
       <WhatIDoSection />
       <Karya />
-      <ProfessionalBackgroundSection />
 
     </div>
   );
