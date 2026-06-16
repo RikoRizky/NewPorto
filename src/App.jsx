@@ -5,6 +5,8 @@ import LandingPage from './components/LandingPage';
 import Karya from './components/Karya';
 import WhatIDoSection from './components/WhatIDoSection';
 import SliderPage from './components/SliderPage';
+import ProfessionalBackgroundSection from './components/ProfessionalBackgroundSection';
+
 
 function App() {
   useEffect(() => {
@@ -78,6 +80,8 @@ function App() {
       <LandingPage /> 
       <WhatIDoSection />
       <Karya />
+      <ProfessionalBackgroundSection />
+
     </div>
   );
 }
