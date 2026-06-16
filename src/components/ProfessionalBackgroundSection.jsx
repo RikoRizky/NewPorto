@@ -45,6 +45,14 @@ const experiences = [
             'Managed and digitized agricultural data, ensuring accuracy and consistency. Collaborated with government officials to streamline data reporting processes.',
         image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop',
     },
+    {
+        id: 5,
+        title: 'Cyber Physical Systems Laboratory',
+        role: 'Research Assistant',
+        description:
+            'I mentored over 100 students in advanced networking concepts, including TCP/IP and socket programming, while serving as PIC for major laboratory projects. My role involved leading 15+ teams through successful project completions and maintaining rigorous academic standards through comprehensive evaluation.',
+        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop',
+    },
 ];
 
 export default function RelatedExperience() {
@@ -56,7 +64,6 @@ export default function RelatedExperience() {
     const roleRef = useRef(null);
     const descTextRef = useRef(null);
     const cardRef = useRef(null);
-    const progressRef = useRef(null);
 
     const totalItems = experiences.length;
 
@@ -68,7 +75,7 @@ export default function RelatedExperience() {
         });
     }, []);
 
-    // ScrollTrigger dengan scrub super cepat dan threshold tinggi (dari kode pertama)
+    // ScrollTrigger setup
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
@@ -76,36 +83,35 @@ export default function RelatedExperience() {
         const items = itemRefs.current;
 
         items.forEach((el) => {
-            if (el) gsap.set(el, { opacity: 0, x: -10 });
+            if (el) gsap.set(el, { opacity: 0, x: -20 });
         });
 
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: 'bottom bottom',
+                end: `+=${totalItems * 110}%`,
                 pin: true,
-                scrub: 0.2, // sangat responsif
+                scrub: 0.5,
                 anticipatePin: 1,
                 id: 'mainPin',
                 onUpdate: (self) => {
-                    // Threshold +0.6 agar indeks berubah lebih awal
-                    const raw = self.progress * totalItems;
-                    const index = Math.min(Math.floor(raw + 0.6), totalItems - 1);
-                    if (index !== activeIndex) setActiveIndex(index);
+                    // progress 0..1, kita map ke indeks 0..totalItems-1
+                    const progress = self.progress;
+                    const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
+                    setActiveIndex(idx);
                 },
             },
         });
 
-        // Animasi timeline item dengan durasi pendek
         items.forEach((el, i) => {
             if (!el) return;
             const startPos = i / totalItems;
             const endPos = (i + 1) / totalItems;
             tl.fromTo(
                 el,
-                { opacity: 0, x: -10 },
-                { opacity: 1, x: 0, duration: 0.15, ease: 'power1.out' },
+                { opacity: 0, x: -20 },
+                { opacity: 1, x: 0, duration: 0.2, ease: 'power2.out' },
                 startPos
             );
             tl.to(el, { opacity: 1, x: 0, duration: 0.05 }, endPos - 0.01);
@@ -120,82 +126,56 @@ export default function RelatedExperience() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Efek ganti konten (instan + animasi ringan) dari kode pertama, ditambah update progress bar
+    // Update konten saat activeIndex berubah
     useEffect(() => {
         const exp = experiences[activeIndex];
         if (!exp) return;
 
-        // Update teks secara langsung
         if (titleRef.current) titleRef.current.textContent = exp.title;
         if (roleRef.current) roleRef.current.textContent = exp.role;
         if (descTextRef.current) descTextRef.current.textContent = exp.description;
 
-        // Crossfade gambar cepat (0.2s) – seperti di kode pertama
         imageRefs.current.forEach((img, idx) => {
             if (img) {
                 img.style.opacity = idx === activeIndex ? '1' : '0';
-                img.style.transform = idx === activeIndex ? 'scale(1)' : 'scale(1.01)';
-                img.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+                img.style.transform = idx === activeIndex ? 'scale(1)' : 'scale(1.05)';
+                img.style.transition =
+                    'opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             }
         });
 
-        // Animasi teks masuk sangat cepat
         const textEls = [titleRef.current, roleRef.current, descTextRef.current].filter(Boolean);
-        gsap.set(textEls, { opacity: 0, y: 6 });
+        gsap.set(textEls, { opacity: 0, y: 12 });
         gsap.to(textEls, {
             opacity: 1,
             y: 0,
-            duration: 0.15,
-            ease: 'power1.out',
-            stagger: 0.03,
+            duration: 0.25,
+            ease: 'power2.out',
+            stagger: 0.05,
         });
-
-        // Update progress bar (dari kode kedua)
-        if (progressRef.current) {
-            gsap.to(progressRef.current, {
-                width: `${((activeIndex + 1) / totalItems) * 100}%`,
-                duration: 0.4,
-                ease: 'power2.out',
-            });
-        }
-    }, [activeIndex, totalItems]);
+    }, [activeIndex]);
 
     return (
         <div
             ref={sectionRef}
-            className="relative min-h-screen overflow-hidden bg-[#0a0a0a] font-sans"
-            style={{ minHeight: `${totalItems * 100}vh` }}
+            className="relative min-h-[100vh] bg-[#0a0a0a] font-sans selection:bg-lime-400/30"
         >
-            {/* Background efek dari kode pertama */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(163,230,53,0.04),transparent_60%),radial-gradient(ellipse_at_bottom_left,_rgba(163,230,53,0.02),transparent_50%)] pointer-events-none" />
+            {/* Animated background orbs */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-lime-500/5 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-lime-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-lime-500/3 rounded-full blur-3xl" />
+            </div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
-                {/* Header - dari kode pertama */}
-                <div className="sticky top-0 z-20 bg-[#0a0a0a]/70 backdrop-blur-xl border-b border-white/5 py-5 sm:py-7 mb-10 sm:mb-14 text-center">
-                    <div className="flex items-center justify-center gap-3 mb-1.5">
-                        <span className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-lime-400/50" />
-                        <span className="text-[10px] sm:text-xs font-mono tracking-[0.35em] text-lime-400/70 uppercase font-light">
-                            Career Path
-                        </span>
-                        <span className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-lime-400/50" />
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white">
-                        Related{' '}
-                        <span className="bg-gradient-to-r from-lime-300 to-lime-500 bg-clip-text text-transparent">
-                            Experience
-                        </span>
-                    </h1>
-                    <p className="text-[11px] sm:text-xs tracking-[0.25em] text-neutral-500 uppercase font-light mt-1.5">
-                        Scroll to explore my professional journey
-                    </p>
-                </div>
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40 pointer-events-none" />
 
-                {/* Grid */}
+            <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 pb-96">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
-                    {/* Kiri */}
-                    <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-36 self-start">
-                        {/* Gambar - dari kode pertama */}
-                        <div className="relative overflow-hidden rounded-2xl bg-neutral-900/50 shadow-2xl shadow-lime-500/5 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] border border-white/5">
+                    {/* Left Column - sticky dengan top lebih tinggi agar sejajar dengan timeline */}
+                    <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-20 self-start">
+                        {/* Image Card */}
+                        <div className="relative overflow-hidden rounded-2xl bg-neutral-900/50 shadow-2xl shadow-lime-500/10 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] border border-white/10 group">
                             {experiences.map((exp, idx) => (
                                 <img
                                     key={exp.id}
@@ -205,33 +185,46 @@ export default function RelatedExperience() {
                                     className="absolute inset-0 w-full h-full object-cover will-change-transform"
                                     style={{
                                         opacity: idx === activeIndex ? 1 : 0,
-                                        transform: idx === activeIndex ? 'scale(1)' : 'scale(1.01)',
-                                        transition: 'opacity 0.2s ease, transform 0.2s ease',
+                                        transform: idx === activeIndex ? 'scale(1)' : 'scale(1.05)',
+                                        transition:
+                                            'opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                                     }}
                                 />
                             ))}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/70 via-transparent to-transparent pointer-events-none" />
-                            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-lime-500/10 rounded-full blur-3xl pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-lime-500/5 via-transparent to-transparent pointer-events-none" />
+                            <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-lime-500/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
+                            <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-[10px] font-mono tracking-widest text-lime-400/80">
+                                {String(activeIndex + 1).padStart(2, '0')} /{' '}
+                                {String(totalItems).padStart(2, '0')}
+                            </div>
                         </div>
 
-                        {/* Card deskripsi - dari kode pertama */}
+                        {/* Detail Card */}
                         <div
                             ref={cardRef}
-                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 sm:p-7 border border-white/10 shadow-xl shadow-lime-500/5 transition-all duration-300 hover:border-lime-400/20"
+                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 sm:p-7 border border-white/10 shadow-xl shadow-lime-500/5 transition-all duration-300 hover:border-lime-400/30 hover:shadow-lime-500/10 group/card"
                         >
-                            <h3
-                                ref={titleRef}
-                                className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight tracking-tight"
-                            >
-                                {experiences[activeIndex]?.title}
-                            </h3>
-                            <p
-                                ref={roleRef}
-                                className="text-xs sm:text-sm text-lime-400 font-medium mt-1 tracking-wide"
-                            >
-                                {experiences[activeIndex]?.role}
-                            </p>
-                            <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-4" />
+                            <div className="flex items-start justify-between gap-4">
+                                <div>
+                                    <h3
+                                        ref={titleRef}
+                                        className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight tracking-tight"
+                                    >
+                                        {experiences[activeIndex]?.title}
+                                    </h3>
+                                    <p
+                                        ref={roleRef}
+                                        className="text-xs sm:text-sm text-lime-400 font-medium mt-1 tracking-wide"
+                                    >
+                                        {experiences[activeIndex]?.role}
+                                    </p>
+                                </div>
+                                <span className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center text-[10px] font-mono text-lime-400/70">
+                                    {String(activeIndex + 1).padStart(2, '0')}
+                                </span>
+                            </div>
+                            <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-4 rounded-full" />
                             <p
                                 ref={descTextRef}
                                 className="text-sm sm:text-base text-neutral-300 leading-relaxed font-light"
@@ -240,22 +233,24 @@ export default function RelatedExperience() {
                             </p>
                         </div>
 
-                        {/* Dots - dari kode pertama */}
-                        <div className="flex justify-center gap-2 pt-1">
+                        {/* Dot Navigation */}
+                        <div className="flex justify-center gap-3 pt-2">
                             {experiences.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setActiveIndex(idx)}
-                                    className={`group relative h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                                    className={`group relative h-2 rounded-full transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-lime-400/50 ${
                                         idx === activeIndex
-                                            ? 'w-8 bg-lime-400 shadow-[0_0_20px_rgba(163,230,53,0.5)]'
-                                            : 'w-1.5 bg-neutral-700 hover:bg-neutral-500'
+                                            ? 'w-10 bg-lime-400 shadow-[0_0_24px_rgba(163,230,53,0.5)]'
+                                            : 'w-2 bg-neutral-700 hover:bg-neutral-500 hover:scale-125'
                                     }`}
                                     aria-label={`Go to experience ${idx + 1}`}
                                 >
                                     <span
-                                        className={`absolute -bottom-5 left-1/2 -translate-x-1/2 text-[8px] font-mono tracking-wider text-neutral-600 transition-opacity duration-300 ${
-                                            idx === activeIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'
+                                        className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[8px] font-mono tracking-wider text-neutral-600 transition-all duration-300 ${
+                                            idx === activeIndex
+                                                ? 'opacity-100 text-lime-400/80'
+                                                : 'opacity-0 group-hover:opacity-60'
                                         }`}
                                     >
                                         {String(idx + 1).padStart(2, '0')}
@@ -265,15 +260,16 @@ export default function RelatedExperience() {
                         </div>
                     </div>
 
-                    {/* Kanan - Timeline (dari kode pertama) */}
+                    {/* Right Column - Timeline */}
                     <div className="lg:col-span-7 pl-6 sm:pl-8 lg:pl-10 relative mt-4 lg:mt-0">
-                        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-lime-400/30 via-neutral-700/50 to-transparent" />
+                        {/* Vertical line */}
+                        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-lime-400/30 via-neutral-700/40 to-transparent" />
                         <div
-                            className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-lime-400/60 to-transparent opacity-0 transition-opacity duration-700"
-                            style={{ opacity: activeIndex / totalItems }}
+                            className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-lime-400/70 to-lime-400/20 transition-all duration-700"
+                            style={{ height: `${((activeIndex + 1) / totalItems) * 100}%` }}
                         />
 
-                        <div className="space-y-10 sm:space-y-12">
+                        <div className="space-y-12 sm:space-y-14 mb-40">
                             {experiences.map((exp, idx) => {
                                 const isActive = idx === activeIndex;
                                 const isPast = idx < activeIndex;
@@ -284,53 +280,58 @@ export default function RelatedExperience() {
                                         ref={(el) => (itemRefs.current[idx] = el)}
                                         className="relative group cursor-default pl-6 sm:pl-8"
                                     >
+                                        {/* Dot */}
                                         <div
-                                            className={`absolute left-[-6px] sm:left-[-6px] top-1.5 w-3.5 h-3.5 rounded-full transition-all duration-500 ${
+                                            className={`absolute left-[-7px] sm:left-[-7px] top-1.5 w-4 h-4 rounded-full transition-all duration-500 ${
                                                 isActive
-                                                    ? 'bg-lime-400 shadow-[0_0_24px_rgba(163,230,53,0.6)] scale-110'
+                                                    ? 'bg-lime-400 shadow-[0_0_32px_rgba(163,230,53,0.6)] scale-110 ring-4 ring-lime-400/20'
                                                     : isPast
-                                                    ? 'bg-lime-400/40 shadow-[0_0_12px_rgba(163,230,53,0.15)]'
-                                                    : 'bg-neutral-700 group-hover:bg-neutral-500'
+                                                      ? 'bg-lime-400/50 shadow-[0_0_16px_rgba(163,230,53,0.2)]'
+                                                      : 'bg-neutral-700 group-hover:bg-neutral-500 group-hover:scale-125'
                                             }`}
                                         >
                                             <span
-                                                className="absolute inset-0 rounded-full bg-lime-400/20 animate-ping"
+                                                className="absolute inset-0 rounded-full bg-lime-400/30 animate-ping"
                                                 style={{ display: isActive ? 'block' : 'none' }}
                                             />
                                         </div>
 
+                                        {/* Connector line */}
                                         <div
-                                            className={`absolute left-[3px] sm:left-[3px] top-5 w-px h-[calc(100%+8px)] transition-colors duration-700 ${
-                                                isActive || isPast ? 'bg-lime-400/20' : 'bg-neutral-800'
+                                            className={`absolute left-[3px] sm:left-[3px] top-6 w-px transition-colors duration-700 ${
+                                                isActive || isPast ? 'bg-lime-400/30' : 'bg-neutral-800'
                                             }`}
+                                            style={{ height: idx === totalItems - 1 ? '0' : 'calc(100% + 8px)' }}
                                         />
 
-                                        <div>
+                                        <div className="space-y-1">
                                             <h3
-                                                className={`text-base sm:text-lg font-semibold transition-colors duration-300 ${
+                                                className={`text-base sm:text-lg font-semibold transition-all duration-300 ${
                                                     isActive
                                                         ? 'text-white'
                                                         : isPast
-                                                        ? 'text-neutral-400'
-                                                        : 'text-neutral-600 group-hover:text-neutral-400'
+                                                          ? 'text-neutral-400'
+                                                          : 'text-neutral-600 group-hover:text-neutral-400'
                                                 }`}
                                             >
                                                 {exp.title}
                                             </h3>
                                             <p
-                                                className={`text-[10px] sm:text-xs tracking-[0.2em] uppercase font-mono transition-colors duration-300 ${
+                                                className={`text-[10px] sm:text-xs tracking-[0.25em] uppercase font-mono transition-colors duration-300 ${
                                                     isActive
-                                                        ? 'text-lime-400/80'
+                                                        ? 'text-lime-400/90'
                                                         : isPast
-                                                        ? 'text-neutral-500/60'
-                                                        : 'text-neutral-700'
+                                                          ? 'text-neutral-500/60'
+                                                          : 'text-neutral-700'
                                                 }`}
                                             >
                                                 {exp.role}
                                             </p>
                                             <div
-                                                className={`h-px w-8 mt-2 transition-all duration-700 ${
-                                                    isActive ? 'bg-lime-400/60 w-12' : 'bg-transparent'
+                                                className={`h-px rounded-full transition-all duration-700 ${
+                                                    isActive
+                                                        ? 'w-12 bg-gradient-to-r from-lime-400 to-lime-400/20'
+                                                        : 'w-0 bg-transparent'
                                                 }`}
                                             />
                                         </div>
@@ -338,23 +339,8 @@ export default function RelatedExperience() {
                                 );
                             })}
                         </div>
-                        <div className="h-12" />
                     </div>
                 </div>
-            </div>
-
-            {/* Progress bar bawah - dari kode kedua (dengan ref) */}
-            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-black/60 backdrop-blur-lg px-4 py-2 rounded-full border border-white/5 shadow-xl">
-                <span className="text-[10px] font-mono tracking-widest text-neutral-500">
-                    {String(activeIndex + 1).padStart(2, '0')} / {String(totalItems).padStart(2, '0')}
-                </span>
-                <span className="w-24 h-0.5 bg-neutral-800 rounded-full overflow-hidden">
-                    <span
-                        ref={progressRef}
-                        className="block h-full bg-gradient-to-r from-lime-400 to-lime-500 rounded-full transition-all duration-500"
-                        style={{ width: `${((activeIndex + 1) / totalItems) * 100}%` }}
-                    />
-                </span>
             </div>
         </div>
     );

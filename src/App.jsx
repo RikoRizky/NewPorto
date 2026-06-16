@@ -77,8 +77,9 @@ function App() {
 
   return (
     <div className="app">
-      <ProfessionalBackgroundSection />
+      
       <LandingPage /> 
+      <ProfessionalBackgroundSection />
       <WhatIDoSection />
       <Karya />
 
