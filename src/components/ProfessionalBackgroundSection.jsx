@@ -3,16 +3,19 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ============ HELPER GOOGLE DRIVE + PROXY ============
 const getGoogleDriveThumbnail = (url) => {
     const match = url.match(/\/d\/(.+?)\//);
     if (match) {
         const fileId = match[1];
-        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+        const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+        return `https://images.weserv.nl/?url=${encodeURIComponent(directUrl)}&w=800&h=600&fit=cover`;
     }
     return url;
 };
 
-// Data mentah
+// ============ DATA ============
 const rawExperiences = [
     {
         id: 0,
@@ -22,7 +25,7 @@ const rawExperiences = [
             'Sertifikasi kompetensi profesional yang diakui secara nasional, menjadi bukti penguasaan keahlian di bidang Teknologi Informasi dengan standar industri yang telah teruji.',
         year: '2025',
         certificate: 'https://drive.google.com/file/d/1rsrf3LQ5EeqACZ4O7PvpAdpmTk8snZ5J/view?pli=1',
-        image: '/img/sertif.png', // absolute path
+        image: '/img/sertif.png',
     },
     {
         id: 1,
@@ -32,7 +35,6 @@ const rawExperiences = [
             'Pengalaman praktik kerja industri di instansi pemerintahan, mengelola dan menganalisis data statistik dengan standar profesional, serta berkontribusi dalam proyek digitalisasi data kependudukan.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1y3VN-N-0SqDUHNsEDsHt1PVmCTZDOTvk/view',
-        // image akan diambil dari certificate
     },
     {
         id: 2,
@@ -71,8 +73,11 @@ const rawExperiences = [
     },
 ];
 
-// Mapping cerdas: jika image lokal, pakai langsung; jika tidak, buat thumbnail dari certificate atau image
+// ============ MAPPING GAMBAR ============
+const PLACEHOLDER_IMAGE = 'https://picsum.photos/seed/cert/800/600';
+
 const experiences = rawExperiences.map((exp) => {
+    // Jika ada gambar lokal (bukan drive)
     if (exp.image && !exp.image.includes('drive.google.com')) {
         return { ...exp, image: exp.image };
     }
@@ -83,11 +88,10 @@ const experiences = rawExperiences.map((exp) => {
             image: getGoogleDriveThumbnail(driveLink),
         };
     }
-    return { ...exp, image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop' };
+    return { ...exp, image: PLACEHOLDER_IMAGE };
 });
 
-console.log(experiences);
-
+// ============ KOMPONEN UTAMA ============
 export default function RelatedExperience() {
     const [activeIndex, setActiveIndex] = useState(0);
     const sectionRef = useRef(null);
@@ -105,10 +109,13 @@ export default function RelatedExperience() {
         experiences.forEach((exp) => {
             const img = new Image();
             img.src = exp.image;
+            img.onerror = () => {
+                img.src = PLACEHOLDER_IMAGE;
+            };
         });
     }, []);
 
-    // ScrollTrigger setup
+    // ScrollTrigger setup – end dipendekkan untuk mengurangi blank
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
@@ -123,7 +130,7 @@ export default function RelatedExperience() {
             scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: `+=${totalItems * 110}%`,
+                end: `+=${totalItems * 80}%`, // dikurangi dari 110% → 80%
                 pin: true,
                 scrub: 0.5,
                 anticipatePin: 1,
@@ -190,24 +197,26 @@ export default function RelatedExperience() {
     return (
         <div
             ref={sectionRef}
-            className="relative min-h-[100vh] bg-[#0a0a0a] font-sans selection:bg-lime-400/30"
+            className="relative min-h-[100vh] bg-[#0a0a0a] font-sans selection:bg-lime-400/30 overflow-hidden"
         >
-            {/* Animated background orbs */}
+            {/* Background orbs */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-96 h-96 bg-lime-500/5 rounded-full blur-3xl animate-pulse" />
                 <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-lime-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-lime-500/3 rounded-full blur-3xl" />
             </div>
 
-            {/* Subtle grid pattern */}
+            {/* Grid pattern */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40 pointer-events-none" />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 pb-96">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
-                    {/* Left Column - sticky dengan top lebih tinggi agar sejajar dengan timeline */}
-                    <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-20 self-start">
-                        {/* Image Card */}
-                        <div className="relative overflow-hidden rounded-2xl bg-neutral-900/50 shadow-2xl shadow-lime-500/10 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] border border-white/10 group">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-10 lg:py-16 pb-16 sm:pb-24">
+                {/* Grid: 1 kolom mobile, 2 kolom tablet+ */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 xl:gap-16 items-start">
+                    
+                    {/* ===== KOLOM KIRI (selalu tampil) ===== */}
+                    <div className="md:col-span-5 space-y-5 md:space-y-6 md:sticky md:top-20 self-start">
+                        {/* Image Card – rasio aspek responsif */}
+                        <div className="relative overflow-hidden rounded-2xl bg-neutral-800 shadow-2xl shadow-lime-500/10 aspect-[3/4] sm:aspect-[4/3] md:aspect-[4/3] lg:aspect-[4/3] border border-white/10 group">
                             {experiences.map((exp, idx) => (
                                 <img
                                     key={exp.id}
@@ -215,7 +224,7 @@ export default function RelatedExperience() {
                                     src={exp.image}
                                     alt={exp.title}
                                     onError={(e) => {
-                                        e.target.src = 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop';
+                                        e.target.src = PLACEHOLDER_IMAGE;
                                     }}
                                     className="absolute inset-0 w-full h-full object-cover will-change-transform"
                                     style={{
@@ -229,7 +238,7 @@ export default function RelatedExperience() {
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent pointer-events-none" />
                             <div className="absolute inset-0 bg-gradient-to-br from-lime-500/5 via-transparent to-transparent pointer-events-none" />
                             <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-lime-500/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
-                            <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-[10px] font-mono tracking-widest text-lime-400/80">
+                            <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[8px] sm:text-[10px] font-mono tracking-widest text-lime-400/80">
                                 {String(activeIndex + 1).padStart(2, '0')} /{' '}
                                 {String(totalItems).padStart(2, '0')}
                             </div>
@@ -238,13 +247,13 @@ export default function RelatedExperience() {
                         {/* Detail Card */}
                         <div
                             ref={cardRef}
-                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 sm:p-7 border border-white/10 shadow-xl shadow-lime-500/5 transition-all duration-300 hover:border-lime-400/30 hover:shadow-lime-500/10 group/card"
+                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 sm:p-6 md:p-7 border border-white/10 shadow-xl shadow-lime-500/5 transition-all duration-300 hover:border-lime-400/30 hover:shadow-lime-500/10"
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <h3
                                         ref={titleRef}
-                                        className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight tracking-tight"
+                                        className="text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight tracking-tight"
                                     >
                                         {experiences[activeIndex]?.title}
                                     </h3>
@@ -255,18 +264,17 @@ export default function RelatedExperience() {
                                         {experiences[activeIndex]?.role}
                                     </p>
                                 </div>
-                                {/* Tombol link ke sertifikat */}
                                 <a
                                     href={experiences[activeIndex]?.certificate}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center text-[10px] font-mono text-lime-400/70 hover:bg-lime-400/20 hover:border-lime-400/40 hover:text-lime-300 transition-all duration-300 cursor-pointer"
+                                    className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center hover:bg-lime-400/20 hover:border-lime-400/40 transition-all duration-300 cursor-pointer text-lime-400/70 hover:text-lime-300 text-sm sm:text-base"
                                     title="Buka Sertifikat"
                                 >
                                     <i className="fas fa-external-link-alt"></i>
                                 </a>
                             </div>
-                            <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-4 rounded-full" />
+                            <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-3 sm:mb-4 rounded-full" />
                             <p
                                 ref={descTextRef}
                                 className="text-sm sm:text-base text-neutral-300 leading-relaxed font-light"
@@ -276,20 +284,20 @@ export default function RelatedExperience() {
                         </div>
 
                         {/* Dot Navigation */}
-                        <div className="flex justify-center gap-3 pt-2">
+                        <div className="flex justify-center gap-2 sm:gap-3 pt-1 sm:pt-2">
                             {experiences.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setActiveIndex(idx)}
                                     className={`group relative h-2 rounded-full transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-lime-400/50 ${
                                         idx === activeIndex
-                                            ? 'w-10 bg-lime-400 shadow-[0_0_24px_rgba(163,230,53,0.5)]'
+                                            ? 'w-8 sm:w-10 bg-lime-400 shadow-[0_0_24px_rgba(163,230,53,0.5)]'
                                             : 'w-2 bg-neutral-700 hover:bg-neutral-500 hover:scale-125'
                                     }`}
                                     aria-label={`Go to experience ${idx + 1}`}
                                 >
                                     <span
-                                        className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[8px] font-mono tracking-wider text-neutral-600 transition-all duration-300 ${
+                                        className={`absolute -bottom-5 sm:-bottom-6 left-1/2 -translate-x-1/2 text-[7px] sm:text-[8px] font-mono tracking-wider text-neutral-600 transition-all duration-300 ${
                                             idx === activeIndex
                                                 ? 'opacity-100 text-lime-400/80'
                                                 : 'opacity-0 group-hover:opacity-60'
@@ -302,8 +310,8 @@ export default function RelatedExperience() {
                         </div>
                     </div>
 
-                    {/* Right Column - Timeline */}
-                    <div className="lg:col-span-7 pl-6 sm:pl-8 lg:pl-10 relative mt-4 lg:mt-0">
+                    {/* ===== KOLOM KANAN – Timeline (hanya tampil di tablet+) ===== */}
+                    <div className="hidden md:block md:col-span-7 pl-4 md:pl-6 lg:pl-10 relative mt-0">
                         {/* Vertical line */}
                         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-lime-400/30 via-neutral-700/40 to-transparent" />
                         <div
@@ -311,7 +319,7 @@ export default function RelatedExperience() {
                             style={{ height: `${((activeIndex + 1) / totalItems) * 100}%` }}
                         />
 
-                        <div className="space-y-12 sm:space-y-14 mb-40">
+                        <div className="space-y-10 sm:space-y-12 lg:space-y-14 mb-16">
                             {experiences.map((exp, idx) => {
                                 const isActive = idx === activeIndex;
                                 const isPast = idx < activeIndex;
@@ -320,11 +328,11 @@ export default function RelatedExperience() {
                                     <div
                                         key={exp.id}
                                         ref={(el) => (itemRefs.current[idx] = el)}
-                                        className="relative group cursor-default pl-6 sm:pl-8"
+                                        className="relative group cursor-default pl-5 sm:pl-6 lg:pl-8"
                                     >
                                         {/* Dot */}
                                         <div
-                                            className={`absolute left-[-7px] sm:left-[-7px] top-1.5 w-4 h-4 rounded-full transition-all duration-500 ${
+                                            className={`absolute left-[-7px] sm:left-[-7px] top-1.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${
                                                 isActive
                                                     ? 'bg-lime-400 shadow-[0_0_32px_rgba(163,230,53,0.6)] scale-110 ring-4 ring-lime-400/20'
                                                     : isPast
@@ -346,9 +354,9 @@ export default function RelatedExperience() {
                                             style={{ height: idx === totalItems - 1 ? '0' : 'calc(100% + 8px)' }}
                                         />
 
-                                        <div className="space-y-1">
+                                        <div className="space-y-0.5 sm:space-y-1">
                                             <h3
-                                                className={`text-base sm:text-lg font-semibold transition-all duration-300 ${
+                                                className={`text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 ${
                                                     isActive
                                                         ? 'text-white'
                                                         : isPast
@@ -359,7 +367,7 @@ export default function RelatedExperience() {
                                                 {exp.title}
                                             </h3>
                                             <p
-                                                className={`text-[10px] sm:text-xs tracking-[0.25em] uppercase font-mono transition-colors duration-300 ${
+                                                className={`text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] sm:tracking-[0.25em] uppercase font-mono transition-colors duration-300 ${
                                                     isActive
                                                         ? 'text-lime-400/90'
                                                         : isPast
@@ -372,7 +380,7 @@ export default function RelatedExperience() {
                                             <div
                                                 className={`h-px rounded-full transition-all duration-700 ${
                                                     isActive
-                                                        ? 'w-12 bg-gradient-to-r from-lime-400 to-lime-400/20'
+                                                        ? 'w-8 sm:w-12 bg-gradient-to-r from-lime-400 to-lime-400/20'
                                                         : 'w-0 bg-transparent'
                                                 }`}
                                             />
