@@ -73,11 +73,9 @@ const rawExperiences = [
 
 // Mapping cerdas: jika image lokal, pakai langsung; jika tidak, buat thumbnail dari certificate atau image
 const experiences = rawExperiences.map((exp) => {
-    // Jika ada properti image dan bukan link Drive -> anggap lokal
     if (exp.image && !exp.image.includes('drive.google.com')) {
         return { ...exp, image: exp.image };
     }
-    // Jika tidak ada image lokal, ambil dari certificate atau image (jika image link drive)
     const driveLink = exp.certificate || exp.image;
     if (driveLink) {
         return {
@@ -85,7 +83,6 @@ const experiences = rawExperiences.map((exp) => {
             image: getGoogleDriveThumbnail(driveLink),
         };
     }
-    // fallback jika tidak ada sama sekali
     return { ...exp, image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop' };
 });
 
@@ -258,9 +255,16 @@ export default function RelatedExperience() {
                                         {experiences[activeIndex]?.role}
                                     </p>
                                 </div>
-                                <span className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center text-[10px] font-mono text-lime-400/70">
-                                    {String(activeIndex + 1).padStart(2, '0')}
-                                </span>
+                                {/* Tombol link ke sertifikat */}
+                                <a
+                                    href={experiences[activeIndex]?.certificate}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center text-[10px] font-mono text-lime-400/70 hover:bg-lime-400/20 hover:border-lime-400/40 hover:text-lime-300 transition-all duration-300 cursor-pointer"
+                                    title="Buka Sertifikat"
+                                >
+                                    <i className="fas fa-external-link-alt"></i>
+                                </a>
                             </div>
                             <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-4 rounded-full" />
                             <p
