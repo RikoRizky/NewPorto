@@ -3,57 +3,93 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+const getGoogleDriveThumbnail = (url) => {
+    const match = url.match(/\/d\/(.+?)\//);
+    if (match) {
+        const fileId = match[1];
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+    }
+    return url;
+};
 
-const experiences = [
+// Data mentah
+const rawExperiences = [
     {
         id: 0,
-        title: 'Cyber Physical Systems Laboratory',
-        role: 'Research Assistant',
+        title: 'Sertifikat BNSP',
+        role: 'Badan Nasional Sertifikasi Profesi - 2025',
         description:
-            'I mentored over 100 students in advanced networking concepts, including TCP/IP and socket programming, while serving as PIC for major laboratory projects. My role involved leading 15+ teams through successful project completions and maintaining rigorous academic standards through comprehensive evaluation.',
-        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop',
+            'Sertifikasi kompetensi profesional yang diakui secara nasional, menjadi bukti penguasaan keahlian di bidang Teknologi Informasi dengan standar industri yang telah teruji.',
+        year: '2025',
+        certificate: 'https://drive.google.com/file/d/1rsrf3LQ5EeqACZ4O7PvpAdpmTk8snZ5J/view?pli=1',
+        image: '/img/sertif.png', // absolute path
     },
     {
         id: 1,
-        title: 'HUMIC Engineering',
-        role: 'AI Developer Intern',
+        title: 'Sertifikat PKL',
+        role: 'Badan Pusat Statistik Kota Cirebon - 2024',
         description:
-            'Developed and deployed machine learning models for predictive analytics, optimized data pipelines, and collaborated with cross-functional teams to integrate AI solutions into existing products.',
-        image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop',
+            'Pengalaman praktik kerja industri di instansi pemerintahan, mengelola dan menganalisis data statistik dengan standar profesional, serta berkontribusi dalam proyek digitalisasi data kependudukan.',
+        year: '2024',
+        certificate: 'https://drive.google.com/file/d/1y3VN-N-0SqDUHNsEDsHt1PVmCTZDOTvk/view',
+        // image akan diambil dari certificate
     },
     {
         id: 2,
-        title: 'Informatics Laboratory, Telkom University',
-        role: 'Computer Network Practicum Assistant',
+        title: 'Sertifikat UKK',
+        role: 'Uji Kompetensi Keahlian RPL - 2024',
         description:
-            'Assisted in teaching networking fundamentals, conducted lab sessions for 100+ students, and designed evaluation materials. Also served as PIC for lab equipment maintenance and inventory.',
-        image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=600&auto=format&fit=crop',
+            'Uji kompetensi keahlian Rekayasa Perangkat Lunak yang mengukur kemampuan teknis dalam pengembangan aplikasi, pemrograman, dan analisis sistem sesuai standar industri teknologi informasi.',
+        year: '2024',
+        certificate: 'https://drive.google.com/file/d/1XY4nEWlOES9m9tWEgYsDiRC1YbGAQbeO/view',
     },
     {
         id: 3,
-        title: 'Digistar Club by Telkom Indonesia',
-        role: 'Chief Committee',
+        title: 'Sertifikat Karier.mu',
+        role: 'Menjadi Talenta Siap Bisnis - 2024',
         description:
-            'Led a team of 20+ members to organize tech workshops, hackathons, and community events. Managed budgets, secured sponsorships, and increased club membership by 40% within a year.',
-        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop',
+            'Pelatihan intensif pengembangan diri dan soft skills untuk mempersiapkan talenta muda menjadi profesional siap kerja dan berwirausaha, dengan fokus pada kepemimpinan dan komunikasi efektif.',
+        year: '2024',
+        certificate: 'https://drive.google.com/file/d/1hc3UhB86SjkcyUJMYuN7oXKLtHxiYmWF/view',
     },
     {
         id: 4,
-        title: 'Food and Agriculture Office of Bandung City',
-        role: 'Data Entry Assistant',
+        title: 'Sertifikat Karier.mu',
+        role: 'Kelas Persiapan Kerja - 2024',
         description:
-            'Managed and digitized agricultural data, ensuring accuracy and consistency. Collaborated with government officials to streamline data reporting processes.',
-        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop',
+            'Program pembekalan karir komprehensif yang mencakup pembuatan CV profesional, teknik wawancara kerja, serta pengenalan budaya kerja di perusahaan-perusahaan terkemuka Indonesia.',
+        year: '2024',
+        certificate: 'https://drive.google.com/file/d/1hb91N-07A9gE-jXKM2ubNV0v_HxtaF75/view',
     },
     {
         id: 5,
-        title: 'Cyber Physical Systems Laboratory',
-        role: 'Research Assistant',
+        title: 'Sertifikat Partisipasi',
+        role: 'Kunjungan Industri GAMELAB Indonesia - 2023',
         description:
-            'I mentored over 100 students in advanced networking concepts, including TCP/IP and socket programming, while serving as PIC for major laboratory projects. My role involved leading 15+ teams through successful project completions and maintaining rigorous academic standards through comprehensive evaluation.',
-        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop',
+            'Partisipasi aktif dalam kunjungan industri ke GAMELAB Indonesia, memperoleh wawasan tentang proses pengembangan game profesional dan teknologi kreatif di industri hiburan digital.',
+        certificate: 'https://drive.google.com/file/d/1hdLfWs4pNjjCx3a6fEe50F0vT1R_DTYT/view',
     },
 ];
+
+// Mapping cerdas: jika image lokal, pakai langsung; jika tidak, buat thumbnail dari certificate atau image
+const experiences = rawExperiences.map((exp) => {
+    // Jika ada properti image dan bukan link Drive -> anggap lokal
+    if (exp.image && !exp.image.includes('drive.google.com')) {
+        return { ...exp, image: exp.image };
+    }
+    // Jika tidak ada image lokal, ambil dari certificate atau image (jika image link drive)
+    const driveLink = exp.certificate || exp.image;
+    if (driveLink) {
+        return {
+            ...exp,
+            image: getGoogleDriveThumbnail(driveLink),
+        };
+    }
+    // fallback jika tidak ada sama sekali
+    return { ...exp, image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop' };
+});
+
+console.log(experiences);
 
 export default function RelatedExperience() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -96,7 +132,6 @@ export default function RelatedExperience() {
                 anticipatePin: 1,
                 id: 'mainPin',
                 onUpdate: (self) => {
-                    // progress 0..1, kita map ke indeks 0..totalItems-1
                     const progress = self.progress;
                     const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
                     setActiveIndex(idx);
@@ -182,6 +217,9 @@ export default function RelatedExperience() {
                                     ref={(el) => (imageRefs.current[idx] = el)}
                                     src={exp.image}
                                     alt={exp.title}
+                                    onError={(e) => {
+                                        e.target.src = 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop';
+                                    }}
                                     className="absolute inset-0 w-full h-full object-cover will-change-transform"
                                     style={{
                                         opacity: idx === activeIndex ? 1 : 0,
