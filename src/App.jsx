@@ -5,6 +5,7 @@ import LandingPage from './components/LandingPage';
 import Karya from './components/Karya';
 import WhatIDoSection from './components/WhatIDoSection';
 import SliderPage from './components/SliderPage';
+import TitleSertif from './components/titlesertif';
 import ProfessionalBackgroundSection from './components/ProfessionalBackgroundSection';
 
 
@@ -79,6 +80,7 @@ function App() {
     <div className="app">
       
       <LandingPage /> 
+      <TitleSertif/>
       <ProfessionalBackgroundSection />
       <WhatIDoSection />
       <Karya />
