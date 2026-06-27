@@ -1,0 +1,320 @@
+.feedback-section {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  padding: 5rem 0 5.5rem;
+}
+
+.feedback-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+}
+
+.feedback-orb--1 {
+  top: 10%;
+  left: -5%;
+  width: 350px;
+  height: 350px;
+  background: rgba(255, 140, 56, 0.08);
+}
+
+.feedback-orb--2 {
+  bottom: 0;
+  right: -5%;
+  width: 300px;
+  height: 300px;
+  background: rgba(168, 85, 247, 0.06);
+}
+
+.feedback-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.feedback-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.feedback-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.65rem;
+  font-family: monospace;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 179, 71, 0.85);
+}
+
+.feedback-line {
+  width: 2.5rem;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 140, 56, 0.6));
+}
+
+.feedback-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(255, 140, 56, 0.6));
+}
+
+.feedback-title {
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.65rem;
+}
+
+.feedback-title span {
+  background: linear-gradient(135deg, #ffb347, #ff8c38);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.feedback-subtitle {
+  font-size: 0.9rem;
+  color: #737373;
+  margin: 0;
+  max-width: 28rem;
+  margin-inline: auto;
+  line-height: 1.65;
+}
+
+.feedback-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.feedback-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .feedback-form-grid {
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.feedback-form-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feedback-field {
+  position: relative;
+}
+
+.feedback-field input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.65rem;
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feedback-field input:focus {
+  border-color: rgba(255, 140, 56, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 140, 56, 0.1);
+}
+
+.feedback-field label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  color: #737373;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.feedback-field input:focus + label,
+.feedback-field input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 0.65rem;
+  background: #0d0d0d;
+  padding: 0 0.35rem;
+  color: #ff8c38;
+}
+
+.feedback-field--textarea {
+  flex: 1;
+}
+
+.feedback-textarea-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #737373;
+  margin-bottom: 0.4rem;
+}
+
+.feedback-field textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.65rem;
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feedback-field textarea:focus {
+  border-color: rgba(255, 140, 56, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 140, 56, 0.1);
+}
+
+.feedback-form-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(255, 140, 56, 0.04);
+  border: 1px solid rgba(255, 140, 56, 0.12);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.feedback-rating-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-family: monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 140, 56, 0.85);
+}
+
+.feedback-emoji-display {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 12px rgba(255, 140, 56, 0.2));
+}
+
+.feedback-stars {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.65rem;
+  color: #333;
+  padding: 0.15rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.feedback-star:hover,
+.feedback-star.active {
+  color: #ff8c38;
+  transform: scale(1.15);
+}
+
+.feedback-rating-text {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #737373;
+}
+
+.feedback-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.65rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  animation: feedback-toast-in 0.4s ease;
+}
+
+@keyframes feedback-toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback-toast--success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+
+.feedback-toast--error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.feedback-submit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.95rem 1.5rem;
+  background: linear-gradient(135deg, #ff8c38, #f59e0b);
+  border: none;
+  border-radius: 999px;
+  color: #0a0a0a;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 8px 28px rgba(255, 140, 56, 0.35);
+}
+
+.feedback-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(255, 140, 56, 0.45);
+}
+
+.feedback-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.feedback-submit-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feedback-submit:hover:not(:disabled) .feedback-submit-shine {
+  opacity: 1;
+}

@@ -1,93 +1,51 @@
 import { useEffect } from 'react';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
+import AboutSection from './components/AboutSection';
 import Karya from './components/Karya';
 import WhatIDoSection from './components/WhatIDoSection';
-import SliderPage from './components/SliderPage';
 import TitleSertif from './components/titlesertif';
 import ProfessionalBackgroundSection from './components/ProfessionalBackgroundSection';
+import ContactSection from './components/ContactSection';
+import FeedbackSection from './components/FeedbackSection';
+import Footer from './components/Footer';
 
+gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    document.body.style.overflow = '';
+    document.body.style.overflowX = 'clip';
 
-    document.querySelectorAll('.animate-text').forEach(textElement => {
-      textElement.setAttribute('data-text', textElement.textContent.trim());
-
-      ScrollTrigger.create({
-        trigger: textElement,
-        start: 'top 50%',
-        end: 'bottom 50%',
-        scrub: 1,
-        onUpdate: self => {
-          const clipValue = Math.max(0, 100 - self.progress * 100);
-          textElement.style.setProperty('--clip-value', `${clipValue}%`);
-        },
-      });
-    });
-
-    ScrollTrigger.create({
-      trigger: '.services',
-      start: 'top bottom',
-      end: 'top top',
-      scrub: 1,
-      onUpdate: self => {
-        const headers = document.querySelectorAll('.services-header');
-        if (headers.length < 3) return;
-
-        gsap.set(headers[0], { x: `${100 - self.progress * 100}%` });
-        gsap.set(headers[1], { x: `${-100 + self.progress * 100}%` });
-        gsap.set(headers[2], { x: `${100 - self.progress * 100}%` });
-      },
-    });
-
-    ScrollTrigger.create({
-      trigger: '.services',
-      start: 'top top',
-      end: `+=${window.innerHeight * 2}`,
-      pin: true,
-      scrub: 1,
-      pinSpacing: false,
-      onUpdate: self => {
-        const headers = document.querySelectorAll('.services-header');
-        if (headers.length < 3) return;
-
-        if (self.progress <= 0.5) {
-          const yProgress = self.progress / 0.5;
-          gsap.set(headers[0], { y: `${yProgress * 100}%` });
-          gsap.set(headers[2], { y: `${yProgress * -100}%` });
-        } else {
-          gsap.set(headers[0], { y: '100%' });
-          gsap.set(headers[2], { y: '-100%' });
-
-          const scaleProgress = (self.progress - 0.5) / 0.5;
-          const minScale = window.innerWidth <= 1000 ? 0.3 : 0.1;
-          const scale = 1 - scaleProgress * (1 - minScale);
-
-          headers.forEach(header => gsap.set(header, { scale }));
-        }
-      },
-    });
+    const refresh = () => ScrollTrigger.refresh();
+    refresh();
+    window.addEventListener('load', refresh);
+    window.addEventListener('resize', refresh);
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      window.removeEventListener('load', refresh);
+      window.removeEventListener('resize', refresh);
     };
   }, []);
 
   return (
     <div className="app">
-      
-      <LandingPage /> 
-      <TitleSertif/>
-      <ProfessionalBackgroundSection />
-      <WhatIDoSection />
-      <Karya />
-
+      <Navbar />
+      <main>
+        <LandingPage />
+        <AboutSection />
+        <TitleSertif />
+        <ProfessionalBackgroundSection />
+        <WhatIDoSection />
+        <Karya />
+        <ContactSection />
+        <FeedbackSection />
+      </main>
+      <Footer />
     </div>
   );
 }
 
 export default App;
-

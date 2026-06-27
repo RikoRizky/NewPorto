@@ -1,0 +1,159 @@
+import { useEffect, useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import './FeedbackSection.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const EMAILJS_PUBLIC_KEY = 'ZBsQyaygr0Vk9LqZO';
+const EMAILJS_SERVICE = 'Mautauaja12';
+const EMAILJS_TEMPLATE = 'template_4x8eo6o';
+
+const RATING_EMOJI = ['😡', '😞', '😐', '😊', '🤩'];
+
+export default function FeedbackSection() {
+  const sectionRef = useRef(null);
+  const formRef = useRef(null);
+  const [rating, setRating] = useState(0);
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    const ctx = gsap.context(() => {
+      gsap.from('.feedback-card', {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!rating) {
+      setStatus({ type: 'error', msg: 'Pilih rating terlebih dahulu.' });
+      return;
+    }
+
+    setLoading(true);
+    setStatus(null);
+
+    const form = formRef.current;
+    const nama = form.name.value.trim();
+    const email = form.email.value.trim();
+    const pesan = form.pesan.value.trim();
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+        from_name: nama,
+        from_email: email,
+        message: pesan,
+        rating: `${rating} / 5`,
+      });
+      setStatus({ type: 'success', msg: 'Pesan Anda telah berhasil terkirim. Terima kasih!' });
+      form.reset();
+      setRating(0);
+    } catch {
+      setStatus({ type: 'error', msg: 'Gagal mengirim pesan. Silakan coba lagi.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section ref={sectionRef} id="feedback" className="feedback-section">
+      <div className="feedback-orb feedback-orb--1" />
+      <div className="feedback-orb feedback-orb--2" />
+
+      <div className="feedback-inner">
+        <div className="feedback-header">
+          <div className="feedback-label">
+            <span className="feedback-line" />
+            <span>Your Voice</span>
+            <span className="feedback-line" />
+          </div>
+          <h2 className="feedback-title">
+            Tanggapan & <span>Penilaian</span>
+          </h2>
+          <p className="feedback-subtitle">
+            Berikan masukan dan rating untuk portfolio saya. Setiap tanggapan sangat berarti!
+          </p>
+        </div>
+
+        <div className="feedback-card">
+          <form ref={formRef} onSubmit={handleSubmit} className="feedback-form">
+            <div className="feedback-form-grid">
+              <div className="feedback-form-left">
+                <div className="feedback-field">
+                  <input type="text" name="name" id="fullname" required placeholder=" " />
+                  <label htmlFor="fullname">Nama</label>
+                </div>
+                <div className="feedback-field">
+                  <input type="email" name="email" id="email" required placeholder=" " />
+                  <label htmlFor="email">Email</label>
+                </div>
+                <div className="feedback-field feedback-field--textarea">
+                  <label htmlFor="pesan" className="feedback-textarea-label">Pesan</label>
+                  <textarea
+                    name="pesan"
+                    id="pesan"
+                    rows={5}
+                    required
+                    placeholder="Tuliskan pesan atau saran Anda..."
+                  />
+                </div>
+              </div>
+
+              <div className="feedback-form-right">
+                <p className="feedback-rating-label">Penilaian Portfolio</p>
+                <div className="feedback-emoji-display">
+                  {RATING_EMOJI[rating - 1] || '🙂'}
+                </div>
+                <div className="feedback-stars">
+                  {[5, 4, 3, 2, 1].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`feedback-star ${rating >= star ? 'active' : ''}`}
+                      onClick={() => setRating(star)}
+                      aria-label={`Rating ${star}`}
+                    >
+                      <i className="fas fa-star" />
+                    </button>
+                  ))}
+                </div>
+                <p className="feedback-rating-text">
+                  {rating ? `${rating} dari 5 bintang` : 'Klik bintang untuk menilai'}
+                </p>
+              </div>
+            </div>
+
+            {status && (
+              <div className={`feedback-toast feedback-toast--${status.type}`}>
+                <i className={`fas ${status.type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`} />
+                {status.msg}
+              </div>
+            )}
+
+            <button type="submit" className="feedback-submit" disabled={loading}>
+              <span className="feedback-submit-shine" />
+              <i className="fas fa-paper-plane" />
+              {loading ? 'Mengirim...' : 'Kirim Tanggapan'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}

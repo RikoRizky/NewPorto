@@ -70,14 +70,14 @@ export default function WhatIDoSection() {
           justify-content: center;
           align-items: center;
           overflow: hidden;
-          background-color: #1a1a1a;
+          background-color: #000000;
           z-index: 10;
         }
         .whatido-header {
           position: relative;
           width: 100%;
           padding: 0 2rem;
-          background-color: #1a1a1a;
+          background-color: #000000;
           will-change: transform;
         }
         .whatido-header img {

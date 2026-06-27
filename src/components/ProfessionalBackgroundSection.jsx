@@ -197,13 +197,14 @@ export default function RelatedExperience() {
     return (
         <div
             ref={sectionRef}
-            className="relative min-h-[100vh] bg-[#0a0a0a] font-sans selection:bg-lime-400/30 overflow-hidden"
+            id="experience"
+            className="relative min-h-[100vh] bg-black font-sans selection:bg-orange-400/30 overflow-hidden"
         >
             {/* Background orbs */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-lime-500/5 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-lime-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-lime-500/3 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/3 rounded-full blur-3xl" />
             </div>
 
             {/* Grid pattern */}
@@ -216,7 +217,7 @@ export default function RelatedExperience() {
                     {/* ===== KOLOM KIRI (selalu tampil) ===== */}
                     <div className="md:col-span-5 space-y-5 md:space-y-6 md:sticky md:top-20 self-start">
                         {/* Image Card – rasio aspek responsif */}
-                        <div className="relative overflow-hidden rounded-2xl bg-neutral-800 shadow-2xl shadow-lime-500/10 aspect-[3/4] sm:aspect-[4/3] md:aspect-[4/3] lg:aspect-[4/3] border border-white/10 group">
+                        <div className="relative overflow-hidden rounded-2xl bg-neutral-800 shadow-2xl shadow-orange-500/10 aspect-[3/4] sm:aspect-[4/3] md:aspect-[4/3] lg:aspect-[4/3] border border-white/10 group">
                             {experiences.map((exp, idx) => (
                                 <img
                                     key={exp.id}
@@ -236,9 +237,9 @@ export default function RelatedExperience() {
                                 />
                             ))}
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent pointer-events-none" />
-                            <div className="absolute inset-0 bg-gradient-to-br from-lime-500/5 via-transparent to-transparent pointer-events-none" />
-                            <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-lime-500/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
-                            <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[8px] sm:text-[10px] font-mono tracking-widest text-lime-400/80">
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-transparent pointer-events-none" />
+                            <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-orange-500/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
+                            <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[8px] sm:text-[10px] font-mono tracking-widest text-orange-400/80">
                                 {String(activeIndex + 1).padStart(2, '0')} /{' '}
                                 {String(totalItems).padStart(2, '0')}
                             </div>
@@ -247,7 +248,7 @@ export default function RelatedExperience() {
                         {/* Detail Card */}
                         <div
                             ref={cardRef}
-                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 sm:p-6 md:p-7 border border-white/10 shadow-xl shadow-lime-500/5 transition-all duration-300 hover:border-lime-400/30 hover:shadow-lime-500/10"
+                            className="bg-white/5 backdrop-blur-xl rounded-2xl p-5 sm:p-6 md:p-7 border border-white/10 shadow-xl shadow-orange-500/5 transition-all duration-300 hover:border-orange-400/30 hover:shadow-orange-500/10"
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div>
@@ -259,7 +260,7 @@ export default function RelatedExperience() {
                                     </h3>
                                     <p
                                         ref={roleRef}
-                                        className="text-xs sm:text-sm text-lime-400 font-medium mt-1 tracking-wide"
+                                        className="text-xs sm:text-sm text-orange-400 font-medium mt-1 tracking-wide"
                                     >
                                         {experiences[activeIndex]?.role}
                                     </p>
@@ -268,13 +269,13 @@ export default function RelatedExperience() {
                                     href={experiences[activeIndex]?.certificate}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="shrink-0 w-8 h-8 rounded-full bg-lime-400/10 border border-lime-400/20 flex items-center justify-center hover:bg-lime-400/20 hover:border-lime-400/40 transition-all duration-300 cursor-pointer text-lime-400/70 hover:text-lime-300 text-sm sm:text-base"
+                                    className="shrink-0 w-8 h-8 rounded-full bg-orange-400/10 border border-orange-400/20 flex items-center justify-center hover:bg-orange-400/20 hover:border-orange-400/40 transition-all duration-300 cursor-pointer text-orange-400/70 hover:text-amber-300 text-sm sm:text-base"
                                     title="Buka Sertifikat"
                                 >
                                     <i className="fas fa-external-link-alt"></i>
                                 </a>
                             </div>
-                            <div className="w-12 h-0.5 bg-gradient-to-r from-lime-400 to-transparent mt-3 mb-3 sm:mb-4 rounded-full" />
+                            <div className="w-12 h-0.5 bg-gradient-to-r from-orange-400 to-transparent mt-3 mb-3 sm:mb-4 rounded-full" />
                             <p
                                 ref={descTextRef}
                                 className="text-sm sm:text-base text-neutral-300 leading-relaxed font-light"
@@ -289,9 +290,9 @@ export default function RelatedExperience() {
                                 <button
                                     key={idx}
                                     onClick={() => setActiveIndex(idx)}
-                                    className={`group relative h-2 rounded-full transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-lime-400/50 ${
+                                    className={`group relative h-2 rounded-full transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400/50 ${
                                         idx === activeIndex
-                                            ? 'w-8 sm:w-10 bg-lime-400 shadow-[0_0_24px_rgba(163,230,53,0.5)]'
+                                            ? 'w-8 sm:w-10 bg-orange-400 shadow-[0_0_24px_rgba(255,140,56,0.5)]'
                                             : 'w-2 bg-neutral-700 hover:bg-neutral-500 hover:scale-125'
                                     }`}
                                     aria-label={`Go to experience ${idx + 1}`}
@@ -299,7 +300,7 @@ export default function RelatedExperience() {
                                     <span
                                         className={`absolute -bottom-5 sm:-bottom-6 left-1/2 -translate-x-1/2 text-[7px] sm:text-[8px] font-mono tracking-wider text-neutral-600 transition-all duration-300 ${
                                             idx === activeIndex
-                                                ? 'opacity-100 text-lime-400/80'
+                                                ? 'opacity-100 text-orange-400/80'
                                                 : 'opacity-0 group-hover:opacity-60'
                                         }`}
                                     >
@@ -313,9 +314,9 @@ export default function RelatedExperience() {
                     {/* ===== KOLOM KANAN – Timeline (hanya tampil di tablet+) ===== */}
                     <div className="hidden md:block md:col-span-7 pl-4 md:pl-6 lg:pl-10 relative mt-0">
                         {/* Vertical line */}
-                        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-lime-400/30 via-neutral-700/40 to-transparent" />
+                        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-orange-400/30 via-neutral-700/40 to-transparent" />
                         <div
-                            className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-lime-400/70 to-lime-400/20 transition-all duration-700"
+                            className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-orange-400/70 to-orange-400/20 transition-all duration-700"
                             style={{ height: `${((activeIndex + 1) / totalItems) * 100}%` }}
                         />
 
@@ -334,14 +335,14 @@ export default function RelatedExperience() {
                                         <div
                                             className={`absolute left-[-7px] sm:left-[-7px] top-1.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${
                                                 isActive
-                                                    ? 'bg-lime-400 shadow-[0_0_32px_rgba(163,230,53,0.6)] scale-110 ring-4 ring-lime-400/20'
+                                                    ? 'bg-orange-400 shadow-[0_0_32px_rgba(255,140,56,0.6)] scale-110 ring-4 ring-orange-400/20'
                                                     : isPast
-                                                      ? 'bg-lime-400/50 shadow-[0_0_16px_rgba(163,230,53,0.2)]'
+                                                      ? 'bg-orange-400/50 shadow-[0_0_16px_rgba(255,140,56,0.2)]'
                                                       : 'bg-neutral-700 group-hover:bg-neutral-500 group-hover:scale-125'
                                             }`}
                                         >
                                             <span
-                                                className="absolute inset-0 rounded-full bg-lime-400/30 animate-ping"
+                                                className="absolute inset-0 rounded-full bg-orange-400/30 animate-ping"
                                                 style={{ display: isActive ? 'block' : 'none' }}
                                             />
                                         </div>
@@ -349,7 +350,7 @@ export default function RelatedExperience() {
                                         {/* Connector line */}
                                         <div
                                             className={`absolute left-[3px] sm:left-[3px] top-6 w-px transition-colors duration-700 ${
-                                                isActive || isPast ? 'bg-lime-400/30' : 'bg-neutral-800'
+                                                isActive || isPast ? 'bg-orange-400/30' : 'bg-neutral-800'
                                             }`}
                                             style={{ height: idx === totalItems - 1 ? '0' : 'calc(100% + 8px)' }}
                                         />
@@ -369,7 +370,7 @@ export default function RelatedExperience() {
                                             <p
                                                 className={`text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] sm:tracking-[0.25em] uppercase font-mono transition-colors duration-300 ${
                                                     isActive
-                                                        ? 'text-lime-400/90'
+                                                        ? 'text-orange-400/90'
                                                         : isPast
                                                           ? 'text-neutral-500/60'
                                                           : 'text-neutral-700'
@@ -380,7 +381,7 @@ export default function RelatedExperience() {
                                             <div
                                                 className={`h-px rounded-full transition-all duration-700 ${
                                                     isActive
-                                                        ? 'w-8 sm:w-12 bg-gradient-to-r from-lime-400 to-lime-400/20'
+                                                        ? 'w-8 sm:w-12 bg-gradient-to-r from-orange-400 to-orange-400/20'
                                                         : 'w-0 bg-transparent'
                                                 }`}
                                             />

@@ -285,6 +285,7 @@ export default function Karya() {
         .karya-slider {
           position: relative;
           width: 100%;
+          max-width: 100%;
           height: 100vh;
           overflow: hidden;
           background: radial-gradient(circle at 30% 10%, #0a0a0f, #010101);
@@ -541,10 +542,11 @@ export default function Karya() {
           }
         }
       `}</style>
-      <div 
-        ref={sliderRef} 
+      <div
+        ref={sliderRef}
+        id="project"
         className="karya-slider"
-        style={{ marginTop: '-40vh', zIndex: 9999 }}
+        style={{ marginTop: '-40vh', position: 'relative', zIndex: 20, isolation: 'isolate' }}
       >
         <div ref={titleDivRef} className="karya-slider-title"><h1></h1></div>
         <div className="karya-slider-counter"><p><span ref={counterSpanRef}>1</span><span>/</span><span ref={totalSpanRef}>7</span></p></div>
