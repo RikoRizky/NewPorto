@@ -253,7 +253,7 @@ export default function RelatedExperience() {
                             </p>
                         </div>
 
-                        {/* Dot Navigation */}
+                        {/* Dot Navigation — mobile & desktop */}
                         <div className="flex justify-center gap-2 sm:gap-3 pt-1 sm:pt-2">
                             {experiences.map((_, idx) => (
                                 <button
@@ -278,49 +278,9 @@ export default function RelatedExperience() {
                                 </button>
                             ))}
                         </div>
-
-                        {/* Mobile timeline — semua teks tampil, nyala saat aktif */}
-                        <div className="md:hidden relative pl-4 border-l border-neutral-800 space-y-4 pt-2">
-                            {experiences.map((exp, idx) => {
-                                const isActive = idx === activeIndex;
-                                const isPast = idx < activeIndex;
-                                return (
-                                    <div
-                                        key={`mobile-${exp.id}`}
-                                        className={`relative pl-4 transition-all duration-500 ${
-                                            isActive ? 'cert-timeline-item--active' : 'cert-timeline-item--dim'
-                                        }`}
-                                    >
-                                        <div
-                                            className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                                                isActive
-                                                    ? 'bg-orange-400 shadow-[0_0_16px_rgba(255,140,56,0.5)]'
-                                                    : isPast
-                                                      ? 'bg-orange-400/40'
-                                                      : 'bg-neutral-700'
-                                            }`}
-                                        />
-                                        <h3
-                                            className={`text-sm font-semibold transition-all duration-500 ${
-                                                isActive ? 'text-white' : isPast ? 'text-neutral-500' : 'text-neutral-600'
-                                            }`}
-                                        >
-                                            {exp.title}
-                                        </h3>
-                                        <p
-                                            className={`text-[9px] tracking-[0.2em] uppercase font-mono transition-all duration-500 ${
-                                                isActive ? 'text-orange-400' : 'text-neutral-700/80'
-                                            }`}
-                                        >
-                                            {exp.role}
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
                     </div>
 
-                    {/* ===== KOLOM KANAN – Timeline (hanya tampil di tablet+) ===== */}
+                    {/* Timeline kanan — tablet & desktop saja (hidden di mobile) */}
                     <div className="hidden md:block md:col-span-7 pl-4 md:pl-6 lg:pl-10 relative mt-0">
                         {/* Vertical line */}
                         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-orange-400/30 via-neutral-700/40 to-transparent" />

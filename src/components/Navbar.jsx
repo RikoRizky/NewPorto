@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './Navbar.css';
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -38,12 +38,30 @@ const FEATURED_PROJECTS = [
   },
 ];
 
-const SKILLS = ['React', 'JavaScript', 'GSAP', 'Tailwind CSS', 'HTML & CSS', 'Git & GitHub'];
+const SKILLS = [
+  { name: 'React', icon: 'fab fa-react' },
+  { name: 'JavaScript', icon: 'fab fa-js' },
+  { name: 'PHP', icon: 'fab fa-php' },
+  { name: 'Laravel', icon: 'fab fa-laravel' },
+  { name: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
+  { name: 'GSAP', icon: null },
+  { name: 'MySQL', icon: 'fas fa-database' },
+  { name: 'Git & GitHub', icon: 'fab fa-github' },
+  { name: 'Figma', icon: 'fab fa-figma' },
+  { name: 'Supabase', icon: 'fas fa-bolt' },
+];
 
 const EXPERIENCE = [
   { title: 'Sertifikat BNSP', desc: 'Teknologi Informasi · 2025' },
   { title: 'PKL BPS Cirebon', desc: 'Digitalisasi data · 2024' },
   { title: 'UKK RPL', desc: 'Rekayasa Perangkat Lunak · 2024' },
+];
+
+const SOCIAL_LINKS = [
+  { label: 'GitHub', href: 'https://github.com/rikorizky', icon: 'fab fa-github' },
+  { label: 'Instagram', href: 'https://instagram.com/rikorizky.dev', icon: 'fab fa-instagram' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/rikorizky', icon: 'fab fa-linkedin-in' },
+  { label: 'Email', href: 'mailto:rikorizky20@gmail.com', icon: 'fas fa-envelope' },
 ];
 
 function showNav(shell) {
@@ -59,6 +77,7 @@ function isOverlayVisible(overlay) {
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('beranda');
   const shellRef = useRef(null);
   const navRef = useRef(null);
   const overlayRef = useRef(null);
@@ -120,6 +139,33 @@ export default function Navbar() {
     [closeMenu, scrollToHash]
   );
 
+  useEffect(() => {
+    const sectionIds = NAV_LINKS.map((link) => link.href.replace('#', ''));
+
+    const updateActive = () => {
+      const marker = window.scrollY + window.innerHeight * 0.38;
+      let current = sectionIds[0];
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= marker) {
+          current = id;
+        }
+      }
+
+      setActiveSection(current);
+    };
+
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+
+    return () => {
+      window.removeEventListener('scroll', updateActive);
+      window.removeEventListener('resize', updateActive);
+    };
+  }, []);
+
   useLayoutEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
@@ -134,7 +180,7 @@ export default function Navbar() {
     if (!overlay) return;
 
     const panels = overlay.querySelectorAll('.menu-panel');
-    const navLinks = nav?.querySelectorAll('.nav-center a, .nav-cta-desktop');
+    const navLinks = nav?.querySelectorAll('.nav-center a');
 
     if (!menuOpen && !isOverlayVisible(overlay)) {
       overlay.style.display = 'none';
@@ -269,6 +315,8 @@ export default function Navbar() {
     };
   }, []);
 
+  const isActive = (href) => activeSection === href.replace('#', '');
+
   return (
     <>
       <div className="navbar-shell nav-visible" ref={shellRef}>
@@ -289,17 +337,16 @@ export default function Navbar() {
 
           <div className="nav-center">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} onClick={handleNavClick}>
+              <a
+                key={link.href}
+                href={link.href}
+                className={isActive(link.href) ? 'nav-link-active' : ''}
+                onClick={handleNavClick}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
                 {link.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="nav-cta nav-cta-desktop"
-              onClick={handleNavClick}
-            >
-              Hire Me
-            </a>
           </div>
 
           <div className="nav-right">
@@ -323,46 +370,65 @@ export default function Navbar() {
         className={`navbar-overlay-menu ${menuOpen ? 'is-open' : ''}`}
         aria-hidden={!menuOpen}
       >
+        <div className="menu-bg-decor" aria-hidden="true">
+          <div className="menu-bg-grid" />
+          <div className="menu-bg-orb menu-bg-orb--1" />
+          <div className="menu-bg-orb menu-bg-orb--2" />
+        </div>
+
         <div ref={menuInnerRef} className="menu-inner">
           <nav className="mega-mobile-nav menu-panel" aria-label="Navigasi mobile">
             <h3 className="mega-heading">Navigasi</h3>
             <ul className="mega-mobile-links">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} onClick={handleNavClick}>
+                  <a
+                    href={link.href}
+                    className={isActive(link.href) ? 'nav-link-active' : ''}
+                    onClick={handleNavClick}
+                  >
                     {link.label}
                   </a>
                 </li>
               ))}
-              <li className="nav-cta-mobile-wrapper">
-                <a href="#contact" className="nav-cta" onClick={handleNavClick}>
-                  Hire Me
-                </a>
-              </li>
             </ul>
           </nav>
 
           <div className="mega-menu-grid">
             <section className="menu-panel mega-section">
-              <h3 className="mega-heading">Quick Links</h3>
-              <ul className="mega-nav-list">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} onClick={handleNavClick}>
-                      {link.label}
-                      <span>→</span>
-                    </a>
+              <h3 className="mega-heading">Tentang Saya</h3>
+              <div className="mega-profile-card">
+                <div className="mega-profile-header">
+                  <span className="mega-profile-avatar">RR</span>
+                  <div>
+                    <strong>Riko Rizky</strong>
+                    <span>Web Developer · RPL</span>
+                  </div>
+                </div>
+                <p className="mega-profile-bio">
+                  Passionate web developer dari Cirebon yang fokus pada frontend interaktif,
+                  animasi GSAP, dan desain responsif di setiap perangkat.
+                </p>
+                <ul className="mega-profile-meta">
+                  <li>
+                    <i className="fas fa-map-marker-alt" />
+                    Cirebon, Indonesia
                   </li>
-                ))}
-              </ul>
+                  <li>
+                    <i className="fas fa-envelope" />
+                    <a href="mailto:rikorizky20@gmail.com">rikorizky20@gmail.com</a>
+                  </li>
+                </ul>
+              </div>
             </section>
 
             <section className="menu-panel mega-section">
-              <h3 className="mega-heading">Tech Stack</h3>
+              <h3 className="mega-heading">Keahlian Utama</h3>
               <div className="mega-skill-pills">
                 {SKILLS.map((skill) => (
-                  <span key={skill} className="mega-skill-pill">
-                    {skill}
+                  <span key={skill.name} className="mega-skill-pill">
+                    {skill.icon ? <i className={skill.icon} /> : <span className="mega-skill-letter">G</span>}
+                    {skill.name}
                   </span>
                 ))}
               </div>
@@ -389,7 +455,7 @@ export default function Navbar() {
             </section>
 
             <section className="menu-panel mega-section">
-              <h3 className="mega-heading">Experience Highlights</h3>
+              <h3 className="mega-heading">Sertifikasi &amp; Social</h3>
               <ul className="mega-experience-list">
                 {EXPERIENCE.map((item) => (
                   <li key={item.title}>
@@ -398,6 +464,20 @@ export default function Navbar() {
                   </li>
                 ))}
               </ul>
+              <div className="mega-social-row">
+                {SOCIAL_LINKS.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target={social.href.startsWith('mailto') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    onClick={social.href.startsWith('#') ? handleNavClick : undefined}
+                  >
+                    <i className={social.icon} />
+                  </a>
+                ))}
+              </div>
             </section>
           </div>
         </div>

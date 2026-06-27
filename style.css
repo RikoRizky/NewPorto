@@ -34,10 +34,35 @@ body {
 
 #root,
 .app {
-	width: 100%;
-	max-width: 100%;
-	overflow-x: clip;
-	position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  position: relative;
+}
+
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -20%, rgba(255, 140, 56, 0.06), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 50%, rgba(168, 85, 247, 0.03), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 0% 90%, rgba(245, 158, 11, 0.04), transparent 45%),
+    #000;
+}
+
+.app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.2;
+  background-image: radial-gradient(rgba(255, 179, 71, 0.25) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
 }
 
 img {
