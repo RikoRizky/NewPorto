@@ -424,7 +424,7 @@ export default function Navbar() {
                   />
                   <div>
                     <strong>Riko Rizky</strong>
-                    <span>Web Developer · RPL</span>
+                    <span>UI/UX Designer & Web Developer</span>
                   </div>
                 </div>
                 <p className="mega-profile-bio">

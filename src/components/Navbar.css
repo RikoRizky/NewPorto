@@ -368,7 +368,7 @@
   font-size: 0.65rem;
   font-weight: 800;
   color: #0a0a0a;
-  background: #88ce02;
+  background: linear-gradient(135deg, #ffb347, #ff8c38);
   border-radius: 4px;
 }
 
