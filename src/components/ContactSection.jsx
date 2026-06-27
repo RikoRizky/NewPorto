@@ -24,15 +24,15 @@ const CONTACT_LINKS = [
   {
     icon: 'fab fa-instagram',
     label: 'Instagram',
-    value: '@rikorizky.dev',
-    href: 'https://instagram.com/rikorizky.dev',
+    value: '@sir_ikoo',
+    href: 'https://instagram.com/sir_ikoo',
     color: '#e1306c',
   },
   {
     icon: 'fab fa-linkedin-in',
     label: 'LinkedIn',
     value: 'Riko Rizky',
-    href: 'https://linkedin.com/in/rikorizky',
+    href: 'https://www.linkedin.com/in/riko-rizky-baswara-921262338?utm_source=share_via&utm_content=profile&utm_medium=member_android',
     color: '#0a66c2',
   },
 ];

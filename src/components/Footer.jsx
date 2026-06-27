@@ -15,9 +15,9 @@ const QUICK_LINKS = [
 
 const SOCIAL_LINKS = [
   { icon: 'fab fa-github', href: 'https://github.com/rikorizky', label: 'GitHub' },
-  { icon: 'fab fa-twitter', href: 'https://twitter.com', label: 'Twitter' },
-  { icon: 'fab fa-facebook-f', href: 'https://facebook.com', label: 'Facebook' },
-  { icon: 'fab fa-instagram', href: 'https://instagram.com/rikorizky.dev', label: 'Instagram' },
+  { icon: 'fab fa-twitter', href: 'https://x.com/sir_ikoo', label: 'Twitter' },
+  { icon: 'fab fa-facebook-f', href: 'https://www.facebook.com/riko.basawara', label: 'Facebook' },
+  { icon: 'fab fa-instagram', href: 'https://instagram.com/sir_ikoo', label: 'Instagram' },
 ];
 
 export default function Footer() {
@@ -89,7 +89,21 @@ export default function Footer() {
         <div ref={gridRef} className="footer-grid">
           <div className="footer-brand">
             <div className="footer-brand-header">
-              <span className="footer-avatar">RR</span>
+              {/* ========== DIUBAH ========== */}
+              <img
+                src="/img/rikobgmerah.jpg"   // sesuaikan path dengan foto Anda
+                alt="Riko Rizky"
+                className="footer-avatar"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                  const fallback = document.createElement('span');
+                  fallback.className = 'footer-avatar';
+                  fallback.textContent = 'RR';
+                  e.target.parentNode.replaceChild(fallback, e.target);
+                }}
+              />
+              {/* ========== END DIUBAH ========== */}
               <h3>Riko Rizky</h3>
             </div>
             <p>

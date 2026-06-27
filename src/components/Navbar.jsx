@@ -57,8 +57,8 @@ const EXPERIENCE = [
 
 const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/rikorizky', icon: 'fab fa-github' },
-  { label: 'Instagram', href: 'https://instagram.com/rikorizky.dev', icon: 'fab fa-instagram' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/rikorizky', icon: 'fab fa-linkedin-in' },
+  { label: 'Instagram', href: 'https://instagram.com/sir_ikoo', icon: 'fab fa-instagram' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/riko-rizky-baswara-921262338?utm_source=share_via&utm_content=profile&utm_medium=member_android', icon: 'fab fa-linkedin-in' },
   { label: 'Email', href: 'mailto:rikorizky20@gmail.com', icon: 'fas fa-envelope' },
 ];
 
