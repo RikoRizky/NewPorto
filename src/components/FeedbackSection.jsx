@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionBackdrop from './SectionBackdrop';
 import './FeedbackSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,17 +24,64 @@ export default function FeedbackSection() {
     emailjs.init(EMAILJS_PUBLIC_KEY);
 
     const ctx = gsap.context(() => {
-      gsap.from('.feedback-card', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: 'top 72%',
           toggleActions: 'play none none reverse',
         },
       });
+
+      tl.from('.feedback-reveal', {
+        y: 40,
+        opacity: 0,
+        duration: 0.65,
+        stagger: 0.12,
+        ease: 'power3.out',
+      })
+        .from(
+          '.feedback-card',
+          {
+            y: 60,
+            opacity: 0,
+            scale: 0.96,
+            duration: 0.85,
+            ease: 'power3.out',
+          },
+          '-=0.35'
+        )
+        .from(
+          '.feedback-field',
+          {
+            y: 24,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: 'power2.out',
+          },
+          '-=0.45'
+        )
+        .from(
+          '.feedback-form-right > *',
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.45,
+            stagger: 0.1,
+            ease: 'back.out(1.4)',
+          },
+          '-=0.35'
+        )
+        .from(
+          '.feedback-submit',
+          {
+            y: 16,
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power2.out',
+          },
+          '-=0.2'
+        );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -73,20 +121,19 @@ export default function FeedbackSection() {
 
   return (
     <section ref={sectionRef} id="feedback" className="feedback-section">
-      <div className="feedback-orb feedback-orb--1" />
-      <div className="feedback-orb feedback-orb--2" />
+      <SectionBackdrop variant="default" />
 
       <div className="feedback-inner">
         <div className="feedback-header">
-          <div className="feedback-label">
+          <div className="feedback-label feedback-reveal">
             <span className="feedback-line" />
             <span>Your Voice</span>
             <span className="feedback-line" />
           </div>
-          <h2 className="feedback-title">
+          <h2 className="feedback-title feedback-reveal">
             Tanggapan & <span>Penilaian</span>
           </h2>
-          <p className="feedback-subtitle">
+          <p className="feedback-subtitle feedback-reveal">
             Berikan masukan dan rating untuk portfolio saya. Setiap tanggapan sangat berarti!
           </p>
         </div>

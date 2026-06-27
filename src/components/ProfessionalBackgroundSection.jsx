@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionBackdrop from './SectionBackdrop';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -115,52 +116,28 @@ export default function RelatedExperience() {
         });
     }, []);
 
-    // ScrollTrigger setup – end dipendekkan untuk mengurangi blank
+    // ScrollTrigger pin — timeline items always visible, highlight via activeIndex
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
-        const items = itemRefs.current;
-
-        items.forEach((el) => {
-            if (el) gsap.set(el, { opacity: 0, x: -20 });
-        });
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: 'top top',
-                end: `+=${totalItems * 80}%`, // dikurangi dari 110% → 80%
-                pin: true,
-                scrub: 0.5,
-                anticipatePin: 1,
-                id: 'mainPin',
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
-                    setActiveIndex(idx);
-                },
+        const st = ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: `+=${totalItems * 80}%`,
+            pin: true,
+            scrub: 0.5,
+            anticipatePin: 1,
+            id: 'mainPin',
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
+                setActiveIndex(idx);
             },
         });
 
-        items.forEach((el, i) => {
-            if (!el) return;
-            const startPos = i / totalItems;
-            const endPos = (i + 1) / totalItems;
-            tl.fromTo(
-                el,
-                { opacity: 0, x: -20 },
-                { opacity: 1, x: 0, duration: 0.2, ease: 'power2.out' },
-                startPos
-            );
-            tl.to(el, { opacity: 1, x: 0, duration: 0.05 }, endPos - 0.01);
-        });
-
         return () => {
-            tl.kill();
-            ScrollTrigger.getAll().forEach((st) => {
-                if (st.vars.id === 'mainPin') st.kill();
-            });
+            st.kill();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -198,17 +175,9 @@ export default function RelatedExperience() {
         <div
             ref={sectionRef}
             id="experience"
-            className="relative min-h-[100vh] bg-black font-sans selection:bg-orange-400/30 overflow-hidden"
+            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden"
         >
-            {/* Background orbs */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-400/5 rounded-full blur-3xl animate-pulse delay-1000" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/3 rounded-full blur-3xl" />
-            </div>
-
-            {/* Grid pattern */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40 pointer-events-none" />
+            <SectionBackdrop variant="cool" />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-10 lg:py-16 pb-16 sm:pb-24">
                 {/* Grid: 1 kolom mobile, 2 kolom tablet+ */}
@@ -309,6 +278,46 @@ export default function RelatedExperience() {
                                 </button>
                             ))}
                         </div>
+
+                        {/* Mobile timeline — semua teks tampil, nyala saat aktif */}
+                        <div className="md:hidden relative pl-4 border-l border-neutral-800 space-y-4 pt-2">
+                            {experiences.map((exp, idx) => {
+                                const isActive = idx === activeIndex;
+                                const isPast = idx < activeIndex;
+                                return (
+                                    <div
+                                        key={`mobile-${exp.id}`}
+                                        className={`relative pl-4 transition-all duration-500 ${
+                                            isActive ? 'cert-timeline-item--active' : 'cert-timeline-item--dim'
+                                        }`}
+                                    >
+                                        <div
+                                            className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full transition-all duration-500 ${
+                                                isActive
+                                                    ? 'bg-orange-400 shadow-[0_0_16px_rgba(255,140,56,0.5)]'
+                                                    : isPast
+                                                      ? 'bg-orange-400/40'
+                                                      : 'bg-neutral-700'
+                                            }`}
+                                        />
+                                        <h3
+                                            className={`text-sm font-semibold transition-all duration-500 ${
+                                                isActive ? 'text-white' : isPast ? 'text-neutral-500' : 'text-neutral-600'
+                                            }`}
+                                        >
+                                            {exp.title}
+                                        </h3>
+                                        <p
+                                            className={`text-[9px] tracking-[0.2em] uppercase font-mono transition-all duration-500 ${
+                                                isActive ? 'text-orange-400' : 'text-neutral-700/80'
+                                            }`}
+                                        >
+                                            {exp.role}
+                                        </p>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
 
                     {/* ===== KOLOM KANAN – Timeline (hanya tampil di tablet+) ===== */}
@@ -329,7 +338,9 @@ export default function RelatedExperience() {
                                     <div
                                         key={exp.id}
                                         ref={(el) => (itemRefs.current[idx] = el)}
-                                        className="relative group cursor-default pl-5 sm:pl-6 lg:pl-8"
+                                        className={`relative pl-5 sm:pl-6 lg:pl-8 cursor-default transition-all duration-500 ${
+                                            isActive ? 'cert-timeline-item--active' : 'cert-timeline-item--dim'
+                                        }`}
                                     >
                                         {/* Dot */}
                                         <div
@@ -357,23 +368,23 @@ export default function RelatedExperience() {
 
                                         <div className="space-y-0.5 sm:space-y-1">
                                             <h3
-                                                className={`text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 ${
+                                                className={`text-sm sm:text-base lg:text-lg font-semibold transition-all duration-500 ${
                                                     isActive
-                                                        ? 'text-white'
+                                                        ? 'text-white scale-[1.02] origin-left'
                                                         : isPast
-                                                          ? 'text-neutral-400'
-                                                          : 'text-neutral-600 group-hover:text-neutral-400'
+                                                          ? 'text-neutral-500'
+                                                          : 'text-neutral-600'
                                                 }`}
                                             >
                                                 {exp.title}
                                             </h3>
                                             <p
-                                                className={`text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] sm:tracking-[0.25em] uppercase font-mono transition-colors duration-300 ${
+                                                className={`text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] sm:tracking-[0.25em] uppercase font-mono transition-all duration-500 ${
                                                     isActive
-                                                        ? 'text-orange-400/90'
+                                                        ? 'text-orange-400'
                                                         : isPast
-                                                          ? 'text-neutral-500/60'
-                                                          : 'text-neutral-700'
+                                                          ? 'text-neutral-600/70'
+                                                          : 'text-neutral-700/80'
                                                 }`}
                                             >
                                                 {exp.role}

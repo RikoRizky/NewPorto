@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionBackdrop from './SectionBackdrop';
 import './ContactSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -69,30 +70,6 @@ export default function ContactSection() {
           toggleActions: 'play none none reverse',
         },
       });
-
-      gsap.to('.contact-orb--1', {
-        y: -60,
-        x: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      });
-
-      gsap.to('.contact-orb--2', {
-        y: 50,
-        x: -20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 2,
-        },
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -100,9 +77,7 @@ export default function ContactSection() {
 
   return (
     <section ref={sectionRef} id="contact" className="contact-section">
-      <div className="contact-orb contact-orb--1" />
-      <div className="contact-orb contact-orb--2" />
-      <div className="contact-grid-bg" />
+      <SectionBackdrop variant="warm" />
 
       <div className="contact-inner">
         <div ref={headerRef} className="contact-header">
