@@ -1,9 +1,7 @@
 import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { scrollToSection } from '../utils/scrollToSection';
 import './Navbar.css';
-
-gsap.registerPlugin(ScrollToPlugin);
 
 const MENU_DURATION = 0.75;
 const MENU_EASE = 'power4.inOut';
@@ -95,22 +93,8 @@ export default function Navbar() {
   const toggleMenu = useCallback(() => setMenu(!menuOpenRef.current), [setMenu]);
 
   const scrollToHash = useCallback((hash) => {
-    if (!hash || hash === '#') {
-      gsap.to(window, { scrollTo: 0, duration: 1, ease: 'power3.inOut' });
-      return;
-    }
-
-    const id = hash.replace(/^#/, '');
-    const target = document.getElementById(id);
-    if (!target) return;
-
     const navOffset = (navRef.current?.offsetHeight ?? 72) + 48;
-
-    gsap.to(window, {
-      scrollTo: { y: target, offsetY: navOffset, autoKill: true },
-      duration: 1.1,
-      ease: 'power3.inOut',
-    });
+    scrollToSection(hash, navOffset);
   }, []);
 
   const handleNavClick = useCallback(
