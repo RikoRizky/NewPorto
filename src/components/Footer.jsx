@@ -9,8 +9,8 @@ const QUICK_LINKS = [
   { label: 'Home', href: '#beranda' },
   { label: 'About', href: '#biodata' },
   { label: 'Projects', href: '#project' },
-  { label: 'Feedback', href: '#feedback' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Feedback', href: '#feedback' },
 ];
 
 const SOCIAL_LINKS = [
@@ -70,6 +70,15 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Fungsi untuk menangani klik pada Quick Links
+  const handleQuickLinkClick = (e, href) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer ref={footerRef} className="footer">
       <div className="footer-top-glow" />
@@ -107,7 +116,10 @@ export default function Footer() {
             <ul className="footer-links">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleQuickLinkClick(e, link.href)}
+                  >
                     <span className="footer-link-dot" />
                     {link.label}
                   </a>
@@ -129,7 +141,7 @@ export default function Footer() {
               </li>
               <li>
                 <i className="fas fa-map-marker-alt" />
-                <span>Kota Cirebon, Indonesia</span>
+                <span>Kota Bandung, Indonesia</span>
               </li>
             </ul>
           </div>

@@ -62,9 +62,9 @@ const LandingPage = () => {
         className="absolute inset-0 flex items-center justify-center will-change-transform px-4 sm:px-6"
       >
         <div className="text-white z-10 w-full max-w-3xl text-center">
-          <p className="text-[10px] sm:text-xs font-mono tracking-[0.35em] text-amber-400/90 uppercase mb-4 animate-fade-in">
+          {/* <p className="text-[10px] sm:text-xs font-mono tracking-[0.35em] text-amber-400/90 uppercase mb-4 animate-fade-in">
             Portfolio · 2025
-          </p>
+          </p> */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-5 animate-fade-in tracking-tight !text-center">
             Riko Rizky
           </h1>

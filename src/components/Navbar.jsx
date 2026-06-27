@@ -310,7 +310,21 @@ export default function Navbar() {
         >
           <div className="nav-left">
             <a href="#beranda" className="nav-brand" onClick={handleNavClick}>
-              <span className="brand-mark">RR</span>
+              {/* ======= DIUBAH ======= */}
+              <img
+                src="/img/rikobgmerah.jpg"
+                alt="Riko Rizky"
+                className="brand-mark"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                  const fallback = document.createElement('span');
+                  fallback.className = 'brand-mark';
+                  fallback.textContent = 'RR';
+                  e.target.parentNode.replaceChild(fallback, e.target);
+                }}
+              />
+              {/* ======= END DIUBAH ======= */}
               <div className="brand-divider" />
               <div className="brand-text">
                 <h1>Riko Rizky</h1>
@@ -383,7 +397,21 @@ export default function Navbar() {
               <h3 className="mega-heading">Tentang Saya</h3>
               <div className="mega-profile-card">
                 <div className="mega-profile-header">
-                  <span className="mega-profile-avatar">RR</span>
+                  {/* ======= DIUBAH ======= */}
+                  <img
+                    src="/img/rikobgmerah.jpg"
+                    alt="Riko Rizky"
+                    className="mega-profile-avatar"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                      const fallback = document.createElement('span');
+                      fallback.className = 'mega-profile-avatar';
+                      fallback.textContent = 'RR';
+                      e.target.parentNode.replaceChild(fallback, e.target);
+                    }}
+                  />
+                  {/* ======= END DIUBAH ======= */}
                   <div>
                     <strong>Riko Rizky</strong>
                     <span>Web Developer · RPL</span>

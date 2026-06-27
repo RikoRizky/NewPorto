@@ -5,7 +5,7 @@ import './AboutSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PROFILE_PHOTO = '/img/profile.jpg';
+const PROFILE_PHOTO = '/img/rikobgmerah.jpg';
 
 const SKILL_CATEGORIES = [
   {
@@ -180,12 +180,12 @@ export default function AboutSection() {
               <div className="about-profile-glow" />
               <ProfileAvatar />
               <h3 className="about-profile-name">Riko Rizky</h3>
-              <p className="about-profile-role">Web Developer · RPL</p>
+              <p className="about-profile-role">Web Developer</p>
               <div className="about-profile-divider" />
               <ul className="about-profile-info">
-                <li><i className="fas fa-map-marker-alt" /> Cirebon, Indonesia</li>
-                <li><i className="fas fa-graduation-cap" /> Rekayasa Perangkat Lunak</li>
-                <li><i className="fas fa-code" /> Frontend & Full-Stack</li>
+                <li><i className="fas fa-map-marker-alt" /> Bandung, Indonesia</li>
+                <li><i className="fas fa-graduation-cap" /> Teknik Informatika</li>
+                <li><i className="fas fa-code" /> UI/UX Designer & Web Developer</li>
               </ul>
               <div className="about-profile-socials">
                 <a href="https://github.com/rikorizky" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
