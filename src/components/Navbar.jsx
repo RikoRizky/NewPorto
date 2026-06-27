@@ -11,8 +11,8 @@ const NAV_LINKS = [
   { label: 'About', href: '#biodata' },
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#project' },
-  { label: 'Feedback', href: '#feedback' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Feedback', href: '#feedback' },
 ];
 
 const FEATURED_PROJECTS = [
@@ -127,13 +127,26 @@ export default function Navbar() {
     const sectionIds = NAV_LINKS.map((link) => link.href.replace('#', ''));
 
     const updateActive = () => {
-      const marker = window.scrollY + window.innerHeight * 0.38;
-      let current = sectionIds[0];
+      // Kumpulkan semua elemen section yang ada
+      const sections = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
 
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= marker) {
-          current = id;
+      if (sections.length === 0) return;
+
+      const viewportMiddle = window.scrollY + window.innerHeight / 2;
+      let current = sections[0].id;
+      let minDist = Infinity;
+
+      for (const el of sections) {
+        const rect = el.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        const bottom = rect.bottom + window.scrollY;
+        const middle = (top + bottom) / 2;
+        const dist = Math.abs(middle - viewportMiddle);
+        if (dist < minDist) {
+          minDist = dist;
+          current = el.id;
         }
       }
 
@@ -310,7 +323,6 @@ export default function Navbar() {
         >
           <div className="nav-left">
             <a href="#beranda" className="nav-brand" onClick={handleNavClick}>
-              {/* ======= DIUBAH ======= */}
               <img
                 src="/img/rikobgmerah.jpg"
                 alt="Riko Rizky"
@@ -397,7 +409,6 @@ export default function Navbar() {
               <h3 className="mega-heading">Tentang Saya</h3>
               <div className="mega-profile-card">
                 <div className="mega-profile-header">
-                  {/* ======= DIUBAH ======= */}
                   <img
                     src="/img/rikobgmerah.jpg"
                     alt="Riko Rizky"
@@ -411,7 +422,6 @@ export default function Navbar() {
                       e.target.parentNode.replaceChild(fallback, e.target);
                     }}
                   />
-                  {/* ======= END DIUBAH ======= */}
                   <div>
                     <strong>Riko Rizky</strong>
                     <span>Web Developer · RPL</span>
