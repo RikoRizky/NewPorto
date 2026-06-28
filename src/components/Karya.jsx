@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
 const SLIDE_DATA = [
-  { name: "BYD SEAL", img: "/img/byd.jpg", link: "https://bydcirebon.id/" },
+  { name: "BYD Cirebon", img: "/img/byd.jpg", link: "https://bydcirebon.id/" },
   { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://tourmariposas.vercel.app" },
   { name: "Cafe", img: "/img/landing.png", link: "https://rikorizky.github.io/mycafe.github.io/" },
   { name: "Aplikasi Pembelian", img: "/img/tokoreact.png", link: "https://penjualan-barang-sable.vercel.app/" },
