@@ -439,3 +439,10 @@
     padding: 5.5rem 0 4.5rem;
   }
 }
+
+@media (max-width: 639px) {
+  .about-skill-cat {
+    margin-bottom: -1rem;
+    margin-top: 1.5rem; /* Hanya aktif di layar mobile */
+  }
+}

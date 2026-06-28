@@ -21,13 +21,25 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    title: 'Backend',
+    title: 'Backend & Database', // Nama diubah
     emoji: '⚙️',
     skills: [
       { name: 'PHP', fa: 'fab fa-php', color: '#8892be' },
       { name: 'Laravel', fa: 'fab fa-laravel', color: '#ff2d20' },
       { name: 'MySQL', fa: 'fas fa-database', color: '#00758f' },
+      { name: 'MySQL WB', fa: 'fas fa-server', color: '#00758f' }, // Workbench masuk ke sini
       { name: 'Supabase', fa: 'fas fa-bolt', color: '#3ecf8e' },
+    ],
+  },
+  {
+    title: 'Java Development', // Fokus ke Java saja
+    emoji: '☕',
+    skills: [
+      { name: 'Java', fa: 'fab fa-java', color: '#f89820' },
+      { name: 'Alice', fa: 'fas fa-cube', color: '#68a063' },
+      { name: 'Greenfoot', fa: 'fas fa-gamepad', color: '#888888' },
+      { name: 'NetBeans', fa: 'fas fa-file-code', color: '#8b0000' },
+      { name: 'IntelliJ', fa: 'fas fa-laptop-code', color: '#954b16ff' }, // Menggunakan icon terminal
     ],
   },
   {
