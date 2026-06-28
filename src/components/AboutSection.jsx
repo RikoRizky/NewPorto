@@ -21,7 +21,7 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    title: 'Backend & Database', // Nama diubah
+    title: 'Backend & Database',
     emoji: '⚙️',
     skills: [
       { name: 'PHP', fa: 'fab fa-php', color: '#8892be' },
@@ -32,7 +32,7 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    title: 'Java Development', // Fokus ke Java saja
+    title: 'Java Development',
     emoji: '☕',
     skills: [
       { name: 'Java', fa: 'fab fa-java', color: '#f89820' },
