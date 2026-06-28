@@ -215,9 +215,7 @@ export default function AboutSection() {
 
           <div ref={rightRef} className="about-right-col">
             <p className="animate-text about-bio">
-              Saya adalah seorang web developer yang passionate dalam mengubah ide menjadi
-              website interaktif dan modern. Berbasis di Cirebon, saya fokus pada pengembangan
-              frontend dengan React, animasi GSAP, dan desain yang responsif di setiap perangkat.
+            Saya adalah pengembang web yang antusias menciptakan karya digital interaktif. Dengan mengedepankan fungsionalitas dan responsivitas, saya berkomitmen membangun website modern yang tidak hanya responsif, tetapi juga memberikan pengalaman visual yang berkesan bagi setiap pengguna.
             </p>
 
             <div className="about-stats">
