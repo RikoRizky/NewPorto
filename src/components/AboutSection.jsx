@@ -27,7 +27,8 @@ const SKILL_CATEGORIES = [
       { name: 'PHP', fa: 'fab fa-php', color: '#8892be' },
       { name: 'Laravel', fa: 'fab fa-laravel', color: '#ff2d20' },
       { name: 'MySQL', fa: 'fas fa-database', color: '#00758f' },
-      { name: 'MySQL WB', fa: 'fas fa-server', color: '#00758f' }, // Workbench masuk ke sini
+      { name: 'MySQL WB', fa: 'fas fa-server', color: '#00758f' },
+      { name: 'Python', fa: 'fab fa-python', color: '#3776ab' },
       { name: 'Supabase', fa: 'fas fa-bolt', color: '#3ecf8e' },
     ],
   },
