@@ -242,30 +242,32 @@ export default function AboutSection() {
                 <span className="about-skills-tag">Tech Stack</span>
                 <h4>Keahlian Saya</h4>
               </div>
-              {SKILL_CATEGORIES.map((cat) => (
-                <div key={cat.title} className="about-skill-row">
-                  <span className="about-skill-cat">
-                    {cat.emoji} {cat.title}
-                  </span>
-                  <div className="about-skill-chips">
-                    {cat.skills.map((skill) => (
-                      <div
-                        key={skill.name}
-                        className="about-skill-chip"
-                        style={{ '--chip-color': skill.color }}
-                        title={skill.name}
-                      >
-                        {skill.fa ? (
-                          <i className={`${skill.fa} ${skill.darkIcon ? 'dark-icon' : ''}`} />
-                        ) : (
-                          <span className="chip-letter">{skill.letter}</span>
-                        )}
-                        <span className="chip-name">{skill.name}</span>
-                      </div>
-                    ))}
+              <div className="about-skills-grid">
+                {SKILL_CATEGORIES.map((cat) => (
+                  <div key={cat.title} className="about-skill-row">
+                    <span className="about-skill-cat">
+                      {cat.emoji} {cat.title}
+                    </span>
+                    <div className="about-skill-chips">
+                      {cat.skills.map((skill) => (
+                        <div
+                          key={skill.name}
+                          className="about-skill-chip"
+                          style={{ '--chip-color': skill.color }}
+                          title={skill.name}
+                        >
+                          {skill.fa ? (
+                            <i className={`${skill.fa} ${skill.darkIcon ? 'dark-icon' : ''}`} />
+                          ) : (
+                            <span className="chip-letter">{skill.letter}</span>
+                          )}
+                          <span className="chip-name">{skill.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
