@@ -17,7 +17,7 @@ const NAV_LINKS = [
 
 const FEATURED_PROJECTS = [
   {
-    title: 'BYD SEAL',
+    title: 'BYD Cirebon',
     desc: 'Automotive landing page',
     image: '/img/byd.jpg',
     href: '#project',
@@ -29,9 +29,9 @@ const FEATURED_PROJECTS = [
     href: '#project',
   },
   {
-    title: 'Cafe Website',
-    desc: 'Interactive cafe menu',
-    image: '/img/landing.png',
+    title: 'SILADATA',
+    desc: 'Sistem Layanan Dokumen Akreditasi',
+    image: '/img/siladata.png',
     href: '#project',
   },
 ];
