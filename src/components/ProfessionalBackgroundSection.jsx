@@ -17,7 +17,7 @@ const getGoogleDriveThumbnail = (url) => {
 };
 
 // ============ DATA ============
-const rawExperiences = [
+export const rawExperiences = [
     {
         id: 0,
         title: 'Sertifikat BNSP',

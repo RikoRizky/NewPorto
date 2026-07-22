@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
-const SLIDE_DATA = [
+export const SLIDE_DATA = [
   { name: "BYD Cirebon", img: "/img/byd.jpg", link: "https://bydcirebon.id/" },
   { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://tourmariposas.vercel.app" },
   { name: "SILADATA", img: "/img/siladata.png", link: "https://siladata.my.id" },

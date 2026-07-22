@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SLIDE_DATA } from './Karya';
+import { rawExperiences } from './ProfessionalBackgroundSection';
 import './AboutSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,10 +58,14 @@ const SKILL_CATEGORIES = [
   },
 ];
 
+const startYear = 2022;
+const currentYear = new Date().getFullYear();
+const yearsLearning = Math.max(1, currentYear - startYear);
+
 const STATS = [
-  { value: 7, suffix: '+', label: 'Projects Built', icon: 'fas fa-laptop-code' },
-  { value: 6, suffix: '+', label: 'Certifications', icon: 'fas fa-certificate' },
-  { value: 2, suffix: '+', label: 'Years Learning', icon: 'fas fa-book-open' },
+  { value: SLIDE_DATA.length, suffix: '+', label: 'Projects Built', icon: 'fas fa-laptop-code' },
+  { value: rawExperiences.length, suffix: '+', label: 'Certifications', icon: 'fas fa-certificate' },
+  { value: yearsLearning, suffix: '+', label: 'Years Learning', icon: 'fas fa-book-open' },
   { value: 100, suffix: '%', label: 'Passion Driven', icon: 'fas fa-fire' },
 ];
 
