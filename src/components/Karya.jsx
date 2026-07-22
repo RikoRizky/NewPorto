@@ -345,13 +345,15 @@ export default function Karya() {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          padding: 0.4rem 1.1rem;
+          padding: 0.45rem 1.2rem;
           border-radius: 999px;
-          background: rgba(15, 23, 42, 0.65);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.4), 
+            inset 0 1px 1px rgba(255, 255, 255, 0.25);
           font-size: 0.72rem;
           font-weight: 600;
           letter-spacing: 0.15em;
@@ -368,6 +370,7 @@ export default function Karya() {
           100% { opacity: 1; transform: scale(1.1); }
         }
 
+        /* EFEK GLOSSY UTAMA KARTU */
         .karya-slide-container {
           position: absolute;
           width: 32%;
@@ -375,24 +378,50 @@ export default function Karya() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: #09090e;
+          background: rgba(12, 12, 18, 0.75);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           border-radius: 32px;
           overflow: hidden;
           cursor: pointer;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid rgba(255, 255, 255, 0.18);
           box-shadow: 
             0 30px 60px -15px rgba(0, 0, 0, 0.95),
             0 0 40px rgba(255, 140, 56, 0.15),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            inset 0 1px 2px rgba(255, 255, 255, 0.3);
           transition: border-color 0.4s ease, box-shadow 0.4s ease;
         }
-        .karya-slide-container:hover {
-          border-color: rgba(255, 140, 56, 0.45);
-          box-shadow: 
-            0 40px 75px -15px rgba(0, 0, 0, 0.98),
-            0 0 50px rgba(255, 140, 56, 0.35),
-            inset 0 1px 1px rgba(255, 255, 255, 0.3);
+
+        /* KILAPAN SHINE GLOSSY SEPERTI KACA SAAT HOVER */
+        .karya-slide-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -130%;
+          width: 75%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.22),
+            transparent
+          );
+          transform: skewX(-25deg);
+          transition: left 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 15;
+          pointer-events: none;
         }
+        .karya-slide-container:hover::before {
+          left: 160%;
+        }
+        .karya-slide-container:hover {
+          border-color: rgba(255, 140, 56, 0.5);
+          box-shadow: 
+            0 40px 80px -15px rgba(0, 0, 0, 0.98),
+            0 0 50px rgba(255, 140, 56, 0.35),
+            inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        }
+
         .karya-slide-img {
           position: absolute;
           width: 100%;
@@ -414,7 +443,7 @@ export default function Karya() {
         .karya-card-gradient {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%);
+          background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%);
           pointer-events: none;
         }
 
@@ -426,12 +455,13 @@ export default function Karya() {
         }
         .karya-card-category {
           display: inline-block;
-          padding: 0.3rem 0.8rem;
+          padding: 0.35rem 0.85rem;
           border-radius: 20px;
           background: rgba(0, 0, 0, 0.55);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.04em;
@@ -462,13 +492,15 @@ export default function Karya() {
           background: rgba(255, 255, 255, 0.12);
           backdrop-filter: blur(8px);
           color: #d1d5db;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* TOMBOL BADGE GLOSSY */
         .karya-card-link-badge {
           display: flex;
           align-items: center;
           gap: 0.35rem;
-          padding: 0.4rem 0.75rem;
+          padding: 0.4rem 0.8rem;
           border-radius: 20px;
           background: rgba(255, 140, 56, 0.88);
           color: #ffffff;
@@ -476,7 +508,7 @@ export default function Karya() {
           font-weight: 600;
           backdrop-filter: blur(8px);
           border: 1px solid rgba(255, 255, 255, 0.25);
-          box-shadow: 0 4px 12px rgba(255, 140, 56, 0.35);
+          box-shadow: 0 4px 12px rgba(255, 140, 56, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
           white-space: nowrap;
           transition: transform 0.25s ease, background-color 0.25s ease;
         }
@@ -541,8 +573,8 @@ export default function Karya() {
           -webkit-backdrop-filter: blur(16px);
           padding: 0.45rem 1.4rem;
           border-radius: 40px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
         .karya-slider-counter p {
           display: flex;
@@ -611,7 +643,7 @@ export default function Karya() {
           padding: 0.45rem 1.3rem;
           border-radius: 40px;
           border: 1px solid rgba(255, 255, 255, 0.15);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
           pointer-events: none;
           opacity: 0;
           transform: translateY(14px);
@@ -662,7 +694,7 @@ export default function Karya() {
           z-index: 40;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           border: 1px solid rgba(255, 255, 255, 0.15);
-          box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
         .karya-nav-arrow:hover {
           background: rgba(255, 140, 56, 0.88);
