@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
@@ -11,8 +12,28 @@ import ProfessionalBackgroundSection from './components/ProfessionalBackgroundSe
 import ContactSection from './components/ContactSection';
 import FeedbackSection from './components/FeedbackSection';
 import Footer from './components/Footer';
+import NotFound from './components/NotFound';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function MainPage() {
+  return (
+    <>
+      <Navbar />
+      <main>
+        <LandingPage />
+        <AboutSection />
+        <TitleSertif />
+        <ProfessionalBackgroundSection />
+        <WhatIDoSection />
+        <Karya />
+        <ContactSection />
+        <FeedbackSection />
+      </main>
+      <Footer />
+    </>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -32,18 +53,11 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
-      <main>
-        <LandingPage />
-        <AboutSection />
-        <TitleSertif />
-        <ProfessionalBackgroundSection />
-        <WhatIDoSection />
-        <Karya />
-        <ContactSection />
-        <FeedbackSection />
-      </main>
-      <Footer />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 }
