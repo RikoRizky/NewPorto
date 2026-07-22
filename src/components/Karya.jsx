@@ -56,17 +56,18 @@ export default function Karya() {
 
     titleDivRef.current.classList.add('karya-title-visible');
     gsap.fromTo(titleDivRef.current,
-      { scale: 0.85, opacity: 0, y: -15 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(0.8)" }
+      { scale: 0.75, opacity: 0, y: -25, filter: "blur(10px)" },
+      { scale: 1, opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.2)" }
     );
 
     titleAnimationTimer = setTimeout(() => {
       gsap.to(titleDivRef.current, {
         y: window.innerHeight * 0.28,
-        scale: 0.65,
+        scale: 0.5,
         opacity: 0,
-        duration: 0.7,
-        ease: "power2.in",
+        filter: "blur(8px)",
+        duration: 0.65,
+        ease: "power3.in",
         onComplete: () => {
           titleDivRef.current.classList.remove('karya-title-visible');
           gsap.set(titleDivRef.current, { clearProps: "all" });
@@ -83,11 +84,15 @@ export default function Karya() {
             captionDivRef.current.classList.remove('karya-show');
             void captionDivRef.current.offsetWidth;
             captionDivRef.current.classList.add('karya-show');
+            gsap.fromTo(captionDivRef.current,
+              { scale: 0.9, opacity: 0, y: 10 },
+              { scale: 1, opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.4)" }
+            );
           }
         }
       });
       titleAnimationTimer = null;
-    }, 1000);
+    }, 900);
   };
 
   const updatePreview = (content) => {
@@ -97,9 +102,9 @@ export default function Karya() {
     newImg.alt = content.name;
     previewDivRef.current.appendChild(newImg);
     gsap.fromTo(newImg,
-      { opacity: 0, scale: 1.05 },
+      { opacity: 0, scale: 1.15 },
       {
-        opacity: 1, scale: 1, duration: 1.2, ease: "power2.out", delay: 0.4,
+        opacity: 1, scale: 1, duration: 1.5, ease: "power2.out", delay: 0.2,
         onComplete: () => {
           const old = previewDivRef.current.querySelector('img:not(:last-child)');
           if (old) old.remove();
@@ -147,41 +152,79 @@ export default function Karya() {
       inSlide = createSlide(SLIDE_DATA[inIdx - 1], inPos);
       sliderRef.current.appendChild(inSlide);
       const startLeft = (inPos === 'prev') ? '15%' : '85%';
-      gsap.set(inSlide, { left: startLeft, scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+      const startRot = (inPos === 'prev') ? 8 : -8;
+      gsap.set(inSlide, { left: startLeft, scale: 0.58, rotateY: startRot, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10, clipPath: 'none' });
     }
     if (!outSlide) {
       const outIdx = getIndex(direction === 'next' ? -1 : 1);
       outSlide = createSlide(SLIDE_DATA[outIdx - 1], outPos);
       sliderRef.current.appendChild(outSlide);
       const startLeft = (outPos === 'prev') ? '15%' : '85%';
-      gsap.set(outSlide, { left: startLeft, scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+      const startRot = (outPos === 'prev') ? 8 : -8;
+      gsap.set(outSlide, { left: startLeft, scale: 0.58, rotateY: startRot, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10, clipPath: 'none' });
     }
 
-    gsap.to(inSlide, { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 1.6, ease: "power3.inOut" });
-    gsap.to(activeSlide, { left: (outPos === 'prev') ? '15%' : '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)', duration: 1.6, ease: "power3.inOut" });
-    gsap.to(outSlide, { scale: 0, opacity: 0, duration: 1.4, ease: "power3.inOut" });
+    const targetRotate = (outPos === 'prev') ? 8 : -8;
+    const exitRotate = (outPos === 'prev') ? -22 : 22;
+    const newEnterRotate = (inPos === 'prev') ? 22 : -22;
 
+    const animDuration = 1.4;
+    const animEase = "power3.inOut";
+
+    // 1. Animate incoming slide to active center (Side -> Center)
+    gsap.to(inSlide, {
+      left: '50%', scale: 1, rotateY: 0, z: 0, opacity: 1, filter: "brightness(1)", zIndex: 20, clipPath: 'none',
+      duration: animDuration, ease: animEase
+    });
+
+    // Inner image parallax zoom effect
+    const inImg = inSlide.querySelector('.karya-slide-img img');
+    if (inImg) {
+      gsap.fromTo(inImg, { scale: 1.18 }, { scale: 1, duration: animDuration, ease: animEase });
+    }
+
+    // 2. Animate active slide to side position (Center -> Side)
+    gsap.to(activeSlide, {
+      left: (outPos === 'prev') ? '15%' : '85%',
+      scale: 0.58, rotateY: targetRotate, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10, clipPath: 'none',
+      duration: animDuration, ease: animEase
+    });
+
+    // 3. Animate old side slide exiting (Side -> Offscreen)
+    gsap.to(outSlide, {
+      scale: 0.35, rotateY: exitRotate, opacity: 0, filter: "brightness(0.5)", z: -80,
+      duration: animDuration, ease: animEase
+    });
+
+    // 4. Prepare and animate new side slide entering (Offscreen -> Side)
     const farIdx = getIndex(direction === 'next' ? 2 : -2);
     const newSlide = createSlide(SLIDE_DATA[farIdx - 1], inPos);
     sliderRef.current.appendChild(newSlide);
     const newStartLeft = (inPos === 'prev') ? '15%' : '85%';
-    gsap.set(newSlide, { left: newStartLeft, scale: 0.92, opacity: 0, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-    gsap.to(newSlide, { scale: 0.92, opacity: 1, duration: 1.6, ease: "power3.inOut", delay: 0.1 });
+    const finalRot = (inPos === 'prev') ? 8 : -8;
+
+    gsap.set(newSlide, {
+      left: newStartLeft, scale: 0.35, rotateY: newEnterRotate, z: -80, opacity: 0, filter: "brightness(0.5)", zIndex: 5, clipPath: 'none'
+    });
+    gsap.to(newSlide, {
+      scale: 0.58, rotateY: finalRot, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10,
+      duration: animDuration, ease: animEase
+    });
 
     setTimeout(() => {
       outSlide?.remove();
       activeSlide.className = `karya-slide-container ${outPos}`;
       inSlide.className = 'karya-slide-container active';
       newSlide.className = `karya-slide-container ${inPos}`;
-      gsap.set('.karya-slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
-      gsap.set('.karya-slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+      gsap.set('.karya-slide-container.prev', { left: '15%', scale: 0.58, rotateY: 8, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10, clipPath: 'none' });
+      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, rotateY: 0, z: 0, opacity: 1, filter: "brightness(1)", zIndex: 20, clipPath: 'none' });
+      gsap.set('.karya-slide-container.next', { left: '85%', scale: 0.58, rotateY: -8, z: -40, opacity: 1, filter: "brightness(0.8)", zIndex: 10, clipPath: 'none' });
       activeIdx = inIdx;
       isAnimating = false;
       updateCounter(activeIdx);
       animateTitleToCaption(SLIDE_DATA[activeIdx - 1].name);
       updatePreview(SLIDE_DATA[activeIdx - 1]);
-    }, 1800);
+    }, 1450);
   };
 
   const transitionMobile = (direction) => {
@@ -253,13 +296,13 @@ export default function Karya() {
       const activeSlide = createSlide(SLIDE_DATA[activeIdx - 1], 'active');
       const nextSlide = createSlide(SLIDE_DATA[nextIdx - 1], 'next');
       sliderRef.current.append(prevSlide, activeSlide, nextSlide);
-      gsap.set('.karya-slide-container.prev', { left: '15%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
-      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
-      gsap.set('.karya-slide-container.next', { left: '85%', scale: 0.92, clipPath: 'polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%)' });
+      gsap.set('.karya-slide-container.prev', { left: '15%', scale: 0.58, rotateY: 8, z: -40, opacity: 0.85, zIndex: 10, clipPath: 'none' });
+      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, rotateY: 0, z: 0, opacity: 1, zIndex: 20, clipPath: 'none' });
+      gsap.set('.karya-slide-container.next', { left: '85%', scale: 0.58, rotateY: -8, z: -40, opacity: 0.85, zIndex: 10, clipPath: 'none' });
     } else {
       const activeSlide = createSlide(SLIDE_DATA[activeIdx - 1], 'active');
       sliderRef.current.appendChild(activeSlide);
-      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' });
+      gsap.set('.karya-slide-container.active', { left: '50%', scale: 1, clipPath: 'none' });
     }
 
     if (titleDivRef.current) {
@@ -324,6 +367,8 @@ export default function Karya() {
           max-width: 100%;
           height: 100vh;
           overflow: hidden;
+          perspective: 1200px;
+          perspective-origin: 50% 50%;
           background: #030308;
           background-image: 
             radial-gradient(circle at 50% 30%, rgba(255, 140, 56, 0.14) 0%, transparent 60%),
@@ -378,9 +423,7 @@ export default function Karya() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: rgba(12, 12, 18, 0.75);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          background: #0c0c12;
           border-radius: 32px;
           overflow: hidden;
           cursor: pointer;
@@ -389,7 +432,8 @@ export default function Karya() {
             0 30px 60px -15px rgba(0, 0, 0, 0.95),
             0 0 40px rgba(255, 140, 56, 0.15),
             inset 0 1px 2px rgba(255, 255, 255, 0.3);
-          transition: border-color 0.4s ease, box-shadow 0.4s ease;
+          transform-style: preserve-3d;
+          transition: border-color 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
         }
 
         /* KILAPAN SHINE GLOSSY SEPERTI KACA SAAT HOVER */
@@ -415,10 +459,11 @@ export default function Karya() {
           left: 160%;
         }
         .karya-slide-container:hover {
-          border-color: rgba(255, 140, 56, 0.5);
+          border-color: rgba(255, 140, 56, 0.7);
           box-shadow: 
             0 40px 80px -15px rgba(0, 0, 0, 0.98),
-            0 0 50px rgba(255, 140, 56, 0.35),
+            0 0 50px rgba(255, 140, 56, 0.4),
+            inset 0 0 0 1px rgba(255, 140, 56, 0.25),
             inset 0 1px 2px rgba(255, 255, 255, 0.4);
         }
 
@@ -426,6 +471,7 @@ export default function Karya() {
           position: absolute;
           width: 100%;
           height: 100%;
+          background: #0c0c12;
         }
         .karya-slide-img img {
           width: 100%;
@@ -443,7 +489,7 @@ export default function Karya() {
         .karya-card-gradient {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%);
+          background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
           pointer-events: none;
         }
 
@@ -519,18 +565,53 @@ export default function Karya() {
 
         .karya-slide-container.prev {
           left: 15%;
-          transform: translate(-50%, -50%) scale(0.92);
-          clip-path: polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%);
+          transform: translate(-50%, -50%) scale(0.58) rotateY(8deg) translateZ(-40px);
+          opacity: 1;
+          filter: brightness(0.8);
+          z-index: 10;
+          clip-path: none;
+          box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.85),
+            0 0 35px rgba(255, 140, 56, 0.22),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25);
         }
         .karya-slide-container.active {
           left: 50%;
-          transform: translate(-50%, -50%) scale(1);
-          clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+          transform: translate(-50%, -50%) scale(1) rotateY(0deg) translateZ(0px);
+          opacity: 1;
+          filter: brightness(1);
+          z-index: 20;
+          clip-path: none;
         }
         .karya-slide-container.next {
           left: 85%;
-          transform: translate(-50%, -50%) scale(0.92);
-          clip-path: polygon(20% 30%, 80% 30%, 80% 70%, 20% 70%);
+          transform: translate(-50%, -50%) scale(0.58) rotateY(-8deg) translateZ(-40px);
+          opacity: 1;
+          filter: brightness(0.8);
+          z-index: 10;
+          clip-path: none;
+          box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.85),
+            0 0 35px rgba(255, 140, 56, 0.22),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25);
+        }
+        .karya-slide-container.prev:hover {
+          filter: brightness(1);
+          border-color: rgba(255, 140, 56, 0.8);
+          transform: translate(-50%, -50%) scale(0.62) rotateY(3deg) translateZ(-10px);
+          box-shadow: 
+            0 35px 70px rgba(0, 0, 0, 0.95),
+            0 0 45px rgba(255, 140, 56, 0.45),
+            inset 0 0 0 1px rgba(255, 140, 56, 0.3);
+        }
+        .karya-slide-container.next:hover {
+          filter: brightness(1);
+          border-color: rgba(255, 140, 56, 0.8);
+          transform: translate(-50%, -50%) scale(0.62) rotateY(-3deg) translateZ(-10px);
+          box-shadow: 
+            0 35px 70px rgba(0, 0, 0, 0.95),
+            0 0 45px rgba(255, 140, 56, 0.45),
+            inset 0 0 0 1px rgba(255, 140, 56, 0.3);
         }
 
         .karya-slider-title {
