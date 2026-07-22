@@ -326,9 +326,9 @@ export default function Karya() {
           overflow: hidden;
           background: #030308;
           background-image: 
-            radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
-            radial-gradient(circle at 15% 70%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 50% 30%, rgba(255, 140, 56, 0.14) 0%, transparent 60%),
+            radial-gradient(circle at 15% 70%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 85% 80%, rgba(255, 140, 56, 0.06) 0%, transparent 50%),
             radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
           background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
           font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -356,11 +356,11 @@ export default function Karya() {
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #a5b4fc;
+          color: #ffb07c;
           pointer-events: none;
         }
         .karya-header-badge span.sparkle {
-          color: #818cf8;
+          color: #ff8c38;
           animation: karyaPulse 2s infinite alternate ease-in-out;
         }
         @keyframes karyaPulse {
@@ -382,15 +382,15 @@ export default function Karya() {
           border: 1px solid rgba(255, 255, 255, 0.12);
           box-shadow: 
             0 30px 60px -15px rgba(0, 0, 0, 0.95),
-            0 0 40px rgba(99, 102, 241, 0.12),
+            0 0 40px rgba(255, 140, 56, 0.15),
             inset 0 1px 1px rgba(255, 255, 255, 0.2);
           transition: border-color 0.4s ease, box-shadow 0.4s ease;
         }
         .karya-slide-container:hover {
-          border-color: rgba(165, 180, 252, 0.35);
+          border-color: rgba(255, 140, 56, 0.45);
           box-shadow: 
             0 40px 75px -15px rgba(0, 0, 0, 0.98),
-            0 0 50px rgba(99, 102, 241, 0.25),
+            0 0 50px rgba(255, 140, 56, 0.35),
             inset 0 1px 1px rgba(255, 255, 255, 0.3);
         }
         .karya-slide-img {
@@ -435,7 +435,7 @@ export default function Karya() {
           font-size: 0.7rem;
           font-weight: 500;
           letter-spacing: 0.04em;
-          color: #e0e7ff;
+          color: #ffedd5;
         }
 
         .karya-card-bottom-info {
@@ -470,18 +470,18 @@ export default function Karya() {
           gap: 0.35rem;
           padding: 0.4rem 0.75rem;
           border-radius: 20px;
-          background: rgba(99, 102, 241, 0.85);
+          background: rgba(255, 140, 56, 0.88);
           color: #ffffff;
           font-size: 0.7rem;
           font-weight: 600;
           backdrop-filter: blur(8px);
           border: 1px solid rgba(255, 255, 255, 0.25);
-          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+          box-shadow: 0 4px 12px rgba(255, 140, 56, 0.35);
           white-space: nowrap;
           transition: transform 0.25s ease, background-color 0.25s ease;
         }
         .karya-slide-container:hover .karya-card-link-badge {
-          background: rgba(99, 102, 241, 1);
+          background: rgba(245, 158, 11, 1);
           transform: translateY(-2px);
         }
 
@@ -522,7 +522,7 @@ export default function Karya() {
           font-size: clamp(2.4rem, 8vw, 5rem);
           font-weight: 700;
           letter-spacing: -0.02em;
-          background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 60%, #818cf8 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #ffedd5 60%, #ff8c38 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -626,11 +626,11 @@ export default function Karya() {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.08em;
-          color: #818cf8;
+          color: #ff8c38;
           padding: 0.15rem 0.5rem;
           border-radius: 12px;
-          background: rgba(99, 102, 241, 0.15);
-          border: 1px solid rgba(99, 102, 241, 0.3);
+          background: rgba(255, 140, 56, 0.15);
+          border: 1px solid rgba(255, 140, 56, 0.35);
         }
         .karya-slide-name {
           font-size: 0.85rem;
@@ -641,7 +641,7 @@ export default function Karya() {
         .karya-caption-arrow {
           display: flex;
           align-items: center;
-          color: #a5b4fc;
+          color: #ffb07c;
         }
 
         .karya-nav-arrow {
@@ -665,11 +665,11 @@ export default function Karya() {
           box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
         }
         .karya-nav-arrow:hover {
-          background: rgba(99, 102, 241, 0.85);
+          background: rgba(255, 140, 56, 0.88);
           border-color: rgba(255, 255, 255, 0.4);
           color: #ffffff;
           transform: translateY(-50%) scale(1.1);
-          box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+          box-shadow: 0 0 25px rgba(255, 140, 56, 0.55);
         }
         .karya-prev-arrow { left: 2.5rem; }
         .karya-next-arrow { right: 2.5rem; }
@@ -689,7 +689,7 @@ export default function Karya() {
           letter-spacing: 0.03em;
         }
         .karya-footer span.icon {
-          color: #818cf8;
+          color: #ff8c38;
         }
 
         /* MEDIA QUERY UNTUK MOBILE & TABLET (LEBAR ≤ 1024px) */
