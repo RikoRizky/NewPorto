@@ -12,12 +12,14 @@ export default function WhatIDoSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
+
       // Animasi X (horizontal) - menyatukan dari kiri/kanan ke tengah
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top bottom',
         end: 'top top',
-        scrub: 1,
+        scrub: isMobile ? 0.2 : 0.5,
         onUpdate: (self) => {
           gsap.set(header1.current, { x: `${100 - self.progress * 100}%` });
           gsap.set(header2.current, { x: `${-100 + self.progress * 100}%` });
@@ -29,12 +31,11 @@ export default function WhatIDoSection() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
-        end: `+=${window.innerHeight * 1.2}`,
+        end: `+=${window.innerHeight * (isMobile ? 1 : 1.2)}`,
         pin: true,
-        scrub: 1,
+        scrub: isMobile ? 0.2 : 0.5,
         pinSpacing: true,
         onUpdate: (self) => {
-          const isMobile = window.innerWidth < 768;
           if (self.progress <= 0.5) {
             // Fase 1: menyatukan gambar dari atas dan bawah ke tengah
             const yProgress = self.progress / 0.5;

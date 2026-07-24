@@ -16,6 +16,9 @@ import NotFound from './components/NotFound';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Prevent mobile URL bar expand/collapse resize from triggering heavy ScrollTrigger recalculations during scroll
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 function MainPage() {
   return (
     <>
