@@ -11,7 +11,8 @@ export const SLIDE_DATA = [
   { name: "Happy Birthday", img: "/img/ultah.png", link: "https://rikorizky.github.io/dibuka.github.oi/", category: "Interactive Web", tags: ["Interactive", "CSS Animation"] },
   { name: "Happy Birthday pt2", img: "/img/ultah2.png", link: "https://rikorizky.github.io/hbd.github.io/", category: "Special Showcase", tags: ["Audio API", "Canvas", "JS"] },
   { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://github.com/MuhammadRaffaFadellah/sista-bijak", category: "Academic System", tags: ["Laravel", "Bootstrap", "MySQL"] },
-  { name: "Todo List", img: "/img/todolist.png", link: "https://todolist.mnz.dom.my.id", category: "Data Management", tags: ["Laravel", "Tailwind", "MySQL"] }
+  { name: "Todo List", img: "/img/todolist.png", link: "https://todolist.mnz.dom.my.id", category: "Data Management", tags: ["Laravel", "Tailwind", "MySQL"] },
+  { name: "Trading", img: "/img/trading.png", link: "https://trading2026-n3jr61ob9-rikorizkys-projects.vercel.app", category: "E-learning", tags: ["React", "Tailwind", "Supabase"] }
 ];
 
 const TOTAL = SLIDE_DATA.length;
