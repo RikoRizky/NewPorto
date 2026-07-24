@@ -148,6 +148,7 @@ export default function RelatedExperience() {
     const descTextRef = useRef(null);
     const cardRef = useRef(null);
     const chipContainerRef = useRef(null);
+    const mainStRef = useRef(null);
 
     const totalItems = experiences.length;
     const currentExp = experiences[activeIndex] || experiences[0];
@@ -238,10 +239,29 @@ export default function RelatedExperience() {
             },
         });
 
+        mainStRef.current = st;
+
         return () => {
             st.kill();
+            mainStRef.current = null;
         };
     }, [totalItems]);
+
+    // Synchronize page scroll position with selected certificate
+    const handleSelectExperience = (idx) => {
+        setActiveIndex(idx);
+
+        const st = mainStRef.current || ScrollTrigger.getById('mainPin');
+        if (st && totalItems > 0) {
+            const progressRatio = (idx + 0.5) / totalItems;
+            const targetScroll = st.start + progressRatio * (st.end - st.start);
+
+            window.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth',
+            });
+        }
+    };
 
     // Auto scroll mobile chip & snappy text GSAP
     useEffect(() => {
@@ -303,7 +323,7 @@ export default function RelatedExperience() {
                     {experiences.map((exp, idx) => (
                         <button
                             key={exp.id}
-                            onClick={() => setActiveIndex(idx)}
+                            onClick={() => handleSelectExperience(idx)}
                             className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 border flex items-center gap-1.5 ${
                                 idx === activeIndex
                                     ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/60 shadow-md shadow-orange-500/30 scale-105'
@@ -489,7 +509,7 @@ export default function RelatedExperience() {
                             {experiences.map((_, idx) => (
                                 <button
                                     key={idx}
-                                    onClick={() => setActiveIndex(idx)}
+                                    onClick={() => handleSelectExperience(idx)}
                                     className={`group relative h-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none ${
                                         idx === activeIndex
                                             ? 'w-8 bg-gradient-to-r from-orange-400 to-amber-400 shadow-[0_0_12px_rgba(255,140,56,0.6)]'
@@ -533,7 +553,7 @@ export default function RelatedExperience() {
                                     <div
                                         key={exp.id}
                                         ref={(el) => (itemRefs.current[idx] = el)}
-                                        onClick={() => setActiveIndex(idx)}
+                                        onClick={() => handleSelectExperience(idx)}
                                         className={`group relative p-3 sm:p-3.5 rounded-xl transition-all duration-300 cursor-pointer border flex items-center justify-between gap-3 ${
                                             isActive
                                                 ? 'bg-gradient-to-r from-orange-500/20 via-neutral-900/90 to-neutral-900/80 border-orange-400/50 shadow-lg shadow-orange-500/10 translate-x-1.5'
