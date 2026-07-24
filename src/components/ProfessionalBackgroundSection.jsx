@@ -164,6 +164,56 @@ export default function RelatedExperience() {
         });
     }, []);
 
+    // Prevent main page scrolling when modal preview is open, disable GSAP ScrollTrigger & ESC to close
+    useEffect(() => {
+        if (!lightboxOpen) return;
+
+        // 1. Lock document & body overflow
+        const originalBodyOverflow = document.body.style.overflow;
+        const originalDocOverflow = document.documentElement.style.overflow;
+
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        // 2. Temporarily disable GSAP ScrollTriggers so background pinning/scrolling is paused
+        const activeTriggers = ScrollTrigger.getAll();
+        activeTriggers.forEach((st) => st.disable(false));
+
+        // 3. Prevent wheel/touchmove events on window from propagating to background
+        const preventBackgroundScroll = (e) => {
+            const isScrollableInsideModal = e.target && e.target.closest && e.target.closest('.modal-scrollable');
+            if (!isScrollableInsideModal) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        };
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                setLightboxOpen(false);
+            }
+        };
+
+        window.addEventListener('wheel', preventBackgroundScroll, { passive: false });
+        window.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Hide navbar while lightbox modal is active
+        document.body.classList.add('lightbox-modal-open');
+
+        return () => {
+            document.body.style.overflow = originalBodyOverflow;
+            document.documentElement.style.overflow = originalDocOverflow;
+            document.body.classList.remove('lightbox-modal-open');
+            window.removeEventListener('wheel', preventBackgroundScroll);
+            window.removeEventListener('touchmove', preventBackgroundScroll);
+            window.removeEventListener('keydown', handleKeyDown);
+
+            // Re-enable GSAP ScrollTriggers when modal closes
+            activeTriggers.forEach((st) => st.enable());
+        };
+    }, [lightboxOpen]);
+
     // ScrollTrigger pin
     useEffect(() => {
         const section = sectionRef.current;
@@ -544,14 +594,23 @@ export default function RelatedExperience() {
 
             {/* FULL DOCUMENT MODAL LIGHTBOX (PDF EMBED / IMAGE SCROLL) */}
             {lightboxOpen && (
-                <div
-                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn"
-                    onClick={() => setLightboxOpen(false)}
-                >
+                <>
+                    <style>{`
+                        body.lightbox-modal-open .navbar-shell {
+                            opacity: 0 !important;
+                            pointer-events: none !important;
+                            transform: translateY(-120%) !important;
+                            transition: opacity 0.3s ease, transform 0.3s ease !important;
+                        }
+                    `}</style>
                     <div
-                        className="relative max-w-5xl w-full h-[90vh] bg-neutral-950 border border-white/20 rounded-2xl flex flex-col overflow-hidden shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
+                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn"
+                        onClick={() => setLightboxOpen(false)}
                     >
+                        <div
+                            className="modal-scrollable relative max-w-5xl w-full h-[90vh] bg-neutral-950 border border-white/20 rounded-2xl flex flex-col overflow-hidden shadow-2xl z-[100000]"
+                            onClick={(e) => e.stopPropagation()}
+                        >
                         {/* Modal Header */}
                         <div className="flex items-center justify-between px-4 py-3 bg-neutral-900 border-b border-white/10 shrink-0">
                             <div className="flex items-center gap-2.5 min-w-0 pr-2">
@@ -635,7 +694,8 @@ export default function RelatedExperience() {
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
-    );
+            </>
+        )}
+    </div>
+);
 }
