@@ -125,36 +125,30 @@ export default function RelatedExperience() {
         });
     }, []);
 
-    // ScrollTrigger pin — timeline items highlight via activeIndex (ONLY Desktop >= 768px)
+    // ScrollTrigger pin — timeline items highlight via activeIndex on both Mobile & Desktop
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
-        const mm = gsap.matchMedia();
+        const isMobile = window.innerWidth < 768;
 
-        mm.add('(min-width: 768px)', () => {
-            const st = ScrollTrigger.create({
-                trigger: section,
-                start: 'top top',
-                end: `+=${totalItems * 50}%`,
-                pin: true,
-                scrub: 0.3,
-                anticipatePin: 1,
-                id: 'mainPin',
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
-                    setActiveIndex((prev) => (prev !== idx ? idx : prev));
-                },
-            });
-
-            return () => {
-                st.kill();
-            };
+        const st = ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: `+=${totalItems * (isMobile ? 40 : 50)}%`,
+            pin: true,
+            scrub: 0.3,
+            anticipatePin: 1,
+            id: 'mainPin',
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
+                setActiveIndex((prev) => (prev !== idx ? idx : prev));
+            },
         });
 
         return () => {
-            mm.revert();
+            st.kill();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalItems]);
