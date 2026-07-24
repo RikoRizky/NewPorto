@@ -125,31 +125,39 @@ export default function RelatedExperience() {
         });
     }, []);
 
-    // ScrollTrigger pin — timeline items highlight via activeIndex
+    // ScrollTrigger pin — timeline items highlight via activeIndex (ONLY Desktop >= 768px)
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
-        const st = ScrollTrigger.create({
-            trigger: section,
-            start: 'top top',
-            end: `+=${totalItems * 60}%`,
-            pin: true,
-            scrub: 0.5,
-            anticipatePin: 1,
-            id: 'mainPin',
-            onUpdate: (self) => {
-                const progress = self.progress;
-                const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
-                setActiveIndex(idx);
-            },
+        const mm = gsap.matchMedia();
+
+        mm.add('(min-width: 768px)', () => {
+            const st = ScrollTrigger.create({
+                trigger: section,
+                start: 'top top',
+                end: `+=${totalItems * 50}%`,
+                pin: true,
+                scrub: 0.3,
+                anticipatePin: 1,
+                id: 'mainPin',
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
+                    setActiveIndex((prev) => (prev !== idx ? idx : prev));
+                },
+            });
+
+            return () => {
+                st.kill();
+            };
         });
 
         return () => {
-            st.kill();
+            mm.revert();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [totalItems]);
 
     // Update konten saat activeIndex berubah
     useEffect(() => {
@@ -162,22 +170,26 @@ export default function RelatedExperience() {
 
         imageRefs.current.forEach((img, idx) => {
             if (img) {
-                img.style.opacity = idx === activeIndex ? '1' : '0';
-                img.style.transform = idx === activeIndex ? 'scale(1)' : 'scale(1.05)';
-                img.style.transition =
-                    'opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                const isSelected = idx === activeIndex;
+                img.style.opacity = isSelected ? '1' : '0';
+                img.style.transform = isSelected ? 'scale(1)' : 'scale(1.05)';
+                img.style.pointerEvents = isSelected ? 'auto' : 'none';
             }
         });
 
         const textEls = [titleRef.current, roleRef.current, descTextRef.current].filter(Boolean);
-        gsap.set(textEls, { opacity: 0, y: 12 });
-        gsap.to(textEls, {
-            opacity: 1,
-            y: 0,
-            duration: 0.25,
-            ease: 'power2.out',
-            stagger: 0.05,
-        });
+        gsap.killTweensOf(textEls);
+        gsap.fromTo(
+            textEls,
+            { opacity: 0, y: 8 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.2,
+                ease: 'power2.out',
+                stagger: 0.03,
+            }
+        );
     }, [activeIndex]);
 
     return (
@@ -242,13 +254,13 @@ export default function RelatedExperience() {
                             <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
                             {/* Badge Tahun */}
-                            <div className="absolute top-3 left-3 bg-black/75 backdrop-blur-md px-3 py-1 rounded-full border border-orange-400/30 text-xs font-mono font-semibold text-orange-300 shadow-lg flex items-center gap-1.5">
+                            <div className="absolute top-3 left-3 bg-black/85 md:backdrop-blur-md px-3 py-1 rounded-full border border-orange-400/30 text-xs font-mono font-semibold text-orange-300 shadow-lg flex items-center gap-1.5">
                                 <i className="far fa-calendar-alt text-orange-400 text-xs" />
                                 {experiences[activeIndex]?.year}
                             </div>
 
                             {/* Badge Counter */}
-                            <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono tracking-widest text-neutral-300 shadow-lg">
+                            <div className="absolute bottom-3 right-3 bg-black/85 md:backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono tracking-widest text-neutral-300 shadow-lg">
                                 <span className="text-orange-400 font-bold">{String(activeIndex + 1).padStart(2, '0')}</span> / {String(totalItems).padStart(2, '0')}
                             </div>
                         </div>
@@ -256,7 +268,7 @@ export default function RelatedExperience() {
                         {/* Detail Card */}
                         <div
                             ref={cardRef}
-                            className="bg-neutral-900/70 backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl shadow-orange-500/5 transition-all duration-300 hover:border-orange-400/30 relative overflow-hidden group"
+                            className="bg-neutral-950/90 md:bg-neutral-900/70 md:backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl shadow-orange-500/5 transition-all duration-300 hover:border-orange-400/30 relative overflow-hidden group"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-orange-500/10 transition-colors" />
 
