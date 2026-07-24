@@ -34,22 +34,22 @@ export default function WhatIDoSection() {
         scrub: 1,
         pinSpacing: true,
         onUpdate: (self) => {
+          const isMobile = window.innerWidth < 768;
           if (self.progress <= 0.5) {
             // Fase 1: menyatukan gambar dari atas dan bawah ke tengah
             const yProgress = self.progress / 0.5;
-            gsap.set(header1.current, { y: `${yProgress * 100}%`, scale: 1, opacity: 1 });
-            gsap.set(header3.current, { y: `${yProgress * -100}%`, scale: 1, opacity: 1 });
-            gsap.set(header2.current, { y: '0%', scale: 1, opacity: 1 });
+            gsap.set(header1.current, { y: `${yProgress * 100}%`, scale: 1, opacity: 1, visibility: 'visible' });
+            gsap.set(header3.current, { y: `${yProgress * -100}%`, scale: 1, opacity: 1, visibility: 'visible' });
+            gsap.set(header2.current, { y: '0%', scale: 1, opacity: 1, visibility: 'visible' });
           } else {
-            // Fase 2: gambar samping hilang, gambar tengah mengecil
+            // Fase 2: gambar samping disembunyikan total (termasuk di mobile WebKit), gambar tengah mengecil
             const scaleProgress = (self.progress - 0.5) / 0.5;
-            const finalScale = 0.4;
+            const finalScale = isMobile ? 0.55 : 0.4;
             const scale = 1 - scaleProgress * (1 - finalScale);
-            const yOffset = 0; // bisa diatur sedikit naik jika perlu
 
-            gsap.set(header1.current, { opacity: 0 });
-            gsap.set(header3.current, { opacity: 0 });
-            gsap.set(header2.current, { scale: scale, y: `${yOffset}%`, opacity: 1 });
+            gsap.set(header1.current, { opacity: 0, visibility: 'hidden' });
+            gsap.set(header3.current, { opacity: 0, visibility: 'hidden' });
+            gsap.set(header2.current, { scale: scale, y: '0%', opacity: 1, visibility: 'visible' });
           }
         },
       });
@@ -78,7 +78,14 @@ export default function WhatIDoSection() {
           width: 100%;
           padding: 0 2rem;
           background-color: #000000;
-          will-change: transform;
+          will-change: transform, opacity, visibility;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+        }
+        @media (max-width: 767px) {
+          .whatido-header {
+            padding: 0 1rem;
+          }
         }
         .whatido-header img {
           width: 100%;
@@ -88,6 +95,7 @@ export default function WhatIDoSection() {
         .whatido-header:nth-child(1),
         .whatido-header:nth-child(3) {
           transform: translateX(100%) translateY(0%);
+          z-index: 1;
         }
         .whatido-header:nth-child(2) {
           transform: translateX(-100%) translateY(0%);
