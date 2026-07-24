@@ -47,11 +47,13 @@ const LandingPage = () => {
         <img
           src={LandingPageDesktop}
           alt="Landing Page"
+          fetchPriority="high"
           className="hidden md:block absolute inset-0 w-full h-full object-cover object-top"
         />
         <img
           src={LandingPageMobile}
           alt="Landing Page Mobile"
+          fetchPriority="high"
           className="block md:hidden absolute inset-0 w-full h-full object-cover object-top"
         />
       </div>
