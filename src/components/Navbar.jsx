@@ -123,11 +123,13 @@ export default function Navbar() {
     [closeMenu, scrollToHash]
   );
 
+  const activeSectionRef = useRef('beranda');
+
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((link) => link.href.replace('#', ''));
+    let ticking = false;
 
     const updateActive = () => {
-      // Kumpulkan semua elemen section yang ada
       const sections = sectionIds
         .map((id) => document.getElementById(id))
         .filter(Boolean);
@@ -150,16 +152,29 @@ export default function Navbar() {
         }
       }
 
-      setActiveSection(current);
+      if (activeSectionRef.current !== current) {
+        activeSectionRef.current = current;
+        setActiveSection(current);
+      }
+    };
+
+    const onScrollOrResize = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateActive();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     updateActive();
-    window.addEventListener('scroll', updateActive, { passive: true });
-    window.addEventListener('resize', updateActive);
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', updateActive);
-      window.removeEventListener('resize', updateActive);
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
     };
   }, []);
 

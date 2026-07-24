@@ -18,6 +18,8 @@
   border-radius: 50%;
   pointer-events: none;
   filter: blur(100px);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .about-section-glow--orange {

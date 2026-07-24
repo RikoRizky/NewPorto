@@ -202,6 +202,8 @@ export default function RelatedExperience() {
                                     ref={(el) => (imageRefs.current[idx] = el)}
                                     src={exp.image}
                                     alt={exp.title}
+                                    loading="lazy"
+                                    decoding="async"
                                     onError={(e) => {
                                         e.target.src = PLACEHOLDER_IMAGE;
                                     }}

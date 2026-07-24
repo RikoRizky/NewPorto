@@ -42,12 +42,22 @@ function App() {
 
     const refresh = () => ScrollTrigger.refresh();
     refresh();
+
+    let resizeTimer;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        refresh();
+      }, 150);
+    };
+
     window.addEventListener('load', refresh);
-    window.addEventListener('resize', refresh);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
+      clearTimeout(resizeTimer);
       window.removeEventListener('load', refresh);
-      window.removeEventListener('resize', refresh);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 

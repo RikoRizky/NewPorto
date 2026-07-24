@@ -123,7 +123,7 @@ export default function Karya() {
 
     div.innerHTML = `
       <div class="karya-slide-img">
-        <img src="${content.img}" alt="${content.name}" loading="eager">
+        <img src="${content.img}" alt="${content.name}" loading="lazy" decoding="async">
         <div class="karya-card-gradient"></div>
         <div class="karya-card-top-info">${categoryHtml}</div>
         <div class="karya-card-bottom-info">
