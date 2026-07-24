@@ -34,9 +34,9 @@ function resolveScrollY(target, offsetY) {
     const lastPin = precedingPins[0];
     const lastPinEl = lastPin.trigger || lastPin.vars?.trigger;
 
-    // Special case for #project (Karya): Adjust scroll position for desktop so Karya showcase is centered
+    // Special case for #project (Karya): Adjust scroll position so Karya showcase header is centered on all viewports
     if (target.id === 'project') {
-      const extraOffset = window.innerWidth >= 768 ? window.innerHeight * 0.45 : 0;
+      const extraOffset = window.innerHeight * 0.45;
       return Math.max(0, lastPin.end + extraOffset);
     }
 
