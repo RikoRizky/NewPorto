@@ -12,47 +12,41 @@ export default function WhatIDoSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animasi X (horizontal) - menyatukan dari kiri/kanan ke tengah
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top bottom',
-        end: 'top top',
-        scrub: 1,
-        onUpdate: (self) => {
-          gsap.set(header1.current, { x: `${100 - self.progress * 100}%` });
-          gsap.set(header2.current, { x: `${-100 + self.progress * 100}%` });
-          gsap.set(header3.current, { x: `${100 - self.progress * 100}%` });
+      // Timeline 1: X (horizontal) animation
+      const tl1 = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 1,
         },
       });
 
-      // Pin + efek Y (menyatukan dari atas/bawah) & scale (mengecilkan gambar tengah)
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: `+=${window.innerHeight * 1.2}`,
-        pin: true,
-        scrub: 1,
-        pinSpacing: true,
-        onUpdate: (self) => {
-          if (self.progress <= 0.5) {
-            // Fase 1: menyatukan gambar dari atas dan bawah ke tengah
-            const yProgress = self.progress / 0.5;
-            gsap.set(header1.current, { y: `${yProgress * 100}%`, scale: 1, opacity: 1 });
-            gsap.set(header3.current, { y: `${yProgress * -100}%`, scale: 1, opacity: 1 });
-            gsap.set(header2.current, { y: '0%', scale: 1, opacity: 1 });
-          } else {
-            // Fase 2: gambar samping hilang, gambar tengah mengecil
-            const scaleProgress = (self.progress - 0.5) / 0.5;
-            const finalScale = 0.4;
-            const scale = 1 - scaleProgress * (1 - finalScale);
-            const yOffset = 0; // bisa diatur sedikit naik jika perlu
+      tl1.fromTo(header1.current, { xPercent: 100 }, { xPercent: 0, ease: 'none' }, 0)
+         .fromTo(header2.current, { xPercent: -100 }, { xPercent: 0, ease: 'none' }, 0)
+         .fromTo(header3.current, { xPercent: 100 }, { xPercent: 0, ease: 'none' }, 0);
 
-            gsap.set(header1.current, { opacity: 0 });
-            gsap.set(header3.current, { opacity: 0 });
-            gsap.set(header2.current, { scale: scale, y: `${yOffset}%`, opacity: 1 });
-          }
+      // Timeline 2: Pin + Y & Scale animation
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: `+=${window.innerHeight * 1.2}`,
+          pin: true,
+          scrub: 1,
+          pinSpacing: true,
         },
       });
+
+      // Phase 1: Move header1 & header3 towards center
+      tl2.to(header1.current, { yPercent: 100, scale: 1, opacity: 1, ease: 'none' }, 0)
+         .to(header3.current, { yPercent: -100, scale: 1, opacity: 1, ease: 'none' }, 0)
+         .to(header2.current, { yPercent: 0, scale: 1, opacity: 1, ease: 'none' }, 0);
+
+      // Phase 2: Fade out header1 & header3, scale down header2
+      tl2.to(header1.current, { opacity: 0, ease: 'none' }, 0.5)
+         .to(header3.current, { opacity: 0, ease: 'none' }, 0.5)
+         .to(header2.current, { scale: 0.4, opacity: 1, ease: 'none' }, 0.5);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -78,19 +72,15 @@ export default function WhatIDoSection() {
           width: 100%;
           padding: 0 2rem;
           background-color: #000000;
-          will-change: transform;
+          will-change: transform, opacity;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         .whatido-header img {
           width: 100%;
           object-fit: contain;
         }
-        /* Posisi awal: bergeser ke samping (akan ditimpa oleh GSAP saat scroll) */
-        .whatido-header:nth-child(1),
-        .whatido-header:nth-child(3) {
-          transform: translateX(100%) translateY(0%);
-        }
         .whatido-header:nth-child(2) {
-          transform: translateX(-100%) translateY(0%);
           z-index: 2;
         }
       `}</style>
