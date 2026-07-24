@@ -20,6 +20,15 @@ const getGoogleDriveThumbnail = (url) => {
 export const rawExperiences = [
     {
         id: 0,
+        title: 'Sertifikat HKI',
+        role: 'Hak Atas Intelektual - 2026',
+        description:
+            'Pengakuan resmi atas karya intelektual yang telah didaftarkan, memberikan hak eksklusif untuk memanfaatkan dan melindungi inovasi, desain, atau penemuan dalam bidang teknologi dan kreatif.',
+        year: '2025',
+        certificate: 'https://drive.google.com/file/d/1ZHm_D_ajLQtBQiuUYI6U84aOnoYEoJ4L/view?usp=drive_link',
+    },
+    {
+        id: 1,
         title: 'Sertifikat BNSP',
         role: 'Badan Nasional Sertifikasi Profesi - 2025',
         description:
@@ -29,7 +38,7 @@ export const rawExperiences = [
         image: '/img/sertif.png',
     },
     {
-        id: 1,
+        id: 2,
         title: 'Sertifikat PKL',
         role: 'Badan Pusat Statistik Kota Cirebon - 2024',
         description:
@@ -38,7 +47,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1y3VN-N-0SqDUHNsEDsHt1PVmCTZDOTvk/view',
     },
     {
-        id: 2,
+        id: 3,
         title: 'Sertifikat UKK',
         role: 'Uji Kompetensi Keahlian RPL - 2024',
         description:
@@ -47,7 +56,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1XY4nEWlOES9m9tWEgYsDiRC1YbGAQbeO/view',
     },
     {
-        id: 3,
+        id: 4,
         title: 'Sertifikat Karier.mu',
         role: 'Menjadi Talenta Siap Bisnis - 2024',
         description:
@@ -56,7 +65,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1hc3UhB86SjkcyUJMYuN7oXKLtHxiYmWF/view',
     },
     {
-        id: 4,
+        id: 5,
         title: 'Sertifikat Karier.mu',
         role: 'Kelas Persiapan Kerja - 2024',
         description:
@@ -65,7 +74,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1hb91N-07A9gE-jXKM2ubNV0v_HxtaF75/view',
     },
     {
-        id: 5,
+        id: 6,
         title: 'Sertifikat Partisipasi',
         role: 'Kunjungan Industri GAMELAB Indonesia - 2023',
         description:
