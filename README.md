@@ -1,5 +1,4 @@
 <div align="center">
-  <img width="500" height="286" alt="Riko Rizky Portfolio Preview" src="https://github.com/user-attachments/assets/3da4b18b-7c01-41a8-b521-ee707ac2b3b8" />
 
   # 🚀 Riko Rizky Baswara - Interactive Developer Portfolio
 
