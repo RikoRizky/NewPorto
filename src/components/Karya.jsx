@@ -254,6 +254,10 @@ export default function Karya() {
         imgElement.src = newContent.img;
         const catElem = activeSlide.querySelector('.karya-card-category');
         if (catElem && newContent.category) catElem.innerText = newContent.category;
+        const tagsElem = activeSlide.querySelector('.karya-card-tags');
+        if (tagsElem && newContent.tags) {
+          tagsElem.innerHTML = newContent.tags.map(t => `<span class="karya-card-tag">${t}</span>`).join('');
+        }
       })
       .to(imgElement, { opacity: 1, duration: 0.3 });
   };
