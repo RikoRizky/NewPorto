@@ -8,16 +8,44 @@ let scrollTween = null;
 function resolveScrollY(target, offsetY) {
   ScrollTrigger.refresh();
 
-  const pinnedTrigger = ScrollTrigger.getAll().find(
+  // If target itself is a pinned ScrollTrigger, return its start position
+  const targetPin = ScrollTrigger.getAll().find(
     (st) =>
       (st.trigger === target || st.vars?.trigger === target) &&
       st.vars?.pin === true
   );
 
-  if (pinnedTrigger) {
-    return Math.max(0, pinnedTrigger.start - offsetY);
+  if (targetPin) {
+    return Math.max(0, targetPin.start - offsetY);
   }
 
+  // Find all pinned ScrollTriggers whose trigger element precedes target in DOM order
+  const allTriggers = ScrollTrigger.getAll();
+  const precedingPins = allTriggers.filter((st) => {
+    if (!st.vars?.pin) return false;
+    const el = st.trigger || st.vars?.trigger;
+    if (!el || el === target) return false;
+    return (el.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+  });
+
+  if (precedingPins.length > 0) {
+    // Sort preceding pins by end position descending (find the last preceding pin)
+    precedingPins.sort((a, b) => b.end - a.end);
+    const lastPin = precedingPins[0];
+    const lastPinEl = lastPin.trigger || lastPin.vars?.trigger;
+
+    // Special case for #project (Karya): Adjust scroll position for desktop so Karya showcase is centered
+    if (target.id === 'project') {
+      const extraOffset = window.innerWidth >= 768 ? window.innerHeight * 0.45 : 0;
+      return Math.max(0, lastPin.end + extraOffset);
+    }
+
+    // Calculate distance from the last pinned element to target element in DOM layout
+    const relativeDistance = target.getBoundingClientRect().top - lastPinEl.getBoundingClientRect().top;
+    return Math.max(0, lastPin.end + relativeDistance - offsetY);
+  }
+
+  // Fallback for sections before any pinned triggers
   const rect = target.getBoundingClientRect();
   return Math.max(0, rect.top + window.pageYOffset - offsetY);
 }

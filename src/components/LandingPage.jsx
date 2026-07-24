@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { scrollToSection } from '../utils/scrollToSection';
 import LandingPageDesktop from '../../LandingPage.png';
 import LandingPageMobile from '../../Mobile.png';
 
@@ -64,9 +65,6 @@ const LandingPage = () => {
         className="absolute inset-0 flex items-center justify-center will-change-transform px-4 sm:px-6"
       >
         <div className="text-white z-10 w-full max-w-3xl text-center">
-          {/* <p className="text-[10px] sm:text-xs font-mono tracking-[0.35em] text-amber-400/90 uppercase mb-4 animate-fade-in">
-            Portfolio · 2025
-          </p> */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-5 animate-fade-in tracking-tight !text-center">
             Riko Rizky
           </h1>
@@ -76,12 +74,20 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 animate-fade-in-up">
             <a
               href="#biodata"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('#biodata');
+              }}
               className="w-full sm:w-auto px-8 py-3 bg-[#ff8c38] text-white rounded-full hover:bg-orange-500 transition duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30 font-medium text-center"
             >
               About Me
             </a>
             <a
               href="#project"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('#project');
+              }}
               className="w-full sm:w-auto px-8 py-3 border-2 border-white/80 text-yellow-400 rounded-full hover:bg-white hover:text-black transition duration-300 transform hover:scale-105 font-medium text-center"
             >
               My Projects
@@ -91,12 +97,20 @@ const LandingPage = () => {
       </div>
 
       <div className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10">
-        <a href="#biodata" className="text-white/50 hover:text-amber-400 transition-colors text-2xl sm:text-3xl">
+        <a
+          href="#biodata"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection('#biodata');
+          }}
+          className="text-white/50 hover:text-amber-400 transition-colors text-2xl sm:text-3xl"
+        >
           <i className="fas fa-chevron-down" />
         </a>
       </div>
     </section>
   );
 };
+
 
 export default LandingPage;

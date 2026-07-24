@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SLIDE_DATA } from './Karya';
 import { rawExperiences } from './ProfessionalBackgroundSection';
+import { scrollToSection } from '../utils/scrollToSection';
 import './AboutSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -213,7 +214,14 @@ export default function AboutSection() {
                 <a href="mailto:rikorizky20@gmail.com" aria-label="Email">
                   <i className="fas fa-envelope" />
                 </a>
-                <a href="#feedback" aria-label="Feedback">
+                <a
+                  href="#feedback"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('#feedback');
+                  }}
+                  aria-label="Feedback"
+                >
                   <i className="fas fa-comment-dots" />
                 </a>
               </div>
