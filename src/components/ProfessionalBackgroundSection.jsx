@@ -5,13 +5,18 @@ import SectionBackdrop from './SectionBackdrop';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ============ HELPER GOOGLE DRIVE + PROXY ============
-const getGoogleDriveThumbnail = (url) => {
+// ============ HELPER GOOGLE DRIVE ============
+const getGoogleDriveFileId = (url) => {
+    if (!url) return null;
     const match = url.match(/\/d\/(.+?)\//);
-    if (match) {
-        const fileId = match[1];
+    return match ? match[1] : null;
+};
+
+const getGoogleDriveThumbnail = (url) => {
+    const fileId = getGoogleDriveFileId(url);
+    if (fileId) {
         const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-        return `https://images.weserv.nl/?url=${encodeURIComponent(directUrl)}&w=800&h=600&fit=cover`;
+        return `https://images.weserv.nl/?url=${encodeURIComponent(directUrl)}&w=1000&h=750&fit=cover`;
     }
     return url;
 };
@@ -22,8 +27,12 @@ export const rawExperiences = [
         id: 0,
         title: 'Sertifikat HKI',
         role: 'Hak Atas Kekayaan Intelektual',
+        issuer: 'Kementerian Hukum & HAM RI',
+        category: 'Lisensi & HKI',
+        icon: 'fa-shield-halved',
+        tags: ['Hak Cipta', 'Inovasi Digital', 'SILADATA'],
         description:
-            'Pengakuan resmi atas karya intelektual yang telah didaftarkan, memberikan hak eksklusif untuk memanfaatkan dan melindungi inovasi, desain, atau penemuan dalam bidang teknologi dan kreatif.',
+            'Pengakuan resmi Hak Cipta atas inovasi software SILADATA (Sistem Layanan Dokumen Akreditasi) terdaftar di Kemenkumham RI.',
         year: '2026',
         certificate: 'https://drive.google.com/file/d/1ZHm_D_ajLQtBQiuUYI6U84aOnoYEoJ4L/view?usp=drive_link',
     },
@@ -31,8 +40,12 @@ export const rawExperiences = [
         id: 1,
         title: 'Sertifikat BNSP',
         role: 'Badan Nasional Sertifikasi Profesi',
+        issuer: 'BNSP Republik Indonesia',
+        category: 'Sertifikasi Profesi',
+        icon: 'fa-award',
+        tags: ['Kompetensi Nasional', 'Teknologi Informasi'],
         description:
-            'Sertifikasi kompetensi profesional yang diakui secara nasional, menjadi bukti penguasaan keahlian di bidang Teknologi Informasi dengan standar industri yang telah teruji.',
+            'Sertifikasi kompetensi profesional nasional bidang Teknologi Informasi dengan standar industri yang teruji.',
         year: '2025',
         certificate: 'https://drive.google.com/file/d/1rsrf3LQ5EeqACZ4O7PvpAdpmTk8snZ5J/view?pli=1',
         image: '/img/sertif.png',
@@ -41,8 +54,12 @@ export const rawExperiences = [
         id: 2,
         title: 'Sertifikat PKL',
         role: 'Badan Pusat Statistik Kota Cirebon',
+        issuer: 'BPS Kota Cirebon',
+        category: 'Pengalaman Kerja',
+        icon: 'fa-building-columns',
+        tags: ['Pengolahan Data', 'Digitalisasi Instansi'],
         description:
-            'Pengalaman praktik kerja industri di instansi pemerintahan, mengelola dan menganalisis data statistik dengan standar profesional, serta berkontribusi dalam proyek digitalisasi data kependudukan.',
+            'Praktik kerja industri di instansi pemerintah, mengelola & menganalisis data statistik kependudukan.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1y3VN-N-0SqDUHNsEDsHt1PVmCTZDOTvk/view',
     },
@@ -50,8 +67,12 @@ export const rawExperiences = [
         id: 3,
         title: 'Sertifikat UKK',
         role: 'Uji Kompetensi Keahlian RPL',
+        issuer: 'Kemendikbud & Industri RPL',
+        category: 'Uji Kompetensi',
+        icon: 'fa-code',
+        tags: ['Rekayasa Perangkat Lunak', 'Pemrograman Web'],
         description:
-            'Uji kompetensi keahlian Rekayasa Perangkat Lunak yang mengukur kemampuan teknis dalam pengembangan aplikasi, pemrograman, dan analisis sistem sesuai standar industri teknologi informasi.',
+            'Uji kompetensi teknis Rekayasa Perangkat Lunak dalam pengembangan aplikasi web & analisis sistem.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1XY4nEWlOES9m9tWEgYsDiRC1YbGAQbeO/view',
     },
@@ -59,8 +80,12 @@ export const rawExperiences = [
         id: 4,
         title: 'Sertifikat Karier.mu',
         role: 'Menjadi Talenta Siap Bisnis',
+        issuer: 'Karier.mu Platform',
+        category: 'Pelatihan Professional',
+        icon: 'fa-briefcase',
+        tags: ['Kesiapan Kerja', 'Soft Skills', 'Wirausaha'],
         description:
-            'Pelatihan intensif pengembangan diri dan soft skills untuk mempersiapkan talenta muda menjadi profesional siap kerja dan berwirausaha, dengan fokus pada kepemimpinan dan komunikasi efektif.',
+            'Pelatihan pengembangan soft skills, kepemimpinan, dan komunikasi efektif persiapan kerja & bisnis.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1hc3UhB86SjkcyUJMYuN7oXKLtHxiYmWF/view',
     },
@@ -68,17 +93,25 @@ export const rawExperiences = [
         id: 5,
         title: 'Sertifikat Karier.mu',
         role: 'Kelas Persiapan Kerja',
+        issuer: 'Karier.mu Platform',
+        category: 'Kesiapan Karir',
+        icon: 'fa-user-tie',
+        tags: ['Personal Branding', 'CV & Interview'],
         description:
-            'Program pembekalan karir komprehensif yang mencakup pembuatan CV profesional, teknik wawancara kerja, serta pengenalan budaya kerja di perusahaan-perusahaan terkemuka Indonesia.',
+            'Pembekalan karir komprehensif mencakup CV profesional, teknik wawancara, dan budaya kerja industri.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1hb91N-07A9gE-jXKM2ubNV0v_HxtaF75/view',
     },
     {
         id: 6,
         title: 'Sertifikat Partisipasi',
-        role: 'Kunjungan Industri GAMELAB Indonesia',
+        role: 'Kunjungan Industri GAMELAB',
+        issuer: 'GAMELAB Indonesia',
+        category: 'Kunjungan Industri',
+        icon: 'fa-gamepad',
+        tags: ['Game Development', 'Industri Kreatif'],
         description:
-            'Partisipasi aktif dalam kunjungan industri ke GAMELAB Indonesia, memperoleh wawasan tentang proses pengembangan game profesional dan teknologi kreatif di industri hiburan digital.',
+            'Wawasan pengembangan game profesional dan industri teknologi kreatif di GAMELAB Indonesia.',
         year: '2023',
         certificate: 'https://drive.google.com/file/d/1hdLfWs4pNjjCx3a6fEe50F0vT1R_DTYT/view',
     },
@@ -104,6 +137,9 @@ const experiences = rawExperiences.map((exp) => {
 // ============ KOMPONEN UTAMA ============
 export default function RelatedExperience() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [modalViewMode, setModalViewMode] = useState('pdf'); // 'pdf' | 'image'
+
     const sectionRef = useRef(null);
     const itemRefs = useRef([]);
     const imageRefs = useRef([]);
@@ -111,10 +147,11 @@ export default function RelatedExperience() {
     const roleRef = useRef(null);
     const descTextRef = useRef(null);
     const cardRef = useRef(null);
+    const chipContainerRef = useRef(null);
 
     const totalItems = experiences.length;
-
-    const chipContainerRef = useRef(null);
+    const currentExp = experiences[activeIndex] || experiences[0];
+    const driveFileId = getGoogleDriveFileId(currentExp.certificate);
 
     // Preload images
     useEffect(() => {
@@ -127,7 +164,7 @@ export default function RelatedExperience() {
         });
     }, []);
 
-    // ScrollTrigger pin — timeline items highlight via activeIndex on both Mobile & Desktop
+    // ScrollTrigger pin
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
@@ -137,7 +174,7 @@ export default function RelatedExperience() {
         const st = ScrollTrigger.create({
             trigger: section,
             start: 'top top',
-            end: `+=${totalItems * (isMobile ? 32 : 45)}%`,
+            end: `+=${totalItems * (isMobile ? 30 : 40)}%`,
             pin: true,
             scrub: isMobile ? true : 0.15,
             anticipatePin: 1,
@@ -154,28 +191,22 @@ export default function RelatedExperience() {
         return () => {
             st.kill();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalItems]);
 
-    // Auto scroll mobile chip into view & update content snappy
+    // Auto scroll mobile chip & snappy text GSAP
     useEffect(() => {
         const exp = experiences[activeIndex];
         if (!exp) return;
-
-        if (titleRef.current) titleRef.current.textContent = exp.title;
-        if (roleRef.current) roleRef.current.textContent = `${exp.role} — ${exp.year}`;
-        if (descTextRef.current) descTextRef.current.textContent = exp.description;
 
         imageRefs.current.forEach((img, idx) => {
             if (img) {
                 const isSelected = idx === activeIndex;
                 img.style.opacity = isSelected ? '1' : '0';
-                img.style.transform = isSelected ? 'scale(1)' : 'scale(1.03)';
+                img.style.transform = isSelected ? 'scale(1)' : 'scale(1.04)';
                 img.style.pointerEvents = isSelected ? 'auto' : 'none';
             }
         });
 
-        // Auto scroll active chip on mobile into view smoothly
         if (chipContainerRef.current && chipContainerRef.current.children[activeIndex]) {
             chipContainerRef.current.children[activeIndex].scrollIntoView({
                 behavior: 'smooth',
@@ -192,180 +223,252 @@ export default function RelatedExperience() {
             {
                 opacity: 1,
                 y: 0,
-                duration: 0.15,
+                duration: 0.18,
                 ease: 'power2.out',
                 stagger: 0.02,
             }
         );
     }, [activeIndex]);
 
+    const handleOpenModal = (mode = 'pdf') => {
+        setModalViewMode(mode);
+        setLightboxOpen(true);
+    };
+
     return (
         <div
             ref={sectionRef}
             id="experience"
-            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden py-4 sm:py-8"
+            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden py-2 sm:py-6"
         >
             <SectionBackdrop variant="cool" />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-4 sm:py-6 pb-12 sm:pb-20">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-2 sm:py-4 pb-10 sm:pb-16">
                 
                 {/* Mobile Chip Selector */}
                 <div
                     ref={chipContainerRef}
-                    className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-3 mb-4 -mx-4 px-4 scroll-smooth"
+                    className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-2.5 mb-3 -mx-4 px-4 scroll-smooth"
                 >
                     {experiences.map((exp, idx) => (
                         <button
                             key={exp.id}
                             onClick={() => setActiveIndex(idx)}
-                            className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 border flex items-center gap-2 ${
+                            className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 border flex items-center gap-1.5 ${
                                 idx === activeIndex
-                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/60 shadow-lg shadow-orange-500/30 scale-105'
+                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/60 shadow-md shadow-orange-500/30 scale-105'
                                     : 'bg-neutral-900/90 text-neutral-400 border-white/10 hover:text-white'
                             }`}
                         >
-                            <span className={`w-1.5 h-1.5 rounded-full ${idx === activeIndex ? 'bg-white animate-pulse' : 'bg-neutral-500'}`} />
+                            <i className={`fas ${exp.icon || 'fa-certificate'} text-[10px] ${idx === activeIndex ? 'text-white' : 'text-orange-400'}`} />
                             {exp.title}
                         </button>
                     ))}
                 </div>
 
-                {/* Grid: 1 kolom mobile, 2 kolom tablet+ */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-start">
+                {/* Grid: 1 kolom mobile, 12 kolom desktop */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 lg:gap-10 items-start">
                     
-                    {/* ===== KOLOM KIRI (Visual Card & Detail Card) ===== */}
-                    <div className="md:col-span-5 lg:col-span-5 space-y-4 md:sticky md:top-20 self-start">
+                    {/* ===== KOLOM KIRI (Visual Preview & Compact Detail Card) ===== */}
+                    <div className="md:col-span-5 lg:col-span-5 space-y-3.5 md:sticky md:top-16 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar">
                         
-                        {/* Image Card */}
-                        <div className="relative overflow-hidden rounded-2xl bg-neutral-950 shadow-2xl shadow-orange-500/15 aspect-[4/3] border border-white/15 group hover:border-orange-500/40 transition-all duration-300">
-                            {experiences.map((exp, idx) => (
-                                <img
-                                    key={exp.id}
-                                    ref={(el) => (imageRefs.current[idx] = el)}
-                                    src={exp.image}
-                                    alt={exp.title}
-                                    loading="lazy"
-                                    decoding="async"
-                                    onError={(e) => {
-                                        e.target.src = PLACEHOLDER_IMAGE;
-                                    }}
-                                    className="absolute inset-0 w-full h-full object-cover will-change-transform"
-                                    style={{
-                                        opacity: idx === activeIndex ? 1 : 0,
-                                        transform: idx === activeIndex ? 'scale(1)' : 'scale(1.03)',
-                                        transition:
-                                            'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                                    }}
-                                />
-                            ))}
+                        {/* Image Showcase Card (Aspect 16/10 agar tidak terlalu tinggi) */}
+                        <div className="relative overflow-hidden rounded-xl bg-neutral-950 shadow-xl shadow-orange-500/10 border border-white/15 group hover:border-orange-500/40 transition-all duration-300">
                             
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent pointer-events-none" />
-                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent pointer-events-none" />
-                            <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
-
-                            {/* Badge Tahun */}
-                            <div className="absolute top-3 left-3 bg-black/90 md:backdrop-blur-md px-3 py-1 rounded-full border border-orange-400/40 text-xs font-mono font-bold text-orange-300 shadow-xl flex items-center gap-1.5">
-                                <i className="far fa-calendar-alt text-orange-400 text-xs" />
-                                {experiences[activeIndex]?.year}
+                            {/* Header Bar OS Style */}
+                            <div className="flex items-center justify-between px-3.5 py-2 bg-neutral-900/90 border-b border-white/10 z-20 relative">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                                    <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider ml-1 hidden sm:inline">
+                                        CERTIFICATE PREVIEW
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 border border-orange-500/30 font-bold">
+                                        OFFICIAL
+                                    </span>
+                                    <button
+                                        onClick={() => handleOpenModal(driveFileId ? 'pdf' : 'image')}
+                                        className="text-neutral-400 hover:text-white transition-colors p-1"
+                                        title="Buka Dokumen Full Scroll"
+                                    >
+                                        <i className="fas fa-expand text-xs" />
+                                    </button>
+                                </div>
                             </div>
 
-                            {/* Badge Counter */}
-                            <div className="absolute bottom-3 right-3 bg-black/90 md:backdrop-blur-md px-3 py-1 rounded-full border border-white/15 text-xs font-mono tracking-widest text-neutral-300 shadow-xl">
-                                <span className="text-orange-400 font-bold">{String(activeIndex + 1).padStart(2, '0')}</span> / {String(totalItems).padStart(2, '0')}
+                            {/* Aspect Ratio Container */}
+                            <div
+                                className="relative aspect-[16/10] overflow-hidden cursor-pointer"
+                                onClick={() => handleOpenModal(driveFileId ? 'pdf' : 'image')}
+                            >
+                                {experiences.map((exp, idx) => (
+                                    <img
+                                        key={exp.id}
+                                        ref={(el) => (imageRefs.current[idx] = el)}
+                                        src={exp.image}
+                                        alt={exp.title}
+                                        loading="lazy"
+                                        decoding="async"
+                                        onError={(e) => {
+                                            e.target.src = PLACEHOLDER_IMAGE;
+                                        }}
+                                        className="absolute inset-0 w-full h-full object-cover will-change-transform group-hover:scale-105 transition-transform duration-500"
+                                        style={{
+                                            opacity: idx === activeIndex ? 1 : 0,
+                                            transform: idx === activeIndex ? 'scale(1)' : 'scale(1.04)',
+                                            transition:
+                                                'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                                        }}
+                                    />
+                                ))}
+
+                                {/* Overlay gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-black/20 pointer-events-none" />
+
+                                {/* Hover Lens Overlay Hint */}
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-250 flex flex-col items-center justify-center gap-1.5 pointer-events-none">
+                                    <div className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg backdrop-blur-md">
+                                        <i className="fas fa-file-pdf text-base" />
+                                    </div>
+                                    <span className="text-[11px] font-mono text-white font-medium px-3 py-1 rounded-full bg-black/70 border border-white/20 backdrop-blur-md">
+                                        Klik untuk Buka Full Document Scroll
+                                    </span>
+                                </div>
+
+                                {/* Badge Tahun */}
+                                <div className="absolute top-2.5 left-2.5 bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-orange-400/40 text-[11px] font-mono font-bold text-orange-300 shadow-lg flex items-center gap-1">
+                                    <i className="far fa-calendar-alt text-orange-400 text-[10px]" />
+                                    {currentExp.year}
+                                </div>
+
+                                {/* Badge Counter */}
+                                <div className="absolute bottom-2.5 right-2.5 bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/15 text-[11px] font-mono tracking-widest text-neutral-300 shadow-lg">
+                                    <span className="text-orange-400 font-bold">{String(activeIndex + 1).padStart(2, '0')}</span> / {String(totalItems).padStart(2, '0')}
+                                </div>
                             </div>
                         </div>
 
-                        {/* Detail Card */}
+                        {/* Detail Card (Kompak & Rapi agar tidak kepotong) */}
                         <div
                             ref={cardRef}
-                            className="bg-neutral-950/95 md:bg-neutral-900/80 md:backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/15 shadow-2xl shadow-orange-500/10 transition-all duration-300 hover:border-orange-400/40 relative overflow-hidden group"
+                            className="bg-neutral-950/90 md:bg-neutral-900/85 backdrop-blur-xl rounded-xl p-4 sm:p-5 border border-white/15 shadow-xl transition-all duration-300 hover:border-orange-400/40 relative overflow-hidden group"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-orange-500/20 transition-colors" />
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-300 text-[11px] font-mono font-medium">
+                                    <i className={`fas ${currentExp.icon || 'fa-certificate'} text-[10px]`} />
+                                    {currentExp.category || 'Sertifikat'}
+                                </span>
+                                {currentExp.issuer && (
+                                    <span className="text-[10px] font-mono text-neutral-400 truncate max-w-[180px]">
+                                        {currentExp.issuer}
+                                    </span>
+                                )}
+                            </div>
 
-                            <div className="space-y-1">
+                            {/* Title & Role */}
+                            <div className="space-y-0.5">
                                 <h3
                                     ref={titleRef}
-                                    className="text-lg sm:text-2xl font-extrabold text-white leading-tight tracking-tight"
+                                    className="text-lg sm:text-xl font-extrabold text-white leading-snug tracking-tight font-sans"
                                 >
-                                    {experiences[activeIndex]?.title}
+                                    {currentExp.title}
                                 </h3>
                                 <p
                                     ref={roleRef}
-                                    className="text-xs sm:text-sm text-orange-400 font-bold tracking-wide flex items-center gap-1.5"
+                                    className="text-xs text-orange-400 font-semibold tracking-wide flex items-center gap-1.5"
                                 >
-                                    <i className="fas fa-award text-xs text-orange-400/90" />
-                                    {experiences[activeIndex]?.role} — {experiences[activeIndex]?.year}
+                                    <i className="fas fa-award text-[11px] text-orange-400/90" />
+                                    {currentExp.role} — {currentExp.year}
                                 </p>
                             </div>
 
-                            <div className="w-14 h-0.5 bg-gradient-to-r from-orange-400 via-amber-400 to-transparent my-3.5 rounded-full" />
+                            {/* Skill Tags */}
+                            {currentExp.tags && currentExp.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 my-2.5">
+                                    {currentExp.tags.map((tag, tIdx) => (
+                                        <span
+                                            key={tIdx}
+                                            className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800/90 border border-white/10 text-neutral-300"
+                                        >
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className="w-full h-px bg-gradient-to-r from-orange-500/40 via-amber-500/20 to-transparent my-2.5" />
                             
+                            {/* Ringkas & Tidak Panjang Panjang */}
                             <p
                                 ref={descTextRef}
-                                className="text-xs sm:text-sm text-neutral-200 leading-relaxed font-normal mb-4.5"
+                                className="text-xs text-neutral-300 leading-relaxed font-normal mb-4"
                             >
-                                {experiences[activeIndex]?.description}
+                                {currentExp.description}
                             </p>
 
-                            {/* Tombol Lihat Sertifikat */}
-                            {experiences[activeIndex]?.certificate && (
-                                <a
-                                    href={experiences[activeIndex]?.certificate}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs sm:text-sm transition-all duration-200 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 group/btn"
+                            {/* Tombol Action */}
+                            <div className="flex flex-wrap items-center gap-2.5">
+                                <button
+                                    onClick={() => handleOpenModal(driveFileId ? 'pdf' : 'image')}
+                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs transition-all duration-200 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:-translate-y-0.5"
                                 >
-                                    <span>Buka Document Sertifikat</span>
-                                    <i className="fas fa-external-link-alt text-xs transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                                </a>
-                            )}
+                                    <i className="fas fa-file-pdf text-xs" />
+                                    <span>Buka Preview Full Document</span>
+                                </button>
+
+                                {currentExp.certificate && (
+                                    <a
+                                        href={currentExp.certificate}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/10 text-xs transition-all"
+                                        title="Buka Drive Tab Baru"
+                                    >
+                                        <span>Tab Baru</span>
+                                        <i className="fas fa-external-link-alt text-[10px]" />
+                                    </a>
+                                )}
+                            </div>
                         </div>
 
                         {/* Dot Navigation */}
-                        <div className="flex justify-center gap-2 pt-1">
+                        <div className="flex justify-center gap-1.5 pt-0.5">
                             {experiences.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setActiveIndex(idx)}
-                                    className={`group relative h-2 rounded-full transition-all duration-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400/50 ${
+                                    className={`group relative h-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none ${
                                         idx === activeIndex
-                                            ? 'w-8 sm:w-10 bg-gradient-to-r from-orange-400 to-amber-400 shadow-[0_0_20px_rgba(255,140,56,0.6)]'
-                                            : 'w-2 bg-neutral-700 hover:bg-neutral-500 hover:scale-125'
+                                            ? 'w-8 bg-gradient-to-r from-orange-400 to-amber-400 shadow-[0_0_12px_rgba(255,140,56,0.6)]'
+                                            : 'w-2 bg-neutral-700 hover:bg-neutral-500'
                                     }`}
                                     aria-label={`Go to experience ${idx + 1}`}
-                                >
-                                    <span
-                                        className={`absolute -bottom-5 left-1/2 -translate-x-1/2 text-[8px] font-mono tracking-wider transition-all duration-300 ${
-                                            idx === activeIndex
-                                                ? 'opacity-100 text-orange-400 font-bold'
-                                                : 'opacity-0 group-hover:opacity-60 text-neutral-500'
-                                        }`}
-                                    >
-                                        {String(idx + 1).padStart(2, '0')}
-                                    </span>
-                                </button>
+                                />
                             ))}
                         </div>
                     </div>
 
-                    {/* ===== TIMELINE KANAN (Desktop Compact List) ===== */}
-                    <div className="hidden md:block md:col-span-7 pl-2 md:pl-4 lg:pl-6 relative">
+                    {/* ===== TIMELINE KANAN (Desktop Compact Interactive List) ===== */}
+                    <div className="hidden md:block md:col-span-7 pl-2 lg:pl-4 relative">
                         
                         {/* Header Mini Timeline */}
-                        <div className="flex items-center justify-between mb-4 pb-2.5 border-b border-white/10">
+                        <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-white/10">
                             <span className="text-xs font-mono uppercase tracking-widest text-neutral-400 flex items-center gap-2">
                                 <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
                                 Daftar Sertifikat ({totalItems})
                             </span>
-                            <span className="text-[10px] font-mono text-neutral-500 flex items-center gap-1.5">
-                                <i className="fas fa-mouse-pointer text-orange-400/70 text-[9px]" /> Klik item untuk memilih
+                            <span className="text-[10px] font-mono text-neutral-400 flex items-center gap-1.5">
+                                <i className="fas fa-hand-pointer text-orange-400/80 text-[10px]" /> Klik item untuk memilih
                             </span>
                         </div>
 
-                        {/* Timeline List Items (Rapi & Kompak) */}
-                        <div className="space-y-3 relative pl-6 lg:pl-8">
+                        {/* Timeline List Items */}
+                        <div className="space-y-2.5 relative pl-7 lg:pl-8">
                             {/* Vertical Line background */}
-                            <div className="absolute left-2.5 lg:left-3 top-2 bottom-2 w-0.5 bg-neutral-800 rounded-full" />
+                            <div className="absolute left-2.5 lg:left-3 top-2 bottom-2 w-0.5 bg-neutral-800/80 rounded-full" />
                             
                             {/* Vertical Line progress */}
                             <div
@@ -381,7 +484,7 @@ export default function RelatedExperience() {
                                         key={exp.id}
                                         ref={(el) => (itemRefs.current[idx] = el)}
                                         onClick={() => setActiveIndex(idx)}
-                                        className={`group relative p-3.5 sm:p-4 rounded-xl transition-all duration-300 cursor-pointer border flex items-center justify-between gap-3 ${
+                                        className={`group relative p-3 sm:p-3.5 rounded-xl transition-all duration-300 cursor-pointer border flex items-center justify-between gap-3 ${
                                             isActive
                                                 ? 'bg-gradient-to-r from-orange-500/20 via-neutral-900/90 to-neutral-900/80 border-orange-400/50 shadow-lg shadow-orange-500/10 translate-x-1.5'
                                                 : 'bg-neutral-900/40 border-white/5 hover:bg-neutral-900/70 hover:border-white/15 hover:translate-x-1'
@@ -389,41 +492,48 @@ export default function RelatedExperience() {
                                     >
                                         {/* Dot Indicator */}
                                         <div
-                                            className={`absolute left-[-20px] lg:left-[-22px] top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full transition-all duration-500 flex items-center justify-center ${
+                                            className={`absolute left-[-22px] lg:left-[-23px] top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full transition-all duration-300 flex items-center justify-center ${
                                                 isActive
-                                                    ? 'bg-orange-400 shadow-[0_0_16px_rgba(255,140,56,0.9)] scale-125 ring-4 ring-orange-400/20'
+                                                    ? 'bg-orange-400 shadow-[0_0_14px_rgba(255,140,56,0.9)] scale-125 ring-4 ring-orange-400/20'
                                                     : 'bg-neutral-700 group-hover:bg-orange-400/60'
                                             }`}
                                         >
                                             {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                                         </div>
 
-                                        <div className="space-y-0.5 pr-2">
+                                        <div className="space-y-0.5 pr-2 min-w-0">
                                             <h3
-                                                className={`text-sm sm:text-base font-bold transition-all duration-300 ${
-                                                    isActive ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'
+                                                className={`text-sm sm:text-base font-bold transition-all duration-300 truncate ${
+                                                    isActive ? 'text-white' : 'text-neutral-300 group-hover:text-white'
                                                 }`}
                                             >
                                                 {exp.title}
                                             </h3>
                                             <p
-                                                className={`text-xs font-mono transition-all duration-300 ${
-                                                    isActive ? 'text-orange-400 font-medium' : 'text-neutral-500 group-hover:text-neutral-400'
+                                                className={`text-xs font-mono transition-all duration-300 truncate ${
+                                                    isActive ? 'text-orange-300 font-medium' : 'text-neutral-400 group-hover:text-neutral-300'
                                                 }`}
                                             >
                                                 {exp.role}
                                             </p>
                                         </div>
 
-                                        <span
-                                            className={`shrink-0 px-2.5 py-0.5 rounded-full text-xs font-mono border transition-all duration-300 ${
-                                                isActive
-                                                    ? 'bg-orange-400/20 border-orange-400/40 text-orange-300 font-bold'
-                                                    : 'bg-neutral-800/80 border-white/5 text-neutral-500 group-hover:text-neutral-400'
-                                            }`}
-                                        >
-                                            {exp.year}
-                                        </span>
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <span
+                                                className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono border transition-all duration-300 ${
+                                                    isActive
+                                                        ? 'bg-orange-400/20 border-orange-400/40 text-orange-300 font-bold'
+                                                        : 'bg-neutral-800/80 border-white/5 text-neutral-400 group-hover:text-neutral-300'
+                                                }`}
+                                            >
+                                                {exp.year}
+                                            </span>
+                                            <i
+                                                className={`fas fa-chevron-right text-xs transition-transform duration-300 ${
+                                                    isActive ? 'text-orange-400 translate-x-0.5' : 'text-neutral-600 group-hover:text-neutral-400'
+                                                }`}
+                                            />
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -431,6 +541,101 @@ export default function RelatedExperience() {
                     </div>
                 </div>
             </div>
+
+            {/* FULL DOCUMENT MODAL LIGHTBOX (PDF EMBED / IMAGE SCROLL) */}
+            {lightboxOpen && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn"
+                    onClick={() => setLightboxOpen(false)}
+                >
+                    <div
+                        className="relative max-w-5xl w-full h-[90vh] bg-neutral-950 border border-white/20 rounded-2xl flex flex-col overflow-hidden shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-4 py-3 bg-neutral-900 border-b border-white/10 shrink-0">
+                            <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                                <span className="w-3 h-3 rounded-full bg-red-500/90 cursor-pointer hover:opacity-80" onClick={() => setLightboxOpen(false)} />
+                                <span className="w-3 h-3 rounded-full bg-yellow-500/90" />
+                                <span className="w-3 h-3 rounded-full bg-green-500/90" />
+                                <span className="text-xs font-mono font-bold text-white ml-1.5 truncate">
+                                    {currentExp.title} — {currentExp.role} ({currentExp.year})
+                                </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                                {/* Mode Selector Switcher */}
+                                {driveFileId && (
+                                    <div className="flex bg-neutral-800 p-1 rounded-lg border border-white/10 text-xs font-mono">
+                                        <button
+                                            onClick={() => setModalViewMode('pdf')}
+                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                                                modalViewMode === 'pdf'
+                                                    ? 'bg-orange-500 text-white font-bold shadow'
+                                                    : 'text-neutral-400 hover:text-white'
+                                            }`}
+                                        >
+                                            <i className="fas fa-file-pdf text-xs" />
+                                            <span>PDF Scroll</span>
+                                        </button>
+                                        <button
+                                            onClick={() => setModalViewMode('image')}
+                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                                                modalViewMode === 'image'
+                                                    ? 'bg-orange-500 text-white font-bold shadow'
+                                                    : 'text-neutral-400 hover:text-white'
+                                            }`}
+                                        >
+                                            <i className="fas fa-image text-xs" />
+                                            <span>Foto</span>
+                                        </button>
+                                    </div>
+                                )}
+
+                                {currentExp.certificate && (
+                                    <a
+                                        href={currentExp.certificate}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-xs font-mono hover:bg-orange-500/30 transition-colors"
+                                    >
+                                        <span>Drive Tab Baru</span>
+                                        <i className="fas fa-external-link-alt text-[10px]" />
+                                    </a>
+                                )}
+
+                                <button
+                                    onClick={() => setLightboxOpen(false)}
+                                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 hover:text-white flex items-center justify-center transition-colors ml-1"
+                                    aria-label="Tutup pratinjau"
+                                >
+                                    <i className="fas fa-times text-sm" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Modal Body Container */}
+                        <div className="flex-1 bg-black/80 relative overflow-hidden flex items-center justify-center">
+                            {modalViewMode === 'pdf' && driveFileId ? (
+                                <iframe
+                                    src={`https://drive.google.com/file/d/${driveFileId}/preview`}
+                                    className="w-full h-full rounded-b-xl border-0"
+                                    title={currentExp.title}
+                                    allow="autoplay"
+                                />
+                            ) : (
+                                <div className="w-full h-full overflow-y-auto flex items-center justify-center p-4">
+                                    <img
+                                        src={currentExp.image}
+                                        alt={currentExp.title}
+                                        className="max-w-full h-auto max-h-none rounded-lg shadow-2xl object-contain"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
