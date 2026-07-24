@@ -114,6 +114,8 @@ export default function RelatedExperience() {
 
     const totalItems = experiences.length;
 
+    const chipContainerRef = useRef(null);
+
     // Preload images
     useEffect(() => {
         experiences.forEach((exp) => {
@@ -135,10 +137,12 @@ export default function RelatedExperience() {
         const st = ScrollTrigger.create({
             trigger: section,
             start: 'top top',
-            end: `+=${totalItems * (isMobile ? 40 : 50)}%`,
+            end: `+=${totalItems * (isMobile ? 32 : 45)}%`,
             pin: true,
-            scrub: 0.3,
+            scrub: isMobile ? true : 0.15,
             anticipatePin: 1,
+            fastScrollEnd: true,
+            preventOverlaps: true,
             id: 'mainPin',
             onUpdate: (self) => {
                 const progress = self.progress;
@@ -153,7 +157,7 @@ export default function RelatedExperience() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalItems]);
 
-    // Update konten saat activeIndex berubah
+    // Auto scroll mobile chip into view & update content snappy
     useEffect(() => {
         const exp = experiences[activeIndex];
         if (!exp) return;
@@ -166,22 +170,31 @@ export default function RelatedExperience() {
             if (img) {
                 const isSelected = idx === activeIndex;
                 img.style.opacity = isSelected ? '1' : '0';
-                img.style.transform = isSelected ? 'scale(1)' : 'scale(1.05)';
+                img.style.transform = isSelected ? 'scale(1)' : 'scale(1.03)';
                 img.style.pointerEvents = isSelected ? 'auto' : 'none';
             }
         });
+
+        // Auto scroll active chip on mobile into view smoothly
+        if (chipContainerRef.current && chipContainerRef.current.children[activeIndex]) {
+            chipContainerRef.current.children[activeIndex].scrollIntoView({
+                behavior: 'smooth',
+                inline: 'center',
+                block: 'nearest',
+            });
+        }
 
         const textEls = [titleRef.current, roleRef.current, descTextRef.current].filter(Boolean);
         gsap.killTweensOf(textEls);
         gsap.fromTo(
             textEls,
-            { opacity: 0, y: 8 },
+            { opacity: 0, y: 5 },
             {
                 opacity: 1,
                 y: 0,
-                duration: 0.2,
+                duration: 0.15,
                 ease: 'power2.out',
-                stagger: 0.03,
+                stagger: 0.02,
             }
         );
     }, [activeIndex]);
@@ -197,15 +210,18 @@ export default function RelatedExperience() {
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-4 sm:py-6 pb-12 sm:pb-20">
                 
                 {/* Mobile Chip Selector */}
-                <div className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-3 mb-4 -mx-4 px-4">
+                <div
+                    ref={chipContainerRef}
+                    className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-3 mb-4 -mx-4 px-4 scroll-smooth"
+                >
                     {experiences.map((exp, idx) => (
                         <button
                             key={exp.id}
                             onClick={() => setActiveIndex(idx)}
-                            className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-300 border flex items-center gap-2 ${
+                            className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 border flex items-center gap-2 ${
                                 idx === activeIndex
-                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50 shadow-md shadow-orange-500/20 font-semibold'
-                                    : 'bg-neutral-900/80 text-neutral-400 border-white/10 hover:text-white'
+                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/60 shadow-lg shadow-orange-500/30 scale-105'
+                                    : 'bg-neutral-900/90 text-neutral-400 border-white/10 hover:text-white'
                             }`}
                         >
                             <span className={`w-1.5 h-1.5 rounded-full ${idx === activeIndex ? 'bg-white animate-pulse' : 'bg-neutral-500'}`} />
@@ -221,7 +237,7 @@ export default function RelatedExperience() {
                     <div className="md:col-span-5 lg:col-span-5 space-y-4 md:sticky md:top-20 self-start">
                         
                         {/* Image Card */}
-                        <div className="relative overflow-hidden rounded-2xl bg-neutral-950 shadow-2xl shadow-orange-500/10 aspect-[4/3] border border-white/15 group hover:border-orange-500/30 transition-all duration-500">
+                        <div className="relative overflow-hidden rounded-2xl bg-neutral-950 shadow-2xl shadow-orange-500/15 aspect-[4/3] border border-white/15 group hover:border-orange-500/40 transition-all duration-300">
                             {experiences.map((exp, idx) => (
                                 <img
                                     key={exp.id}
@@ -236,9 +252,9 @@ export default function RelatedExperience() {
                                     className="absolute inset-0 w-full h-full object-cover will-change-transform"
                                     style={{
                                         opacity: idx === activeIndex ? 1 : 0,
-                                        transform: idx === activeIndex ? 'scale(1)' : 'scale(1.05)',
+                                        transform: idx === activeIndex ? 'scale(1)' : 'scale(1.03)',
                                         transition:
-                                            'opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                                            'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                                     }}
                                 />
                             ))}
@@ -248,13 +264,13 @@ export default function RelatedExperience() {
                             <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
                             {/* Badge Tahun */}
-                            <div className="absolute top-3 left-3 bg-black/85 md:backdrop-blur-md px-3 py-1 rounded-full border border-orange-400/30 text-xs font-mono font-semibold text-orange-300 shadow-lg flex items-center gap-1.5">
+                            <div className="absolute top-3 left-3 bg-black/90 md:backdrop-blur-md px-3 py-1 rounded-full border border-orange-400/40 text-xs font-mono font-bold text-orange-300 shadow-xl flex items-center gap-1.5">
                                 <i className="far fa-calendar-alt text-orange-400 text-xs" />
                                 {experiences[activeIndex]?.year}
                             </div>
 
                             {/* Badge Counter */}
-                            <div className="absolute bottom-3 right-3 bg-black/85 md:backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono tracking-widest text-neutral-300 shadow-lg">
+                            <div className="absolute bottom-3 right-3 bg-black/90 md:backdrop-blur-md px-3 py-1 rounded-full border border-white/15 text-xs font-mono tracking-widest text-neutral-300 shadow-xl">
                                 <span className="text-orange-400 font-bold">{String(activeIndex + 1).padStart(2, '0')}</span> / {String(totalItems).padStart(2, '0')}
                             </div>
                         </div>
@@ -262,9 +278,9 @@ export default function RelatedExperience() {
                         {/* Detail Card */}
                         <div
                             ref={cardRef}
-                            className="bg-neutral-950/90 md:bg-neutral-900/70 md:backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl shadow-orange-500/5 transition-all duration-300 hover:border-orange-400/30 relative overflow-hidden group"
+                            className="bg-neutral-950/95 md:bg-neutral-900/80 md:backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/15 shadow-2xl shadow-orange-500/10 transition-all duration-300 hover:border-orange-400/40 relative overflow-hidden group"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-orange-500/10 transition-colors" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-orange-500/20 transition-colors" />
 
                             <div className="space-y-1">
                                 <h3
@@ -275,18 +291,18 @@ export default function RelatedExperience() {
                                 </h3>
                                 <p
                                     ref={roleRef}
-                                    className="text-xs sm:text-sm text-orange-400 font-semibold tracking-wide flex items-center gap-1.5"
+                                    className="text-xs sm:text-sm text-orange-400 font-bold tracking-wide flex items-center gap-1.5"
                                 >
-                                    <i className="fas fa-award text-xs text-orange-400/80" />
+                                    <i className="fas fa-award text-xs text-orange-400/90" />
                                     {experiences[activeIndex]?.role} — {experiences[activeIndex]?.year}
                                 </p>
                             </div>
 
-                            <div className="w-12 h-0.5 bg-gradient-to-r from-orange-400 to-amber-300/20 my-3 rounded-full" />
+                            <div className="w-14 h-0.5 bg-gradient-to-r from-orange-400 via-amber-400 to-transparent my-3.5 rounded-full" />
                             
                             <p
                                 ref={descTextRef}
-                                className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light mb-4"
+                                className="text-xs sm:text-sm text-neutral-200 leading-relaxed font-normal mb-4.5"
                             >
                                 {experiences[activeIndex]?.description}
                             </p>
@@ -297,7 +313,7 @@ export default function RelatedExperience() {
                                     href={experiences[activeIndex]?.certificate}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500/20 via-amber-500/20 to-orange-500/10 hover:from-orange-500/35 hover:to-amber-500/35 border border-orange-400/30 hover:border-orange-400/70 text-orange-300 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-orange-500/10 group/btn"
+                                    className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs sm:text-sm transition-all duration-200 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 group/btn"
                                 >
                                     <span>Buka Document Sertifikat</span>
                                     <i className="fas fa-external-link-alt text-xs transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
