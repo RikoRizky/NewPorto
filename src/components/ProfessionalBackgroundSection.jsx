@@ -141,6 +141,7 @@ export default function RelatedExperience() {
     const [iframeLoading, setIframeLoading] = useState(true);
 
     const sectionRef = useRef(null);
+    const headerRef = useRef(null);
     const itemRefs = useRef([]);
     const imageRefs = useRef([]);
     const titleRef = useRef(null);
@@ -171,6 +172,37 @@ export default function RelatedExperience() {
                 img.src = PLACEHOLDER_IMAGE;
             };
         });
+    }, []);
+
+    // Header GSAP Reveal Animation
+    useEffect(() => {
+        const headerEl = headerRef.current;
+        if (!headerEl) return;
+
+        const ctx = gsap.context(() => {
+            const targets = headerEl.querySelectorAll('.sertif-header-reveal');
+            if (targets.length) {
+                gsap.fromTo(
+                    targets,
+                    { opacity: 0, y: 24, scale: 0.96 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.8,
+                        stagger: 0.12,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: headerEl,
+                            start: 'top 90%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                );
+            }
+        }, headerEl);
+
+        return () => ctx.revert();
     }, []);
 
     // Prevent main page scrolling when modal preview is open, disable GSAP ScrollTrigger & ESC to close
@@ -345,31 +377,46 @@ export default function RelatedExperience() {
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-1 sm:pt-4 pb-6 sm:pb-12 w-full flex flex-col justify-start md:justify-center">
                 
-                {/* Section Header (Gabungan dari TitleSertif) */}
-                <div className="text-center max-w-3xl mx-auto mb-2 sm:mb-6 space-y-1 sm:space-y-2.5">
+                {/* Section Header */}
+                <div ref={headerRef} className="relative text-center max-w-3xl mx-auto mb-2.5 sm:mb-6 space-y-1.5 sm:space-y-2.5 selection:bg-orange-500/30">
+                    {/* Ambient Glow behind Header */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[120px] sm:h-[180px] bg-gradient-to-r from-orange-600/25 via-amber-500/20 to-orange-500/15 blur-[95px] rounded-full pointer-events-none -z-10 animate-pulse" />
+
                     {/* Top Badge */}
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-neutral-900/80 border border-orange-500/30 backdrop-blur-xl shadow-lg shadow-orange-500/10 hover:border-orange-500/50 transition-colors">
-                        <span className="relative flex h-2 w-2">
+                    <div className="sertif-header-reveal inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-neutral-900/90 border border-orange-500/35 backdrop-blur-xl shadow-lg shadow-orange-500/15 hover:border-orange-500/60 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105 group cursor-default">
+                        <span className="relative flex h-2.5 w-2.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-tr from-orange-600 to-amber-400"></span>
                         </span>
-                        <span className="text-[9px] sm:text-xs font-mono tracking-widest text-orange-300 font-semibold uppercase">
+                        <span className="text-[10px] sm:text-xs font-mono tracking-widest text-orange-300 font-bold uppercase group-hover:text-amber-200 transition-colors">
                             Sertifikasi &amp; Lisensi Resmi
                         </span>
                     </div>
 
                     {/* Main Heading */}
-                    <h2 className="text-xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    <h2 className="sertif-header-reveal text-xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
                         Koleksi{' '}
-                        <span className="bg-gradient-to-r from-amber-200 via-orange-400 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(249,115,22,0.35)]">
+                        <span className="bg-gradient-to-r from-amber-200 via-orange-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.4)] animate-gradient-text">
                             Sertifikat &amp; Pencapaian
                         </span>
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-[11px] sm:text-sm text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal hidden sm:block">
+                    <p className="sertif-header-reveal text-[11px] sm:text-sm text-neutral-300/90 max-w-2xl mx-auto leading-relaxed font-normal hidden sm:block">
                         Dokumentasi sertifikasi kompetensi nasional, Hak Atas Kekayaan Intelektual (HKI), dan program pelatihan profesional.
                     </p>
+
+                    {/* Feature Highlight Pills */}
+                    <div className="sertif-header-reveal hidden sm:flex flex-wrap justify-center items-center gap-2 sm:gap-3 pt-1 text-[10px] sm:text-[11px] font-mono text-neutral-300">
+                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/70 border border-white/10 hover:border-orange-500/40 hover:bg-neutral-800/80 transition-all duration-300 backdrop-blur-md shadow-sm">
+                            <i className="fas fa-shield-halved text-orange-400 text-xs" />
+                            <span>Terverifikasi BNSP &amp; Kemenkumham HKI</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/70 border border-white/10 hover:border-orange-500/40 hover:bg-neutral-800/80 transition-all duration-300 backdrop-blur-md shadow-sm">
+                            <i className="fas fa-award text-amber-400 text-xs" />
+                            <span>7+ Sertifikasi Resmi</span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Mobile Chip Selector */}
