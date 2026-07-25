@@ -247,16 +247,17 @@ export default function RelatedExperience() {
         const st = ScrollTrigger.create({
             trigger: section,
             start: isMobile ? 'top 55px' : 'top top',
-            end: `+=${totalItems * (isMobile ? 35 : 40)}%`,
+            end: `+=${totalItems * (isMobile ? 35 : 55)}%`,
             pin: true,
-            scrub: isMobile ? 0.3 : 0.15,
+            scrub: isMobile ? 0.05 : 0.15,
             anticipatePin: 1,
             fastScrollEnd: true,
             preventOverlaps: true,
             id: 'mainPin',
             onUpdate: (self) => {
                 const progress = self.progress;
-                const idx = Math.min(Math.floor(progress * totalItems), totalItems - 1);
+                // Memberikan buffer rentang di akhir agar sertifikat terakhir (Sertifikat Partisipasi) tetap aktif & terkunci pas sampai akhir scroll desktop
+                const idx = Math.min(Math.floor(progress * (totalItems - 0.01)), totalItems - 1);
                 setActiveIndex((prev) => (prev !== idx ? idx : prev));
             },
         });
@@ -285,10 +286,12 @@ export default function RelatedExperience() {
         }
     };
 
-    // Auto scroll mobile chip & snappy text GSAP
+    // Auto scroll mobile chip & snappy text GSAP (Optimized for smooth mobile scroll)
     useEffect(() => {
         const exp = experiences[activeIndex];
         if (!exp) return;
+
+        const isMobile = window.innerWidth < 768;
 
         imageRefs.current.forEach((img, idx) => {
             if (img) {
@@ -300,26 +303,30 @@ export default function RelatedExperience() {
         });
 
         if (chipContainerRef.current && chipContainerRef.current.children[activeIndex]) {
+            // Pada mobile, gunakan 'auto' untuk menghindari konflik smooth-scroll browser yang menyebabkan lag saat touch-scroll
             chipContainerRef.current.children[activeIndex].scrollIntoView({
-                behavior: 'smooth',
+                behavior: isMobile ? 'auto' : 'smooth',
                 inline: 'center',
                 block: 'nearest',
             });
         }
 
-        const textEls = [titleRef.current, roleRef.current, descTextRef.current].filter(Boolean);
-        gsap.killTweensOf(textEls);
-        gsap.fromTo(
-            textEls,
-            { opacity: 0, y: 4 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.15,
-                ease: 'power2.out',
-                stagger: 0.02,
-            }
-        );
+        // Jalankan GSAP text animation hanya di desktop agar scroll di HP ringan & tidak lag
+        if (!isMobile) {
+            const textEls = [titleRef.current, roleRef.current, descTextRef.current].filter(Boolean);
+            gsap.killTweensOf(textEls);
+            gsap.fromTo(
+                textEls,
+                { opacity: 0, y: 4 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.15,
+                    ease: 'power2.out',
+                    stagger: 0.02,
+                }
+            );
+        }
     }, [activeIndex]);
 
     const handleOpenModal = (mode = 'pdf') => {
