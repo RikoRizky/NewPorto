@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { rawExperiences } from './ProfessionalBackgroundSection';
 import { scrollToSection } from '../utils/scrollToSection';
 import './Navbar.css';
 
@@ -52,11 +53,11 @@ const SKILLS = [
   { name: 'Supabase', icon: 'fas fa-bolt-lightning', color: '#3ecf8e' },
 ];
 
-const EXPERIENCE = [
-  { title: 'Sertifikat BNSP', desc: 'Teknologi Informasi · 2025', icon: 'fas fa-award' },
-  { title: 'PKL BPS Cirebon', desc: 'Digitalisasi data · 2024', icon: 'fas fa-building-user' },
-  { title: 'UKK RPL', desc: 'Rekayasa Perangkat Lunak · 2024', icon: 'fas fa-laptop-code' },
-];
+const EXPERIENCE = rawExperiences.slice(0, 3).map((item) => ({
+  title: item.title,
+  desc: `${item.role || item.issuer} · ${item.year}`,
+  icon: item.icon ? (item.icon.startsWith('fa-') ? `fas ${item.icon}` : item.icon) : 'fas fa-award',
+}));
 
 const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/rikorizky', icon: 'fab fa-github', color: '#ffffff' },
@@ -343,7 +344,7 @@ export default function Navbar() {
             <a href="#beranda" className="nav-brand" onClick={handleNavClick}>
               <img
                 src="/img/rikobgmerah.jpg"
-                alt="Riko Rizky Baswara"
+                alt="Riko Rizky"
                 className="brand-mark"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -444,7 +445,7 @@ export default function Navbar() {
                   </div>
                   <div>
                     <div className="name-badge-row">
-                      <strong>Riko Rizky</strong>
+                      <strong>Riko Rizky Baswara</strong>
                       <span className="verified-badge" title="Verified Developer">
                         <i className="fas fa-check-circle" />
                       </span>
