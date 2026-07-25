@@ -766,6 +766,30 @@ export default function RelatedExperience() {
                                         <i className="fas fa-external-link-alt text-[10px]" />
                                     </a>
                                 )}
+
+                                <button
+                                    type="button"
+                                    onPointerDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-red-500/80 hover:text-white text-neutral-300 flex items-center justify-center border border-white/10 transition-all cursor-pointer ml-1 active:scale-95 z-50 pointer-events-auto"
+                                    aria-label="Tutup pratinjau"
+                                    title="Tutup pratinjau (ESC)"
+                                >
+                                    <i className="fas fa-times text-xs pointer-events-none" />
+                                </button>
                             </div>
                         </div>
 
