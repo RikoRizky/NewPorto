@@ -1,3 +1,7 @@
+/* ==========================================================================
+   MODERN FLOATING NAVBAR & MEGA OVERLAY MENU
+   ========================================================================== */
+
 .navbar-shell {
   position: fixed;
   top: 18px;
@@ -214,7 +218,11 @@ span.mega-profile-avatar {
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
-/* OVERLAY MENU PANEL */
+
+/* ==========================================================================
+   MEGA OVERLAY MENU PANEL
+   ========================================================================== */
+
 .navbar-overlay-menu {
   position: fixed;
   top: 0;
@@ -225,11 +233,11 @@ span.mega-profile-avatar {
   display: none;
   z-index: 10000;
   pointer-events: none;
-  padding: 104px 5% 0;
+  padding: 106px 5% 0;
   overflow: hidden;
-  background: rgba(6, 6, 12, 0.94);
-  backdrop-filter: blur(32px) saturate(1.8);
-  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  background: rgba(8, 8, 14, 0.95);
+  backdrop-filter: blur(36px) saturate(1.9);
+  -webkit-backdrop-filter: blur(36px) saturate(1.9);
   will-change: transform;
 }
 
@@ -243,31 +251,31 @@ span.mega-profile-avatar {
 .menu-bg-grid {
   position: absolute;
   inset: 0;
-  opacity: 0.4;
-  background-image: radial-gradient(rgba(255, 140, 56, 0.12) 1px, transparent 1px);
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(255, 140, 56, 0.15) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 .menu-bg-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(130px);
 }
 
 .menu-bg-orb--1 {
   top: -10%;
   left: -5%;
-  width: 500px;
-  height: 500px;
-  background: rgba(255, 140, 56, 0.15);
+  width: 550px;
+  height: 550px;
+  background: rgba(255, 140, 56, 0.16);
 }
 
 .menu-bg-orb--2 {
   bottom: -10%;
   right: -5%;
-  width: 450px;
-  height: 450px;
-  background: rgba(245, 158, 11, 0.12);
+  width: 500px;
+  height: 500px;
+  background: rgba(245, 158, 11, 0.14);
 }
 
 .navbar-overlay-menu.is-open {
@@ -278,17 +286,27 @@ span.mega-profile-avatar {
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-width: 1280px;
+  max-width: 1240px;
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 3rem;
+  padding-bottom: 3.5rem;
   scrollbar-width: thin;
+  scrollbar-color: rgba(255, 140, 56, 0.3) transparent;
+}
+
+.navbar-overlay-menu .menu-inner::-webkit-scrollbar {
+  width: 6px;
+}
+
+.navbar-overlay-menu .menu-inner::-webkit-scrollbar-thumb {
+  background: rgba(255, 140, 56, 0.3);
+  border-radius: 999px;
 }
 
 .mega-heading {
-  margin: 0 0 1.2rem;
+  margin: 0 0 1.25rem;
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -296,13 +314,14 @@ span.mega-profile-avatar {
   color: #ff8c38;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
 
 .mega-heading::before {
   content: '✦';
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: #ffb347;
+  text-shadow: 0 0 10px rgba(255, 179, 71, 0.6);
 }
 
 .mega-menu-grid {
@@ -310,74 +329,136 @@ span.mega-profile-avatar {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem 2.5rem;
   flex: 1;
-  padding: 0.5rem 0 2rem;
+  padding: 0.5rem 0 2.5rem;
 }
 
 .mega-section {
   min-width: 0;
 }
 
+/* Card 1: Tentang Saya Profile */
 .mega-profile-card {
-  padding: 1.25rem 1.35rem;
+  padding: 1.35rem 1.45rem;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 22px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.16);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mega-profile-card:hover {
-  border-color: rgba(255, 140, 56, 0.4);
+  border-color: rgba(255, 140, 56, 0.45);
   background: rgba(255, 255, 255, 0.05);
   transform: translateY(-3px);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 140, 56, 0.18);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.65), 0 0 35px rgba(255, 140, 56, 0.2);
 }
 
 .mega-profile-header {
   display: flex;
   align-items: center;
-  gap: 0.95rem;
-  margin-bottom: 0.95rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar-container {
+  position: relative;
+  flex-shrink: 0;
 }
 
 .mega-profile-avatar {
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: #ffffff;
-  background: transparent;
-  box-shadow: none;
-  border: none;
-  flex-shrink: 0;
+  border: 2px solid rgba(255, 140, 56, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.mega-profile-header strong {
-  display: block;
-  font-size: 0.96rem;
-  font-weight: 700;
+.online-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #10b981;
+  border: 2.5px solid #0f0f17;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.name-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.name-badge-row strong {
+  font-size: 1rem;
+  font-weight: 800;
   color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
-.mega-profile-header span {
+.verified-badge {
+  color: #38bdf8;
+  font-size: 0.85rem;
+  display: inline-flex;
+}
+
+.profile-role {
   display: block;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: #ffb347;
   margin-top: 0.15rem;
 }
 
 .mega-profile-bio {
-  margin: 0 0 1rem;
+  margin: 0 0 1.1rem;
   font-size: 0.84rem;
   line-height: 1.65;
   color: #d1d5db;
+}
+
+.mega-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #34d399;
+  margin-bottom: 1.1rem;
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
 }
 
 .mega-profile-meta {
@@ -386,14 +467,14 @@ span.mega-profile-avatar {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.6rem;
 }
 
 .mega-profile-meta li {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.8rem;
+  gap: 0.65rem;
+  font-size: 0.82rem;
   color: #9ca3af;
 }
 
@@ -411,40 +492,47 @@ span.mega-profile-avatar {
 
 .mega-profile-meta a:hover {
   color: #ff8c38;
+  text-decoration: underline;
 }
 
+/* Card 2: Keahlian Utama Pills */
 .mega-skill-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.65rem;
 }
 
 .mega-skill-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 1.05rem;
-  font-size: 0.8rem;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.81rem;
   font-weight: 700;
   color: #ffedd5;
-  background: rgba(255, 140, 56, 0.1);
-  border: 1px solid rgba(255, 140, 56, 0.25);
+  background: rgba(255, 140, 56, 0.08);
+  border: 1px solid rgba(255, 140, 56, 0.22);
   border-radius: 999px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
 }
 
 .mega-skill-pill:hover {
-  background: rgba(255, 140, 56, 0.24);
-  border-color: rgba(255, 140, 56, 0.6);
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 6px 20px rgba(255, 140, 56, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--skill-color, #ff8c38);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px var(--skill-color, rgba(255, 140, 56, 0.35));
   color: #ffffff;
 }
 
 .mega-skill-pill i {
-  font-size: 0.88rem;
-  color: #ff8c38;
+  font-size: 0.92rem;
+  transition: transform 0.3s ease;
+}
+
+.mega-skill-pill:hover i {
+  transform: scale(1.15);
 }
 
 .mega-skill-letter {
@@ -460,10 +548,11 @@ span.mega-profile-avatar {
   border-radius: 4px;
 }
 
+/* Card 3: Featured Projects */
 .mega-project-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.95rem;
+  gap: 1rem;
 }
 
 .mega-project-card {
@@ -471,62 +560,140 @@ span.mega-profile-avatar {
   flex-direction: column;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   text-decoration: none;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mega-project-card:hover {
-  border-color: rgba(255, 140, 56, 0.45);
+  border-color: rgba(255, 140, 56, 0.5);
   background: rgba(255, 255, 255, 0.06);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 140, 56, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65), 0 0 30px rgba(255, 140, 56, 0.22);
+}
+
+.project-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
 }
 
 .mega-project-card img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mega-project-card:hover img {
-  transform: scale(1.06);
+  transform: scale(1.08);
+}
+
+.project-card-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: rgba(10, 10, 16, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: #ffedd5;
+  letter-spacing: 0.03em;
+}
+
+.project-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mega-project-card:hover .project-card-overlay {
+  opacity: 1;
+}
+
+.overlay-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ff8c38;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  box-shadow: 0 4px 12px rgba(255, 140, 56, 0.5);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.mega-project-card:hover .overlay-arrow {
+  transform: scale(1);
 }
 
 .mega-project-card-body {
-  padding: 0.8rem 0.9rem 0.9rem;
+  padding: 0.85rem 0.95rem 0.95rem;
 }
 
 .mega-project-card-body h4 {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-card-chevron {
+  font-size: 0.65rem;
+  color: #ff8c38;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.3s ease;
+}
+
+.mega-project-card:hover .project-card-chevron {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .mega-project-card-body p {
-  margin: 0.25rem 0 0;
-  font-size: 0.7rem;
+  margin: 0.28rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
   color: #9ca3af;
 }
 
+/* Card 4: Sertifikasi & Social */
 .mega-experience-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.85rem;
 }
 
 .mega-experience-list li {
-  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.15rem;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: 18px;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -534,53 +701,99 @@ span.mega-profile-avatar {
   border-color: rgba(255, 140, 56, 0.4);
   background: rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 140, 56, 0.12);
 }
 
-.mega-experience-list strong {
+.exp-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 140, 56, 0.12);
+  border: 1px solid rgba(255, 140, 56, 0.25);
+  color: #ff8c38;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.mega-experience-list li:hover .exp-icon-box {
+  background: #ff8c38;
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.exp-content strong {
   display: block;
   font-size: 0.88rem;
   color: #ffffff;
-  margin-bottom: 0.18rem;
+  margin-bottom: 0.15rem;
 }
 
-.mega-experience-list span {
+.exp-content span {
   font-size: 0.74rem;
   color: #9ca3af;
 }
 
-.mega-social-row {
+/* Social Links Responsive Placement & Style */
+.mega-social-desktop {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 1.1rem;
-  padding-top: 1.1rem;
+}
+
+.mega-social-mobile {
+  display: none;
+}
+
+.mega-project-social {
+  margin-top: 1rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+.mega-social-row {
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .mega-social-row a {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #ffedd5;
-  font-size: 1rem;
+  font-size: 1.05rem;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mega-social-row a:hover {
-  background: linear-gradient(135deg, #ff8c38 0%, #f59e0b 100%);
-  border-color: transparent;
-  color: #ffffff;
-  transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 8px 24px rgba(255, 140, 56, 0.45);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--social-brand-color, #ff8c38);
+  color: var(--social-brand-color, #ffffff);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 16px var(--social-brand-color, rgba(255, 140, 56, 0.4));
 }
 
+@media (max-width: 767px) {
+  .mega-social-desktop {
+    display: none !important;
+  }
+
+  .mega-social-mobile {
+    display: flex !important;
+  }
+}
+
+/* Mobile Nav fallback menu */
 .mega-mobile-nav {
   display: none;
   background: rgba(255, 255, 255, 0.03);
@@ -626,6 +839,7 @@ span.mega-profile-avatar {
   box-shadow: 0 4px 16px rgba(255, 140, 56, 0.4);
 }
 
+/* Responsive Media Queries */
 @media (max-width: 767px) {
   .modern-nav .nav-center {
     display: none !important;
@@ -657,7 +871,7 @@ span.mega-profile-avatar {
 
   .modern-nav .nav-center a {
     font-size: 0.74rem;
-    padding: 8px 11px;
+    padding: 7px 11px;
   }
 
   .mega-mobile-nav {
@@ -696,20 +910,20 @@ span.mega-profile-avatar {
   }
 
   .modern-nav .brand-text h1 {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     letter-spacing: 0.1em;
   }
 
   .modern-nav .brand-text p {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     letter-spacing: 0.18em;
   }
 
   .modern-nav .brand-divider {
-    height: 24px;
+    height: 22px;
   }
 
   .navbar-overlay-menu {
-    padding: 88px 3.5% 0;
+    padding: 88px 4% 0;
   }
 }

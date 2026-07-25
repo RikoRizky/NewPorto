@@ -19,47 +19,50 @@ const FEATURED_PROJECTS = [
   {
     title: 'BYD Cirebon',
     desc: 'Automotive landing page',
+    tag: 'Web App',
     image: '/img/byd.jpg',
     href: '#project',
   },
   {
     title: 'Mariposas Tour',
     desc: 'Travel agency website',
+    tag: 'Travel',
     image: '/img/mariposas.png',
     href: '#project',
   },
   {
     title: 'SILADATA',
     desc: 'Sistem Layanan Dokumen Akreditasi',
+    tag: 'Management System',
     image: '/img/siladata.png',
     href: '#project',
   },
 ];
 
 const SKILLS = [
-  { name: 'React', icon: 'fab fa-react' },
-  { name: 'JavaScript', icon: 'fab fa-js' },
-  { name: 'PHP', icon: 'fab fa-php' },
-  { name: 'Laravel', icon: 'fab fa-laravel' },
-  { name: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
-  { name: 'GSAP', icon: null },
-  { name: 'MySQL', icon: 'fas fa-database' },
-  { name: 'Git & GitHub', icon: 'fab fa-github' },
-  { name: 'Figma', icon: 'fab fa-figma' },
-  { name: 'Supabase', icon: 'fas fa-bolt' },
+  { name: 'React', icon: 'fab fa-react', color: '#61dafb' },
+  { name: 'JavaScript', icon: 'fab fa-js', color: '#f7df1e' },
+  { name: 'PHP', icon: 'fab fa-php', color: '#777bb4' },
+  { name: 'Laravel', icon: 'fab fa-laravel', color: '#ff2d20' },
+  { name: 'Tailwind CSS', icon: 'fab fa-css3-alt', color: '#38bdf8' },
+  { name: 'GSAP', icon: 'fas fa-bolt', color: '#88ce02' },
+  { name: 'MySQL', icon: 'fas fa-database', color: '#00758f' },
+  { name: 'Git & GitHub', icon: 'fab fa-github', color: '#f05032' },
+  { name: 'Figma', icon: 'fab fa-figma', color: '#f24e1e' },
+  { name: 'Supabase', icon: 'fas fa-bolt-lightning', color: '#3ecf8e' },
 ];
 
 const EXPERIENCE = [
-  { title: 'Sertifikat BNSP', desc: 'Teknologi Informasi · 2025' },
-  { title: 'PKL BPS Cirebon', desc: 'Digitalisasi data · 2024' },
-  { title: 'UKK RPL', desc: 'Rekayasa Perangkat Lunak · 2024' },
+  { title: 'Sertifikat BNSP', desc: 'Teknologi Informasi · 2025', icon: 'fas fa-award' },
+  { title: 'PKL BPS Cirebon', desc: 'Digitalisasi data · 2024', icon: 'fas fa-building-user' },
+  { title: 'UKK RPL', desc: 'Rekayasa Perangkat Lunak · 2024', icon: 'fas fa-laptop-code' },
 ];
 
 const SOCIAL_LINKS = [
-  { label: 'GitHub', href: 'https://github.com/rikorizky', icon: 'fab fa-github' },
-  { label: 'Instagram', href: 'https://instagram.com/sir_ikoo', icon: 'fab fa-instagram' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/riko-rizky-baswara-921262338?utm_source=share_via&utm_content=profile&utm_medium=member_android', icon: 'fab fa-linkedin-in' },
-  { label: 'Email', href: 'mailto:rikorizky20@gmail.com', icon: 'fas fa-envelope' },
+  { label: 'GitHub', href: 'https://github.com/rikorizky', icon: 'fab fa-github', color: '#ffffff' },
+  { label: 'Instagram', href: 'https://instagram.com/sir_ikoo', icon: 'fab fa-instagram', color: '#e1306c' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/riko-rizky-baswara-921262338?utm_source=share_via&utm_content=profile&utm_medium=member_android', icon: 'fab fa-linkedin-in', color: '#0a66c2' },
+  { label: 'Email', href: 'mailto:rikorizky20@gmail.com', icon: 'fas fa-envelope', color: '#ff8c38' },
 ];
 
 function showNav(shell) {
@@ -340,7 +343,7 @@ export default function Navbar() {
             <a href="#beranda" className="nav-brand" onClick={handleNavClick}>
               <img
                 src="/img/rikobgmerah.jpg"
-                alt="Riko Rizky"
+                alt="Riko Rizky Baswara"
                 className="brand-mark"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -351,7 +354,6 @@ export default function Navbar() {
                   e.target.parentNode.replaceChild(fallback, e.target);
                 }}
               />
-              {/* ======= END DIUBAH ======= */}
               <div className="brand-divider" />
               <div className="brand-text">
                 <h1>Riko Rizky</h1>
@@ -424,28 +426,40 @@ export default function Navbar() {
               <h3 className="mega-heading">Tentang Saya</h3>
               <div className="mega-profile-card">
                 <div className="mega-profile-header">
-                  <img
-                    src="/img/rikobgmerah.jpg"
-                    alt="Riko Rizky"
-                    className="mega-profile-avatar"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.style.display = 'none';
-                      const fallback = document.createElement('span');
-                      fallback.className = 'mega-profile-avatar';
-                      fallback.textContent = 'RR';
-                      e.target.parentNode.replaceChild(fallback, e.target);
-                    }}
-                  />
+                  <div className="profile-avatar-container">
+                    <img
+                      src="/img/rikobgmerah.jpg"
+                      alt="Riko Rizky"
+                      className="mega-profile-avatar"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.style.display = 'none';
+                        const fallback = document.createElement('span');
+                        fallback.className = 'mega-profile-avatar';
+                        fallback.textContent = 'RR';
+                        e.target.parentNode.replaceChild(fallback, e.target);
+                      }}
+                    />
+                    <span className="online-badge" />
+                  </div>
                   <div>
-                    <strong>Riko Rizky</strong>
-                    <span>UI/UX Designer & Web Developer</span>
+                    <div className="name-badge-row">
+                      <strong>Riko Rizky</strong>
+                      <span className="verified-badge" title="Verified Developer">
+                        <i className="fas fa-check-circle" />
+                      </span>
+                    </div>
+                    <span className="profile-role">UI/UX Designer & Web Developer</span>
                   </div>
                 </div>
                 <p className="mega-profile-bio">
                   Passionate web developer dari Cirebon yang fokus pada frontend interaktif,
                   animasi GSAP, dan desain responsif di setiap perangkat.
                 </p>
+                <div className="mega-status-pill">
+                  <span className="status-indicator-dot" />
+                  <span>Available for Hire &amp; Freelance Work</span>
+                </div>
                 <ul className="mega-profile-meta">
                   <li>
                     <i className="fas fa-map-marker-alt" />
@@ -463,8 +477,16 @@ export default function Navbar() {
               <h3 className="mega-heading">Keahlian Utama</h3>
               <div className="mega-skill-pills">
                 {SKILLS.map((skill) => (
-                  <span key={skill.name} className="mega-skill-pill">
-                    {skill.icon ? <i className={skill.icon} /> : <span className="mega-skill-letter">G</span>}
+                  <span
+                    key={skill.name}
+                    className="mega-skill-pill"
+                    style={{ '--skill-color': skill.color }}
+                  >
+                    {skill.icon ? (
+                      <i className={skill.icon} style={{ color: skill.color }} />
+                    ) : (
+                      <span className="mega-skill-letter">G</span>
+                    )}
                     {skill.name}
                   </span>
                 ))}
@@ -481,11 +503,38 @@ export default function Navbar() {
                     className="mega-project-card"
                     onClick={handleNavClick}
                   >
-                    <img src={project.image} alt={project.title} loading="lazy" />
+                    <div className="project-card-image-wrap">
+                      <img src={project.image} alt={project.title} loading="lazy" />
+                      <span className="project-card-tag">{project.tag}</span>
+                      <div className="project-card-overlay">
+                        <span className="overlay-arrow">
+                          <i className="fas fa-arrow-up-right-from-square" />
+                        </span>
+                      </div>
+                    </div>
                     <div className="mega-project-card-body">
-                      <h4>{project.title}</h4>
+                      <h4>
+                        {project.title}
+                        <i className="fas fa-chevron-right project-card-chevron" />
+                      </h4>
                       <p>{project.desc}</p>
                     </div>
+                  </a>
+                ))}
+              </div>
+              <div className="mega-social-row mega-social-desktop mega-project-social">
+                {SOCIAL_LINKS.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target={social.href.startsWith('mailto') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    title={social.label}
+                    style={{ '--social-brand-color': social.color }}
+                    onClick={social.href.startsWith('#') ? handleNavClick : undefined}
+                  >
+                    <i className={social.icon} />
                   </a>
                 ))}
               </div>
@@ -496,12 +545,17 @@ export default function Navbar() {
               <ul className="mega-experience-list">
                 {EXPERIENCE.map((item) => (
                   <li key={item.title}>
-                    <strong>{item.title}</strong>
-                    <span>{item.desc}</span>
+                    <div className="exp-icon-box">
+                      <i className={item.icon} />
+                    </div>
+                    <div className="exp-content">
+                      <strong>{item.title}</strong>
+                      <span>{item.desc}</span>
+                    </div>
                   </li>
                 ))}
               </ul>
-              <div className="mega-social-row">
+              <div className="mega-social-row mega-social-mobile">
                 {SOCIAL_LINKS.map((social) => (
                   <a
                     key={social.label}
@@ -509,6 +563,8 @@ export default function Navbar() {
                     target={social.href.startsWith('mailto') ? undefined : '_blank'}
                     rel="noopener noreferrer"
                     aria-label={social.label}
+                    title={social.label}
+                    style={{ '--social-brand-color': social.color }}
                     onClick={social.href.startsWith('#') ? handleNavClick : undefined}
                   >
                     <i className={social.icon} />
