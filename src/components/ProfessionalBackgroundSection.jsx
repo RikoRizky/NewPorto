@@ -139,6 +139,7 @@ export default function RelatedExperience() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [modalViewMode, setModalViewMode] = useState('pdf'); // 'pdf' | 'image'
+    const [iframeLoading, setIframeLoading] = useState(true);
 
     const sectionRef = useRef(null);
     const itemRefs = useRef([]);
@@ -149,10 +150,18 @@ export default function RelatedExperience() {
     const cardRef = useRef(null);
     const chipContainerRef = useRef(null);
     const mainStRef = useRef(null);
+    const modalRef = useRef(null);
 
     const totalItems = experiences.length;
     const currentExp = experiences[activeIndex] || experiences[0];
     const driveFileId = getGoogleDriveFileId(currentExp.certificate);
+
+    // Reset loading state for iframe when modal opens or view changes
+    useEffect(() => {
+        if (lightboxOpen) {
+            setIframeLoading(true);
+        }
+    }, [lightboxOpen, activeIndex, modalViewMode]);
 
     // Preload images
     useEffect(() => {
@@ -180,35 +189,49 @@ export default function RelatedExperience() {
         const activeTriggers = ScrollTrigger.getAll();
         activeTriggers.forEach((st) => st.disable(false));
 
-        // 3. Prevent wheel/touchmove events on window from propagating to background
-        const preventBackgroundScroll = (e) => {
-            const isScrollableInsideModal = e.target && e.target.closest && e.target.closest('.modal-scrollable');
-            if (!isScrollableInsideModal) {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape' || e.code === 'Escape' || e.keyCode === 27) {
                 e.preventDefault();
                 e.stopPropagation();
-            }
-        };
-
-        const handleKeyDown = (e) => {
-            if (e.key === 'Escape') {
                 setLightboxOpen(false);
             }
         };
 
-        window.addEventListener('wheel', preventBackgroundScroll, { passive: false });
-        window.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
-        window.addEventListener('keydown', handleKeyDown);
+        const handleMouseMove = () => {
+            if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+                window.focus();
+                if (modalRef.current) {
+                    modalRef.current.focus();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown, true);
+        document.addEventListener('keydown', handleKeyDown, true);
+        window.addEventListener('keyup', handleKeyDown, true);
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+        // Auto focus window and modal
+        const focusTimer = setTimeout(() => {
+            window.focus();
+            if (modalRef.current) {
+                modalRef.current.focus();
+            }
+        }, 50);
 
         // Hide navbar while lightbox modal is active
         document.body.classList.add('lightbox-modal-open');
 
         return () => {
+            clearTimeout(focusTimer);
             document.body.style.overflow = originalBodyOverflow;
             document.documentElement.style.overflow = originalDocOverflow;
             document.body.classList.remove('lightbox-modal-open');
-            window.removeEventListener('wheel', preventBackgroundScroll);
-            window.removeEventListener('touchmove', preventBackgroundScroll);
-            window.removeEventListener('keydown', handleKeyDown);
+
+            window.removeEventListener('keydown', handleKeyDown, true);
+            document.removeEventListener('keydown', handleKeyDown, true);
+            window.removeEventListener('keyup', handleKeyDown, true);
+            window.removeEventListener('mousemove', handleMouseMove);
 
             // Re-enable GSAP ScrollTriggers when modal closes
             activeTriggers.forEach((st) => st.enable());
@@ -626,31 +649,86 @@ export default function RelatedExperience() {
                         }
                     `}</style>
                     <div
-                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn"
-                        onClick={() => setLightboxOpen(false)}
+                        ref={modalRef}
+                        tabIndex={-1}
+                        className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn outline-none"
+                        onPointerDown={(e) => {
+                            if (e.target === modalRef.current) {
+                                setLightboxOpen(false);
+                            }
+                        }}
+                        onMouseDown={(e) => {
+                            if (e.target === modalRef.current) {
+                                setLightboxOpen(false);
+                            }
+                        }}
+                        onClick={(e) => {
+                            if (e.target === modalRef.current) {
+                                setLightboxOpen(false);
+                            }
+                        }}
                     >
                         <div
                             className="modal-scrollable relative max-w-5xl w-full h-[90vh] bg-neutral-950 border border-white/20 rounded-2xl flex flex-col overflow-hidden shadow-2xl z-[100000]"
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onMouseDown={(e) => e.stopPropagation()}
                             onClick={(e) => e.stopPropagation()}
+                            onMouseEnter={() => {
+                                if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+                                    window.focus();
+                                    modalRef.current?.focus();
+                                }
+                            }}
+                            onMouseMove={() => {
+                                if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+                                    window.focus();
+                                    modalRef.current?.focus();
+                                }
+                            }}
                         >
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between px-4 py-3 bg-neutral-900 border-b border-white/10 shrink-0">
+                        <div className="flex items-center justify-between px-4 py-3 bg-neutral-900 border-b border-white/10 shrink-0 relative z-50">
                             <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                                <span className="w-3 h-3 rounded-full bg-red-500/90 cursor-pointer hover:opacity-80" onClick={() => setLightboxOpen(false)} />
-                                <span className="w-3 h-3 rounded-full bg-yellow-500/90" />
-                                <span className="w-3 h-3 rounded-full bg-green-500/90" />
+                                <button
+                                    type="button"
+                                    onPointerDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    className="w-4 h-4 rounded-full bg-red-500 hover:bg-red-600 transition-all flex items-center justify-center group cursor-pointer border-0 p-0 shrink-0 relative z-50"
+                                    title="Tutup pratinjau (ESC)"
+                                >
+                                    <i className="fas fa-times text-[9px] text-white opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                </button>
+                                <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90" />
+                                <span className="w-3.5 h-3.5 rounded-full bg-green-500/90" />
                                 <span className="text-xs font-mono font-bold text-white ml-1.5 truncate">
                                     {currentExp.title} — {currentExp.role} ({currentExp.year})
                                 </span>
                             </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex items-center gap-2 shrink-0 relative z-50">
                                 {/* Mode Selector Switcher */}
                                 {driveFileId && (
                                     <div className="flex bg-neutral-800 p-1 rounded-lg border border-white/10 text-xs font-mono">
                                         <button
-                                            onClick={() => setModalViewMode('pdf')}
-                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setModalViewMode('pdf');
+                                            }}
+                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
                                                 modalViewMode === 'pdf'
                                                     ? 'bg-orange-500 text-white font-bold shadow'
                                                     : 'text-neutral-400 hover:text-white'
@@ -660,8 +738,12 @@ export default function RelatedExperience() {
                                             <span>PDF Scroll</span>
                                         </button>
                                         <button
-                                            onClick={() => setModalViewMode('image')}
-                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setModalViewMode('image');
+                                            }}
+                                            className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
                                                 modalViewMode === 'image'
                                                     ? 'bg-orange-500 text-white font-bold shadow'
                                                     : 'text-neutral-400 hover:text-white'
@@ -678,6 +760,7 @@ export default function RelatedExperience() {
                                         href={currentExp.certificate}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
                                         className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500/20 text-orange-300 border border-orange-500/40 text-xs font-mono hover:bg-orange-500/30 transition-colors"
                                     >
                                         <span>Drive Tab Baru</span>
@@ -686,23 +769,61 @@ export default function RelatedExperience() {
                                 )}
 
                                 <button
-                                    onClick={() => setLightboxOpen(false)}
-                                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 hover:text-white flex items-center justify-center transition-colors ml-1"
+                                    type="button"
+                                    onPointerDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setLightboxOpen(false);
+                                    }}
+                                    className="w-9 h-9 rounded-full bg-neutral-800 hover:bg-red-600 text-white flex items-center justify-center transition-all cursor-pointer ml-1.5 active:scale-90 border border-white/20 hover:border-red-500 shadow-md shrink-0 relative z-50 pointer-events-auto"
                                     aria-label="Tutup pratinjau"
+                                    title="Tutup pratinjau (ESC)"
                                 >
-                                    <i className="fas fa-times text-sm" />
+                                    <i className="fas fa-times text-base pointer-events-none" />
                                 </button>
                             </div>
                         </div>
 
                         {/* Modal Body Container */}
-                        <div className="flex-1 bg-black/80 relative overflow-hidden flex items-center justify-center">
+                        <div className="flex-1 bg-black/90 relative overflow-hidden flex items-center justify-center">
+                            {modalViewMode === 'pdf' && driveFileId && iframeLoading && (
+                                <div className="absolute inset-0 z-10 bg-neutral-950/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 p-4 pointer-events-auto">
+                                    <div className="w-10 h-10 border-3 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
+                                    <div className="text-center space-y-1">
+                                        <p className="text-xs font-mono font-semibold text-white">Memuat Dokumen Google Drive...</p>
+                                        <p className="text-[11px] text-neutral-400">Silakan tunggu sebentar atau tampilkan foto instan</p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setModalViewMode('image');
+                                        }}
+                                        className="mt-1 px-3.5 py-1.5 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                                    >
+                                        <i className="fas fa-image text-xs" />
+                                        <span>Tampilkan Foto Instan</span>
+                                    </button>
+                                </div>
+                            )}
+
                             {modalViewMode === 'pdf' && driveFileId ? (
                                 <iframe
                                     src={`https://drive.google.com/file/d/${driveFileId}/preview`}
-                                    className="w-full h-full rounded-b-xl border-0"
+                                    className="w-full h-full rounded-b-xl border-0 relative z-0"
                                     title={currentExp.title}
                                     allow="autoplay"
+                                    onLoad={() => setIframeLoading(false)}
                                 />
                             ) : (
                                 <div className="w-full h-full overflow-y-auto flex items-center justify-center p-4">
