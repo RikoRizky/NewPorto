@@ -246,7 +246,7 @@ export default function RelatedExperience() {
 
         const st = ScrollTrigger.create({
             trigger: section,
-            start: isMobile ? 'top 70px' : 'top top',
+            start: isMobile ? 'top 55px' : 'top top',
             end: `+=${totalItems * (isMobile ? 35 : 40)}%`,
             pin: true,
             scrub: isMobile ? 0.3 : 0.15,
@@ -331,12 +331,39 @@ export default function RelatedExperience() {
         <div
             ref={sectionRef}
             id="experience"
-            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden py-2 sm:py-6 flex flex-col justify-center"
+            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden pt-1 pb-4 sm:py-6 flex flex-col justify-start md:justify-center"
         >
             <SectionBackdrop variant="cool" />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-2 sm:py-4 pb-8 sm:pb-16 w-full flex flex-col justify-center min-h-[calc(100vh-80px)]">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-1 sm:pt-4 pb-6 sm:pb-12 w-full flex flex-col justify-start md:justify-center">
                 
+                {/* Section Header (Gabungan dari TitleSertif) */}
+                <div className="text-center max-w-3xl mx-auto mb-2 sm:mb-6 space-y-1 sm:space-y-2.5">
+                    {/* Top Badge */}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-neutral-900/80 border border-orange-500/30 backdrop-blur-xl shadow-lg shadow-orange-500/10 hover:border-orange-500/50 transition-colors">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        <span className="text-[9px] sm:text-xs font-mono tracking-widest text-orange-300 font-semibold uppercase">
+                            Sertifikasi &amp; Lisensi Resmi
+                        </span>
+                    </div>
+
+                    {/* Main Heading */}
+                    <h2 className="text-xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                        Koleksi{' '}
+                        <span className="bg-gradient-to-r from-amber-200 via-orange-400 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(249,115,22,0.35)]">
+                            Sertifikat &amp; Pencapaian
+                        </span>
+                    </h2>
+
+                    {/* Subtitle */}
+                    <p className="text-[11px] sm:text-sm text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal hidden sm:block">
+                        Dokumentasi sertifikasi kompetensi nasional, Hak Atas Kekayaan Intelektual (HKI), dan program pelatihan profesional.
+                    </p>
+                </div>
+
                 {/* Mobile Chip Selector */}
                 <div
                     ref={chipContainerRef}

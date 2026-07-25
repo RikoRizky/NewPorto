@@ -7,7 +7,6 @@ import LandingPage from './components/LandingPage';
 import AboutSection from './components/AboutSection';
 import Karya from './components/Karya';
 import WhatIDoSection from './components/WhatIDoSection';
-import TitleSertif from './components/TitleSertif';
 import ProfessionalBackgroundSection from './components/ProfessionalBackgroundSection';
 import ContactSection from './components/ContactSection';
 import FeedbackSection from './components/FeedbackSection';
@@ -26,7 +25,6 @@ function MainPage() {
       <main>
         <LandingPage />
         <AboutSection />
-        <TitleSertif />
         <ProfessionalBackgroundSection />
         <WhatIDoSection />
         <Karya />
