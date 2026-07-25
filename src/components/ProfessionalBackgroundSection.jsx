@@ -302,12 +302,13 @@ export default function RelatedExperience() {
             }
         });
 
-        if (chipContainerRef.current && chipContainerRef.current.children[activeIndex]) {
-            // Pada mobile, gunakan 'auto' untuk menghindari konflik smooth-scroll browser yang menyebabkan lag saat touch-scroll
-            chipContainerRef.current.children[activeIndex].scrollIntoView({
+        const container = chipContainerRef.current;
+        if (container && container.children[activeIndex]) {
+            const targetChild = container.children[activeIndex];
+            const targetScrollLeft = targetChild.offsetLeft - container.clientWidth / 2 + targetChild.clientWidth / 2;
+            container.scrollTo({
+                left: Math.max(0, targetScrollLeft),
                 behavior: isMobile ? 'auto' : 'smooth',
-                inline: 'center',
-                block: 'nearest',
             });
         }
 

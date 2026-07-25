@@ -38,6 +38,14 @@ function MainPage() {
 
 function App() {
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+
     document.body.style.overflow = '';
     document.body.style.overflowX = 'clip';
 
