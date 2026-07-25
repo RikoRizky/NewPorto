@@ -246,10 +246,10 @@ export default function RelatedExperience() {
 
         const st = ScrollTrigger.create({
             trigger: section,
-            start: 'top top',
-            end: `+=${totalItems * (isMobile ? 30 : 40)}%`,
+            start: isMobile ? 'top 70px' : 'top top',
+            end: `+=${totalItems * (isMobile ? 35 : 40)}%`,
             pin: true,
-            scrub: isMobile ? true : 0.15,
+            scrub: isMobile ? 0.3 : 0.15,
             anticipatePin: 1,
             fastScrollEnd: true,
             preventOverlaps: true,
@@ -311,11 +311,11 @@ export default function RelatedExperience() {
         gsap.killTweensOf(textEls);
         gsap.fromTo(
             textEls,
-            { opacity: 0, y: 5 },
+            { opacity: 0, y: 4 },
             {
                 opacity: 1,
                 y: 0,
-                duration: 0.18,
+                duration: 0.15,
                 ease: 'power2.out',
                 stagger: 0.02,
             }
@@ -331,16 +331,16 @@ export default function RelatedExperience() {
         <div
             ref={sectionRef}
             id="experience"
-            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden py-2 sm:py-6"
+            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 overflow-hidden py-2 sm:py-6 flex flex-col justify-center"
         >
             <SectionBackdrop variant="cool" />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-2 sm:py-4 pb-10 sm:pb-16">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-2 sm:py-4 pb-8 sm:pb-16 w-full flex flex-col justify-center min-h-[calc(100vh-80px)]">
                 
                 {/* Mobile Chip Selector */}
                 <div
                     ref={chipContainerRef}
-                    className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-2.5 mb-3 -mx-4 px-4 scroll-smooth"
+                    className="flex md:hidden overflow-x-auto no-scrollbar gap-2 pb-2 mb-2.5 -mx-4 px-4 scroll-smooth shrink-0 items-center"
                 >
                     {experiences.map((exp, idx) => (
                         <button
@@ -359,16 +359,16 @@ export default function RelatedExperience() {
                 </div>
 
                 {/* Grid: 1 kolom mobile, 12 kolom desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 lg:gap-10 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 lg:gap-10 items-center justify-center">
                     
                     {/* ===== KOLOM KIRI (Visual Preview & Compact Detail Card) ===== */}
-                    <div className="md:col-span-5 lg:col-span-5 space-y-3.5 md:sticky md:top-16 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar">
+                    <div className="md:col-span-5 lg:col-span-5 space-y-3 md:sticky md:top-16 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar transform-gpu">
                         
-                        {/* Image Showcase Card (Aspect 16/10 agar tidak terlalu tinggi) */}
-                        <div className="relative overflow-hidden rounded-xl bg-neutral-950 shadow-xl shadow-orange-500/10 border border-white/15 group hover:border-orange-500/40 transition-all duration-300">
+                        {/* Image Showcase Card */}
+                        <div className="relative overflow-hidden rounded-xl bg-neutral-950 shadow-xl shadow-orange-500/10 border border-white/15 group hover:border-orange-500/40 transition-all duration-300 transform-gpu">
                             
                             {/* Header Bar OS Style */}
-                            <div className="flex items-center justify-between px-3.5 py-2 bg-neutral-900/90 border-b border-white/10 z-20 relative">
+                            <div className="flex items-center justify-between px-3 py-1.5 sm:px-3.5 sm:py-2 bg-neutral-900/90 border-b border-white/10 z-20 relative">
                                 <div className="flex items-center gap-1.5">
                                     <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
                                     <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
@@ -393,7 +393,7 @@ export default function RelatedExperience() {
 
                             {/* Aspect Ratio Container */}
                             <div
-                                className="relative aspect-[16/10] overflow-hidden cursor-pointer"
+                                className="relative aspect-[16/9.5] sm:aspect-[16/10] overflow-hidden cursor-pointer bg-neutral-900"
                                 onClick={() => handleOpenModal(driveFileId ? 'pdf' : 'image')}
                             >
                                 {experiences.map((exp, idx) => (
@@ -409,7 +409,7 @@ export default function RelatedExperience() {
                                                 e.target.src = PLACEHOLDER_IMAGE;
                                             }
                                         }}
-                                        className="absolute inset-0 w-full h-full object-cover will-change-transform group-hover:scale-105 transition-transform duration-500"
+                                        className="absolute inset-0 w-full h-full object-cover will-change-transform transform-gpu group-hover:scale-105 transition-transform duration-300"
                                         style={{
                                             opacity: idx === activeIndex ? 1 : 0,
                                             transform: idx === activeIndex ? 'scale(1)' : 'scale(1.04)',
@@ -433,30 +433,30 @@ export default function RelatedExperience() {
                                 </div>
 
                                 {/* Badge Tahun */}
-                                <div className="absolute top-2.5 left-2.5 bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-orange-400/40 text-[11px] font-mono font-bold text-orange-300 shadow-lg flex items-center gap-1">
+                                <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 bg-black/85 backdrop-blur-md px-2 py-0.5 sm:px-2.5 rounded-full border border-orange-400/40 text-[10px] sm:text-[11px] font-mono font-bold text-orange-300 shadow-lg flex items-center gap-1">
                                     <i className="far fa-calendar-alt text-orange-400 text-[10px]" />
                                     {currentExp.year}
                                 </div>
 
                                 {/* Badge Counter */}
-                                <div className="absolute bottom-2.5 right-2.5 bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/15 text-[11px] font-mono tracking-widest text-neutral-300 shadow-lg">
+                                <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 bg-black/85 backdrop-blur-md px-2 py-0.5 sm:px-2.5 rounded-full border border-white/15 text-[10px] sm:text-[11px] font-mono tracking-widest text-neutral-300 shadow-lg">
                                     <span className="text-orange-400 font-bold">{String(activeIndex + 1).padStart(2, '0')}</span> / {String(totalItems).padStart(2, '0')}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Detail Card (Kompak & Rapi agar tidak kepotong) */}
+                        {/* Detail Card (Kompak & Rapi agar tidak kepotong di HP) */}
                         <div
                             ref={cardRef}
-                            className="bg-neutral-950/90 md:bg-neutral-900/85 backdrop-blur-xl rounded-xl p-4 sm:p-5 border border-white/15 shadow-xl transition-all duration-300 hover:border-orange-400/40 relative overflow-hidden group"
+                            className="bg-neutral-950/95 md:bg-neutral-900/85 backdrop-blur-md md:backdrop-blur-xl rounded-xl p-3.5 sm:p-5 border border-white/15 shadow-xl transition-all duration-300 hover:border-orange-400/40 relative overflow-hidden group transform-gpu"
                         >
-                            <div className="flex items-center justify-between gap-2 mb-2">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-300 text-[11px] font-mono font-medium">
+                            <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2">
+                                <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-300 text-[10px] sm:text-[11px] font-mono font-medium">
                                     <i className={`fas ${currentExp.icon || 'fa-certificate'} text-[10px]`} />
                                     {currentExp.category || 'Sertifikat'}
                                 </span>
                                 {currentExp.issuer && (
-                                    <span className="text-[10px] font-mono text-neutral-400 truncate max-w-[180px]">
+                                    <span className="text-[10px] font-mono text-neutral-400 truncate max-w-[160px] sm:max-w-[180px]">
                                         {currentExp.issuer}
                                     </span>
                                 )}
@@ -466,7 +466,7 @@ export default function RelatedExperience() {
                             <div className="space-y-0.5">
                                 <h3
                                     ref={titleRef}
-                                    className="text-lg sm:text-xl font-extrabold text-white leading-snug tracking-tight font-sans"
+                                    className="text-base sm:text-xl font-extrabold text-white leading-snug tracking-tight font-sans"
                                 >
                                     {currentExp.title}
                                 </h3>
@@ -481,11 +481,11 @@ export default function RelatedExperience() {
 
                             {/* Skill Tags */}
                             {currentExp.tags && currentExp.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1 my-2.5">
+                                <div className="flex flex-wrap gap-1 my-2 sm:my-2.5">
                                     {currentExp.tags.map((tag, tIdx) => (
                                         <span
                                             key={tIdx}
-                                            className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800/90 border border-white/10 text-neutral-300"
+                                            className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded bg-neutral-800/90 border border-white/10 text-neutral-300"
                                         >
                                             #{tag}
                                         </span>
@@ -493,21 +493,21 @@ export default function RelatedExperience() {
                                 </div>
                             )}
 
-                            <div className="w-full h-px bg-gradient-to-r from-orange-500/40 via-amber-500/20 to-transparent my-2.5" />
+                            <div className="w-full h-px bg-gradient-to-r from-orange-500/40 via-amber-500/20 to-transparent my-2 sm:my-2.5" />
                             
                             {/* Ringkas & Tidak Panjang Panjang */}
                             <p
                                 ref={descTextRef}
-                                className="text-xs text-neutral-300 leading-relaxed font-normal mb-4"
+                                className="text-[11px] sm:text-xs text-neutral-300 leading-relaxed font-normal mb-3 sm:mb-4 line-clamp-3 sm:line-clamp-none"
                             >
                                 {currentExp.description}
                             </p>
 
                             {/* Tombol Action */}
-                            <div className="flex flex-wrap items-center gap-2.5">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
                                 <button
                                     onClick={() => handleOpenModal(driveFileId ? 'pdf' : 'image')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs transition-all duration-200 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:-translate-y-0.5"
+                                    className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-[11px] sm:text-xs transition-all duration-200 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 active:scale-95"
                                 >
                                     <i className="fas fa-file-pdf text-xs" />
                                     <span>Buka Preview Full Document</span>
@@ -518,7 +518,7 @@ export default function RelatedExperience() {
                                         href={currentExp.certificate}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/10 text-xs transition-all"
+                                        className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/10 text-[11px] sm:text-xs transition-all"
                                         title="Buka Drive Tab Baru"
                                     >
                                         <span>Tab Baru</span>
@@ -534,10 +534,10 @@ export default function RelatedExperience() {
                                 <button
                                     key={idx}
                                     onClick={() => handleSelectExperience(idx)}
-                                    className={`group relative h-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none ${
+                                    className={`group relative h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer focus:outline-none ${
                                         idx === activeIndex
-                                            ? 'w-8 bg-gradient-to-r from-orange-400 to-amber-400 shadow-[0_0_12px_rgba(255,140,56,0.6)]'
-                                            : 'w-2 bg-neutral-700 hover:bg-neutral-500'
+                                            ? 'w-6 sm:w-8 bg-gradient-to-r from-orange-400 to-amber-400 shadow-[0_0_12px_rgba(255,140,56,0.6)]'
+                                            : 'w-1.5 sm:w-2 bg-neutral-700 hover:bg-neutral-500'
                                     }`}
                                     aria-label={`Go to experience ${idx + 1}`}
                                 />
