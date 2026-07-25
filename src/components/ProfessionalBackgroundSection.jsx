@@ -406,17 +406,7 @@ export default function RelatedExperience() {
                         Dokumentasi sertifikasi kompetensi nasional, Hak Atas Kekayaan Intelektual (HKI), dan program pelatihan profesional.
                     </p>
 
-                    {/* Feature Highlight Pills */}
-                    <div className="sertif-header-reveal hidden sm:flex flex-wrap justify-center items-center gap-2 sm:gap-3 pt-1 text-[10px] sm:text-[11px] font-mono text-neutral-300">
-                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/70 border border-white/10 hover:border-orange-500/40 hover:bg-neutral-800/80 transition-all duration-300 backdrop-blur-md shadow-sm">
-                            <i className="fas fa-shield-halved text-orange-400 text-xs" />
-                            <span>Terverifikasi BNSP &amp; Kemenkumham HKI</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/70 border border-white/10 hover:border-orange-500/40 hover:bg-neutral-800/80 transition-all duration-300 backdrop-blur-md shadow-sm">
-                            <i className="fas fa-award text-amber-400 text-xs" />
-                            <span>7+ Sertifikasi Resmi</span>
-                        </div>
-                    </div>
+
                 </div>
 
                 {/* Mobile Chip Selector */}
