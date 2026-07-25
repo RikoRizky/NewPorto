@@ -427,6 +427,14 @@ span.mega-profile-avatar {
   color: #d1d5db;
 }
 
+.mega-profile-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 1.1rem;
+}
+
 .mega-status-pill {
   display: inline-flex;
   align-items: center;
@@ -438,7 +446,39 @@ span.mega-profile-avatar {
   font-size: 0.72rem;
   font-weight: 600;
   color: #34d399;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0;
+}
+
+.mega-contact-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ffedd5;
+  background: rgba(255, 140, 56, 0.15);
+  border: 1px solid rgba(255, 140, 56, 0.35);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.mega-contact-link-btn:hover {
+  background: linear-gradient(135deg, #ff8c38 0%, #f59e0b 100%);
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 140, 56, 0.4);
+}
+
+.mega-contact-link-btn i {
+  font-size: 0.65rem;
+  transition: transform 0.25s ease;
+}
+
+.mega-contact-link-btn:hover i {
+  transform: translateX(2px);
 }
 
 .status-indicator-dot {
@@ -687,14 +727,12 @@ span.mega-profile-avatar {
 }
 
 .mega-experience-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.85rem 1.15rem;
+  padding: 0;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 .mega-experience-list li:hover {
@@ -702,6 +740,16 @@ span.mega-profile-avatar {
   background: rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 140, 56, 0.12);
+}
+
+.exp-card-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.15rem;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
 }
 
 .exp-icon-box {
@@ -725,6 +773,11 @@ span.mega-profile-avatar {
   transform: scale(1.08);
 }
 
+.exp-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .exp-content strong {
   display: block;
   font-size: 0.88rem;
@@ -735,6 +788,26 @@ span.mega-profile-avatar {
 .exp-content span {
   font-size: 0.74rem;
   color: #9ca3af;
+}
+
+.exp-year-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  background: rgba(255, 140, 56, 0.12);
+  border: 1px solid rgba(255, 140, 56, 0.3);
+  border-radius: 999px;
+  color: #ffedd5;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.mega-experience-list li:hover .exp-year-badge {
+  background: #ff8c38;
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 140, 56, 0.4);
 }
 
 /* Social Links Responsive Placement & Style */

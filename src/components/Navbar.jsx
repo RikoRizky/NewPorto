@@ -55,8 +55,10 @@ const SKILLS = [
 
 const EXPERIENCE = rawExperiences.slice(0, 3).map((item) => ({
   title: item.title,
-  desc: `${item.role || item.issuer} · ${item.year}`,
+  desc: item.role || item.issuer,
+  year: item.year,
   icon: item.icon ? (item.icon.startsWith('fa-') ? `fas ${item.icon}` : item.icon) : 'fas fa-award',
+  href: '#experience',
 }));
 
 const SOCIAL_LINKS = [
@@ -430,7 +432,7 @@ export default function Navbar() {
                   <div className="profile-avatar-container">
                     <img
                       src="/img/rikobgmerah.jpg"
-                      alt="Riko Rizky"
+                      alt="Riko Rizky Baswara"
                       className="mega-profile-avatar"
                       onError={(e) => {
                         e.target.onerror = null;
@@ -450,21 +452,27 @@ export default function Navbar() {
                         <i className="fas fa-check-circle" />
                       </span>
                     </div>
-                    <span className="profile-role">UI/UX Designer & Web Developer</span>
+                    <span className="profile-role">UI/UX Designer &amp; Web Developer</span>
                   </div>
                 </div>
                 <p className="mega-profile-bio">
                   Passionate web developer dari Cirebon yang fokus pada frontend interaktif,
                   animasi GSAP, dan desain responsif di setiap perangkat.
                 </p>
-                <div className="mega-status-pill">
-                  <span className="status-indicator-dot" />
-                  <span>Available for Hire &amp; Freelance Work</span>
+                <div className="mega-profile-footer-row">
+                  <div className="mega-status-pill">
+                    <span className="status-indicator-dot" />
+                    <span>Available for Hire</span>
+                  </div>
+                  <a href="#contact" className="mega-contact-link-btn" onClick={handleNavClick}>
+                    <span>Hubungi</span>
+                    <i className="fas fa-arrow-right" />
+                  </a>
                 </div>
                 <ul className="mega-profile-meta">
                   <li>
                     <i className="fas fa-map-marker-alt" />
-                    Cirebon, Indonesia
+                    Cirebon, Indonesia 🇮🇩
                   </li>
                   <li>
                     <i className="fas fa-envelope" />
@@ -542,17 +550,24 @@ export default function Navbar() {
             </section>
 
             <section className="menu-panel mega-section">
-              <h3 className="mega-heading">Sertifikasi &amp; Social</h3>
+              <h3 className="mega-heading">Sertifikasi</h3>
               <ul className="mega-experience-list">
                 {EXPERIENCE.map((item) => (
                   <li key={item.title}>
-                    <div className="exp-icon-box">
-                      <i className={item.icon} />
-                    </div>
-                    <div className="exp-content">
-                      <strong>{item.title}</strong>
-                      <span>{item.desc}</span>
-                    </div>
+                    <a
+                      href="#experience"
+                      className="exp-card-link"
+                      onClick={handleNavClick}
+                    >
+                      <div className="exp-icon-box">
+                        <i className={item.icon} />
+                      </div>
+                      <div className="exp-content">
+                        <strong>{item.title}</strong>
+                        <span>{item.desc}</span>
+                      </div>
+                      <span className="exp-year-badge">{item.year}</span>
+                    </a>
                   </li>
                 ))}
               </ul>
