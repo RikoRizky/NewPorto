@@ -38,6 +38,19 @@ export const rawExperiences = [
     },
     {
         id: 1,
+        title: 'Sertifikat Oracle Academy',
+        role: 'Java Fundementals',
+        issuer: 'Oracle Academy',
+        category: 'Java Fundementals',
+        icon: 'fa-user-tie',
+        tags: ['Java', 'Pemrograman Berorientasi Objek'],
+        description:
+            'Penguasaan dasar pemrograman Java, struktur kontrol, dan konsep OOP dasar untuk pembuatan aplikasi sederhana.',
+        year: '2026',
+        certificate: 'https://drive.google.com/file/d/1vo2FVZtAf9FVzOK6BSDIBksS3OfeFfXV/view?usp=sharing',
+    },
+    {
+        id: 2,
         title: 'Sertifikat BNSP',
         role: 'Badan Nasional Sertifikasi Profesi',
         issuer: 'BNSP Republik Indonesia',
@@ -51,7 +64,7 @@ export const rawExperiences = [
         image: '/img/sertif.png',
     },
     {
-        id: 2,
+        id: 3,
         title: 'Sertifikat PKL',
         role: 'Badan Pusat Statistik Kota Cirebon',
         issuer: 'BPS Kota Cirebon',
@@ -64,7 +77,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1y3VN-N-0SqDUHNsEDsHt1PVmCTZDOTvk/view',
     },
     {
-        id: 3,
+        id: 4,
         title: 'Sertifikat UKK',
         role: 'Uji Kompetensi Keahlian RPL',
         issuer: 'Kemendikbud & Industri RPL',
@@ -77,7 +90,7 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1XY4nEWlOES9m9tWEgYsDiRC1YbGAQbeO/view',
     },
     {
-        id: 4,
+        id: 5,
         title: 'Sertifikat Karier.mu',
         role: 'Menjadi Talenta Siap Bisnis',
         issuer: 'Karier.mu Platform',
@@ -88,19 +101,6 @@ export const rawExperiences = [
             'Pelatihan pengembangan soft skills, kepemimpinan, dan komunikasi efektif persiapan kerja & bisnis.',
         year: '2024',
         certificate: 'https://drive.google.com/file/d/1hc3UhB86SjkcyUJMYuN7oXKLtHxiYmWF/view',
-    },
-    {
-        id: 5,
-        title: 'Sertifikat Karier.mu',
-        role: 'Kelas Persiapan Kerja',
-        issuer: 'Karier.mu Platform',
-        category: 'Kesiapan Karir',
-        icon: 'fa-user-tie',
-        tags: ['Personal Branding', 'CV & Interview'],
-        description:
-            'Pembekalan karir komprehensif mencakup CV profesional, teknik wawancara, dan budaya kerja industri.',
-        year: '2024',
-        certificate: 'https://drive.google.com/file/d/1hb91N-07A9gE-jXKM2ubNV0v_HxtaF75/view',
     },
     {
         id: 6,
