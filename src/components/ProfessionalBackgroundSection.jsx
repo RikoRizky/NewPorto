@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionBackdrop from './SectionBackdrop';
 
 gsap.registerPlugin(ScrollTrigger);
-
 // ============ HELPER GOOGLE DRIVE ============
 const getGoogleDriveFileId = (url) => {
     if (!url) return null;
