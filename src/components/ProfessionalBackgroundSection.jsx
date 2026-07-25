@@ -118,7 +118,7 @@ export const rawExperiences = [
 ];
 
 // ============ MAPPING GAMBAR ============
-const PLACEHOLDER_IMAGE = 'https://picsum.photos/seed/cert/800/600';
+const PLACEHOLDER_IMAGE = '/img/cert_placeholder.png';
 
 const experiences = rawExperiences.map((exp) => {
     if (exp.image && !exp.image.includes('drive.google.com')) {
@@ -383,7 +383,9 @@ export default function RelatedExperience() {
                                         loading="lazy"
                                         decoding="async"
                                         onError={(e) => {
-                                            e.target.src = PLACEHOLDER_IMAGE;
+                                            if (e.target.src !== PLACEHOLDER_IMAGE && !e.target.src.endsWith(PLACEHOLDER_IMAGE)) {
+                                                e.target.src = PLACEHOLDER_IMAGE;
+                                            }
                                         }}
                                         className="absolute inset-0 w-full h-full object-cover will-change-transform group-hover:scale-105 transition-transform duration-500"
                                         style={{
@@ -707,6 +709,11 @@ export default function RelatedExperience() {
                                     <img
                                         src={currentExp.image}
                                         alt={currentExp.title}
+                                        onError={(e) => {
+                                            if (e.target.src !== PLACEHOLDER_IMAGE && !e.target.src.endsWith(PLACEHOLDER_IMAGE)) {
+                                                e.target.src = PLACEHOLDER_IMAGE;
+                                            }
+                                        }}
                                         className="max-w-full h-auto max-h-none rounded-lg shadow-2xl object-contain"
                                     />
                                 </div>
