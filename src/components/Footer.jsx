@@ -104,7 +104,7 @@ export default function Footer() {
                 }}
               />
               {/* ========== END DIUBAH ========== */}
-              <h3>Riko Rizky</h3>
+              <h3>Riko Rizky Baswara</h3>
             </div>
             <p>
               Pengembang web yang penuh semangat yang berfokus pada penciptaan

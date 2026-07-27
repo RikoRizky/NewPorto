@@ -199,7 +199,7 @@ export default function AboutSection() {
             <div className="about-profile-card">
               <div className="about-profile-glow" />
               <ProfileAvatar />
-              <h3 className="about-profile-name">Riko Rizky</h3>
+              <h3 className="about-profile-name">Riko Rizky Baswara</h3>
               <p className="about-profile-role">Web Developer</p>
               <div className="about-profile-divider" />
               <ul className="about-profile-info">
