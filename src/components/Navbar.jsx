@@ -142,6 +142,16 @@ export default function Navbar() {
 
       if (sections.length === 0) return;
 
+      // Ensure the first section is active when at the very top of the page
+      if (window.scrollY < 50) {
+        const firstId = sections[0].id;
+        if (activeSectionRef.current !== firstId) {
+          activeSectionRef.current = firstId;
+          setActiveSection(firstId);
+        }
+        return;
+      }
+
       const viewportMiddle = window.scrollY + window.innerHeight / 2;
       let current = sections[0].id;
       let minDist = Infinity;
