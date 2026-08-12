@@ -211,7 +211,7 @@ export default function RelatedExperience() {
                     }
                 );
             }
-            
+
             gsap.fromTo(
                 sliderEl,
                 { opacity: 0, y: 40 },
@@ -306,7 +306,7 @@ export default function RelatedExperience() {
             className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 pt-1 pb-16 sm:py-20 flex flex-col justify-start overflow-hidden"
         >
             <SectionBackdrop variant="cool" />
-            
+
             <style>{`
                 .swiper {
                     padding-bottom: 5rem !important;
@@ -372,7 +372,7 @@ export default function RelatedExperience() {
             `}</style>
 
             <div className="relative z-10 w-full flex flex-col justify-start md:justify-center">
-                
+
                 {/* Section Header */}
                 <div ref={headerRef} className="relative text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-3 sm:space-y-4 selection:bg-orange-500/30 px-4 sm:px-6">
                     {/* Ambient Glow behind Header */}
@@ -410,7 +410,8 @@ export default function RelatedExperience() {
                         grabCursor={true}
                         centeredSlides={true}
                         slidesPerView={'auto'}
-                        initialSlide={1}
+                        initialSlide={0}
+                        loop={true}
                         coverflowEffect={{
                             rotate: 20,
                             stretch: 0,
@@ -428,13 +429,13 @@ export default function RelatedExperience() {
                     >
                         {experiences.map((exp, idx) => {
                             const fileId = getGoogleDriveFileId(exp.certificate);
-                            
+
                             return (
                                 <SwiperSlide key={exp.id} className="flex h-auto">
                                     <div className="cert-card bg-neutral-950/90 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 flex flex-col w-full h-full">
-                                        
+
                                         {/* Thumbnail Container */}
-                                        <div 
+                                        <div
                                             className="relative aspect-[16/10] overflow-hidden cursor-pointer bg-neutral-900 border-b border-white/10 group"
                                             onClick={() => handleOpenModal(exp, fileId ? 'pdf' : 'image')}
                                         >
@@ -450,28 +451,28 @@ export default function RelatedExperience() {
                                                 }}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
-                                            
+
                                             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-transparent opacity-80" />
-                                            
+
                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                                                 <div className="w-12 h-12 rounded-full bg-orange-500/90 text-white flex items-center justify-center shadow-lg backdrop-blur-md transform scale-75 group-hover:scale-100 transition-transform duration-300">
                                                     <i className={`fas ${fileId ? 'fa-file-pdf' : 'fa-expand'} text-lg`} />
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Badge Tahun */}
                                             <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-orange-400/30 text-[10px] font-mono font-bold text-orange-300 shadow-sm flex items-center gap-1.5 z-10">
                                                 <i className="far fa-calendar-alt text-orange-400/80" />
                                                 {exp.year}
                                             </div>
-                                            
+
                                             {/* Kategori Badge */}
                                             <div className="absolute top-3 right-3 bg-neutral-900/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[10px] font-mono font-medium text-neutral-300 shadow-sm flex items-center gap-1.5 z-10">
                                                 <i className={`fas ${exp.icon || 'fa-certificate'} text-[10px] text-neutral-400`} />
                                                 {exp.category || 'Sertifikat'}
                                             </div>
                                         </div>
-                                        
+
                                         {/* Content Container */}
                                         <div className="p-5 flex flex-col flex-1">
                                             <div className="flex-1 space-y-3">
@@ -484,14 +485,14 @@ export default function RelatedExperience() {
                                                         {exp.role}
                                                     </p>
                                                 </div>
-                                                
+
                                                 <p className="text-[13px] text-neutral-400 leading-relaxed line-clamp-3">
                                                     {exp.description}
                                                 </p>
                                             </div>
-                                            
+
                                             <div className="h-px w-full bg-gradient-to-r from-white/10 via-white/5 to-transparent my-4" />
-                                            
+
                                             <div className="flex items-center gap-2.5 mt-auto">
                                                 <button
                                                     onClick={() => handleOpenModal(exp, fileId ? 'pdf' : 'image')}
@@ -500,7 +501,7 @@ export default function RelatedExperience() {
                                                     <i className="fas fa-eye text-xs" />
                                                     <span>Lihat Preview</span>
                                                 </button>
-                                                
+
                                                 {exp.certificate && (
                                                     <a
                                                         href={exp.certificate}
@@ -603,11 +604,10 @@ export default function RelatedExperience() {
                                                     e.stopPropagation();
                                                     setModalViewMode('pdf');
                                                 }}
-                                                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
-                                                    modalViewMode === 'pdf'
-                                                        ? 'bg-orange-500 text-white font-bold shadow'
-                                                        : 'text-neutral-400 hover:text-white'
-                                                }`}
+                                                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${modalViewMode === 'pdf'
+                                                    ? 'bg-orange-500 text-white font-bold shadow'
+                                                    : 'text-neutral-400 hover:text-white'
+                                                    }`}
                                             >
                                                 <i className="fas fa-file-pdf text-xs" />
                                                 <span>PDF Scroll</span>
@@ -618,11 +618,10 @@ export default function RelatedExperience() {
                                                     e.stopPropagation();
                                                     setModalViewMode('image');
                                                 }}
-                                                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
-                                                    modalViewMode === 'image'
-                                                        ? 'bg-orange-500 text-white font-bold shadow'
-                                                        : 'text-neutral-400 hover:text-white'
-                                                }`}
+                                                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${modalViewMode === 'image'
+                                                    ? 'bg-orange-500 text-white font-bold shadow'
+                                                    : 'text-neutral-400 hover:text-white'
+                                                    }`}
                                             >
                                                 <i className="fas fa-image text-xs" />
                                                 <span>Foto</span>
