@@ -30,7 +30,7 @@ export default function WhatIDoSection() {
       // Pin + efek Y (menyatukan dari atas/bawah) & scale (mengecilkan gambar tengah)
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'top top',
+        start: 'center center',
         end: `+=${window.innerHeight * (isMobile ? 1 : 1.2)}`,
         pin: true,
         scrub: isMobile ? 0.2 : 0.5,
@@ -84,6 +84,9 @@ export default function WhatIDoSection() {
           backface-visibility: hidden;
         }
         @media (max-width: 767px) {
+          .whatido-section {
+            height: 55vh; /* Reduce height on mobile to minimize gap */
+          }
           .whatido-header {
             padding: 0 1rem;
           }

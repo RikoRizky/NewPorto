@@ -303,15 +303,20 @@ export default function RelatedExperience() {
     return (
         <div
             id="experience"
-            className="relative min-h-[100vh] font-sans selection:bg-orange-400/30 pt-1 pb-16 sm:py-20 flex flex-col justify-start overflow-hidden"
+            className="relative md:min-h-screen font-sans selection:bg-orange-400/30 pt-8 sm:pt-1 pb-8 sm:pb-16 sm:py-20 flex flex-col justify-start overflow-hidden"
         >
             <SectionBackdrop variant="cool" />
 
             <style>{`
                 .swiper {
-                    padding-bottom: 5rem !important;
+                    padding-bottom: 2.5rem !important;
                     padding-top: 2rem !important;
                     overflow: visible !important; /* Mencegah card terpotong efek coverflow */
+                }
+                @media (min-width: 640px) {
+                    .swiper {
+                        padding-bottom: 5rem !important;
+                    }
                 }
                 /* Memastikan swiper tidak membuat horizontal scrollbar di layar */
                 @media (max-width: 100vw) {
@@ -404,7 +409,7 @@ export default function RelatedExperience() {
                 </div>
 
                 {/* 3D Carousel Swiper */}
-                <div ref={sliderContainerRef} className="w-full px-0 sm:px-4 lg:px-8 pb-12">
+                <div ref={sliderContainerRef} className="w-full px-0 sm:px-4 lg:px-8 pb-4 sm:pb-12">
                     <Swiper
                         effect={'coverflow'}
                         grabCursor={true}
