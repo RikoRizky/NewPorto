@@ -97,18 +97,6 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1xG4ZQwUDS6XOqpd0TXyYaTtqQLetmdVo/view?usp=sharing',
     },
     {
-        id: 'cert-new-3',
-        title: 'Sertifikat Oracle Academy',
-        role: 'Java Programming',
-        issuer: 'Oracle Academy',
-        category: 'Java Programming',
-        icon: 'fa-certificate',
-        tags: ['Java', 'Pemrograman Berorientasi Objek'],
-        description: 'Sertifikat keikutsertaan dan penyelesaian program pelatihan Java Programming.',
-        year: '2026',
-        certificate: 'https://drive.google.com/file/d/14PHfWeOxJ7lyrVqnFXbuNWu995xR21IT/view?usp=sharing',
-    },
-    {
         id: 1,
         title: 'Sertifikat Oracle Academy',
         role: 'Java Fundementals',
@@ -118,7 +106,7 @@ export const rawExperiences = [
         tags: ['Java', 'Pemrograman Berorientasi Objek'],
         description: 'Penguasaan dasar pemrograman Java, struktur kontrol, dan konsep OOP dasar untuk pembuatan aplikasi sederhana.',
         year: '2026',
-        certificate: 'https://drive.google.com/file/d/1vo2FVZtAf9FVzOK6BSDIBksS3OfeFfXV/view?usp=sharing',
+        certificate: 'https://drive.google.com/file/d/12aGyNGVBcDi-tmMzTKTOAckF4JDRNhFZ/view?usp=sharing',
     },
     {
         id: 'cert-new-2',
