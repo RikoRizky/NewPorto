@@ -10,7 +10,7 @@ export const SLIDE_DATA = [
   { name: "Aplikasi Pembelian", img: "/img/tokoreact.png", link: "https://penjualan-barang-sable.vercel.app/", category: "E-Commerce App", tags: ["React", "State Mgmt", "CSS Grid"] },
   { name: "Happy Birthday", img: "/img/ultah.png", link: "https://rikorizky.github.io/dibuka.github.oi/", category: "Interactive Web", tags: ["Interactive", "CSS Animation"] },
   { name: "Happy Birthday pt2", img: "/img/ultah2.png", link: "https://rikorizky.github.io/hbd.github.io/", category: "Special Showcase", tags: ["Audio API", "Canvas", "JS"] },
-  { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://github.com/MuhammadRaffaFadellah/sista-bijak", category: "Academic System", tags: ["Laravel", "Bootstrap", "MySQL"] },
+  { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://sista-bijak.nue.dom.my.id", category: "Management System", tags: ["Laravel", "Bootstrap", "MySQL"] },
   { name: "Todo List", img: "/img/todolist.png", link: "https://todolist.mnz.dom.my.id", category: "Data Management", tags: ["Laravel", "Tailwind", "MySQL"] },
   { name: "Trading", img: "/img/trading.png", link: "https://trading2026-n3jr61ob9-rikorizkys-projects.vercel.app", category: "E-learning", tags: ["React", "Tailwind", "Supabase"] }
 ];
