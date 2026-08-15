@@ -425,7 +425,7 @@ export default function RelatedExperience() {
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[120px] sm:h-[180px] bg-gradient-to-r from-orange-600/25 via-amber-500/20 to-orange-500/15 blur-[95px] rounded-full pointer-events-none -z-10 animate-pulse" />
 
                     {/* Top Badge */}
-                    <div className="sertif-header-reveal inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-neutral-900/90 border border-orange-500/35 backdrop-blur-xl shadow-lg shadow-orange-500/15 hover:border-orange-500/60 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105 group cursor-default">
+                    {/* <div className="sertif-header-reveal inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-neutral-900/90 border border-orange-500/35 backdrop-blur-xl shadow-lg shadow-orange-500/15 hover:border-orange-500/60 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105 group cursor-default">
                         <span className="relative flex h-2.5 w-2.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-tr from-orange-600 to-amber-400"></span>
@@ -433,7 +433,7 @@ export default function RelatedExperience() {
                         <span className="text-[10px] sm:text-xs font-mono tracking-widest text-orange-300 font-bold uppercase group-hover:text-amber-200 transition-colors">
                             Sertifikasi &amp; Lisensi Resmi
                         </span>
-                    </div>
+                    </div> */}
 
                     {/* Main Heading */}
                     <h2 className="sertif-header-reveal text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">

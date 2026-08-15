@@ -36,7 +36,7 @@ export default function TitleSertif() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-4">
         {/* Top Badge */}
-        <div className="sertif-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/80 border border-orange-500/30 backdrop-blur-xl shadow-lg shadow-orange-500/10 mb-4 hover:border-orange-500/50 transition-colors">
+        {/* <div className="sertif-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/80 border border-orange-500/30 backdrop-blur-xl shadow-lg shadow-orange-500/10 mb-4 hover:border-orange-500/50 transition-colors">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
@@ -44,7 +44,7 @@ export default function TitleSertif() {
           <span className="text-[11px] sm:text-xs font-mono tracking-widest text-orange-300 font-semibold uppercase">
             Sertifikasi &amp; Lisensi Resmi
           </span>
-        </div>
+        </div> */}
 
         {/* Main Heading */}
         <h2 className="sertif-reveal text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-3">

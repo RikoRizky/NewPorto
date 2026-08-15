@@ -111,6 +111,10 @@ span.mega-profile-avatar {
   background: linear-gradient(180deg, transparent, rgba(255, 179, 71, 0.6), transparent);
 }
 
+.modern-nav .brand-text {
+  margin-left: 8px;
+}
+
 .modern-nav .brand-text h1 {
   margin: 0;
   font-size: 0.84rem;

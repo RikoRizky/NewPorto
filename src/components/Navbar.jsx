@@ -22,21 +22,21 @@ const FEATURED_PROJECTS = [
     desc: 'Automotive landing page',
     tag: 'Web App',
     image: '/img/byd.jpg',
-    href: '#project',
+    href: 'https://bydcirebon.id/',
   },
   {
     title: 'Mariposas Tour',
     desc: 'Travel agency website',
     tag: 'Travel',
     image: '/img/mariposas.png',
-    href: '#project',
+    href: 'https://mariposasindonesia.com',
   },
   {
     title: 'SILADATA',
     desc: 'Sistem Layanan Dokumen Akreditasi',
     tag: 'Management System',
     image: '/img/siladata.png',
-    href: '#project',
+    href: 'https://siladata.my.id',
   },
 ];
 
@@ -354,7 +354,7 @@ export default function Navbar() {
         >
           <div className="nav-left">
             <a href="#beranda" className="nav-brand" onClick={handleNavClick}>
-              <img
+              {/* <img
                 src="/img/rikobgmerah.jpg"
                 alt="Riko Rizky"
                 className="brand-mark"
@@ -367,7 +367,7 @@ export default function Navbar() {
                   e.target.parentNode.replaceChild(fallback, e.target);
                 }}
               />
-              <div className="brand-divider" />
+              <div className="brand-divider" /> */}
               <div className="brand-text">
                 <h1>Riko Rizky</h1>
                 <p>Portfolio</p>

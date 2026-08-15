@@ -59,15 +59,15 @@ const SKILL_CATEGORIES = [
   },
 ];
 
-const startYear = 2022;
+const startYear = 2025;
 const currentYear = new Date().getFullYear();
-const yearsLearning = Math.max(1, currentYear - startYear);
+const yearsExperience = Math.max(1, currentYear - startYear);
 
 const STATS = [
   { value: SLIDE_DATA.length, suffix: '+', label: 'Projects Built', icon: 'fas fa-laptop-code' },
   { value: rawExperiences.length, suffix: '+', label: 'Certifications', icon: 'fas fa-certificate' },
-  { value: yearsLearning, suffix: '+', label: 'Years Learning', icon: 'fas fa-book-open' },
-  { value: 100, suffix: '%', label: 'Passion Driven', icon: 'fas fa-fire' },
+  { value: yearsExperience, suffix: '+', label: 'Pengalaman Kerja', icon: 'fas fa-briefcase' },
+  // { value: 100, suffix: '%', label: 'Passion Driven', icon: 'fas fa-fire' },
 ];
 
 function ProfileAvatar() {

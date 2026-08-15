@@ -3,7 +3,7 @@ import gsap from 'gsap';
 
 export const SLIDE_DATA = [
   { name: "BYD Cirebon", img: "/img/byd.jpg", link: "https://bydcirebon.id/", category: "Automotive Dealer", tags: ["React", "Vite", "Tailwind"] },
-  { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://tourmariposas.vercel.app", category: "Travel & Tourism", tags: ["React", "GSAP", "Vercel"] },
+  { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://mariposasindonesia.com", category: "Travel & Tourism", tags: ["React", "GSAP", "Vercel"] },
   { name: "SILADATA", img: "/img/siladata.png", link: "https://siladata.my.id", category: "Data Management", tags: ["Web App", "PHP", "MySQL"] },
   { name: "Perpustakaan", img: "/img/perpus.png", link: "https://perpustakaan.nue.dom.my.id/", category: "Library System", tags: ["Fullstack", "Database", "UI/UX"] },
   { name: "Cafe Landing Page", img: "/img/landing.png", link: "https://rikorizky.github.io/mycafe.github.io/", category: "Restaurant & Cafe", tags: ["HTML5", "CSS3", "JavaScript"] },

@@ -150,10 +150,6 @@ export default function Footer() {
                 <a href="mailto:rikorizky20@gmail.com">rikorizky20@gmail.com</a>
               </li>
               <li>
-                <i className="fas fa-phone" />
-                <a href="tel:+6281223209190">+62 812-2320-9190</a>
-              </li>
-              <li>
                 <i className="fas fa-map-marker-alt" />
                 <span>Kota Bandung, Indonesia</span>
               </li>
