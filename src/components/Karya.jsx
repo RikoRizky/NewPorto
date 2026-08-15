@@ -2,17 +2,17 @@ import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
 export const SLIDE_DATA = [
-  { name: "BYD Cirebon", img: "/img/byd.jpg", link: "https://bydcirebon.id/", category: "Automotive Dealer", tags: ["React", "Vite", "Tailwind"] },
-  { name: "Mariposas Tour", img: "/img/mariposas.png", link: "https://mariposasindonesia.com", category: "Travel & Tourism", tags: ["React", "GSAP", "Vercel"] },
-  { name: "SILADATA", img: "/img/siladata.png", link: "https://siladata.my.id", category: "Data Management", tags: ["Web App", "PHP", "MySQL"] },
-  { name: "Perpustakaan", img: "/img/perpus.png", link: "https://perpustakaan.nue.dom.my.id/", category: "Library System", tags: ["Fullstack", "Database", "UI/UX"] },
-  { name: "Cafe Landing Page", img: "/img/landing.png", link: "https://rikorizky.github.io/mycafe.github.io/", category: "Restaurant & Cafe", tags: ["HTML5", "CSS3", "JavaScript"] },
-  { name: "Aplikasi Pembelian", img: "/img/tokoreact.png", link: "https://penjualan-barang-sable.vercel.app/", category: "E-Commerce App", tags: ["React", "State Mgmt", "CSS Grid"] },
-  { name: "Happy Birthday", img: "/img/ultah.png", link: "https://rikorizky.github.io/dibuka.github.oi/", category: "Interactive Web", tags: ["Interactive", "CSS Animation"] },
-  { name: "Happy Birthday pt2", img: "/img/ultah2.png", link: "https://rikorizky.github.io/hbd.github.io/", category: "Special Showcase", tags: ["Audio API", "Canvas", "JS"] },
-  { name: "SISTA BIJAK", img: "/img/sistabijak.png", link: "https://sista-bijak.nue.dom.my.id", category: "Management System", tags: ["Laravel", "Bootstrap", "MySQL"] },
-  { name: "Todo List", img: "/img/todolist.png", link: "https://todo-list.osk.dom.my.id", category: "Data Management", tags: ["Laravel", "Tailwind", "MySQL"] },
-  { name: "Trading", img: "/img/trading.png", link: "https://trading2026-n3jr61ob9-rikorizkys-projects.vercel.app", category: "E-learning", tags: ["React", "Tailwind", "Supabase"] }
+  { name: "BYD Cirebon", img: "/img/byd.webp", link: "https://bydcirebon.id/", category: "Automotive Dealer", tags: ["React", "Vite", "Tailwind"] },
+  { name: "Mariposas Tour", img: "/img/mariposas.webp", link: "https://mariposasindonesia.com", category: "Travel & Tourism", tags: ["React", "GSAP", "Vercel"] },
+  { name: "SILADATA", img: "/img/siladata.webp", link: "https://siladata.my.id", category: "Data Management", tags: ["Web App", "PHP", "MySQL"] },
+  { name: "Perpustakaan", img: "/img/perpus.webp", link: "https://perpustakaan.nue.dom.my.id/", category: "Library System", tags: ["Fullstack", "Database", "UI/UX"] },
+  { name: "Cafe Landing Page", img: "/img/landing.webp", link: "https://rikorizky.github.io/mycafe.github.io/", category: "Restaurant & Cafe", tags: ["HTML5", "CSS3", "JavaScript"] },
+  { name: "Aplikasi Pembelian", img: "/img/tokoreact.webp", link: "https://penjualan-barang-sable.vercel.app/", category: "E-Commerce App", tags: ["React", "State Mgmt", "CSS Grid"] },
+  { name: "Happy Birthday", img: "/img/ultah.webp", link: "https://rikorizky.github.io/dibuka.github.oi/", category: "Interactive Web", tags: ["Interactive", "CSS Animation"] },
+  { name: "Happy Birthday pt2", img: "/img/ultah2.webp", link: "https://rikorizky.github.io/hbd.github.io/", category: "Special Showcase", tags: ["Audio API", "Canvas", "JS"] },
+  { name: "SISTA BIJAK", img: "/img/sistabijak.webp", link: "https://sista-bijak.nue.dom.my.id", category: "Management System", tags: ["Laravel", "Bootstrap", "MySQL"] },
+  { name: "Todo List", img: "/img/todolist.webp", link: "https://todo-list.osk.dom.my.id", category: "Data Management", tags: ["Laravel", "Tailwind", "MySQL"] },
+  { name: "Trading", img: "/img/trading.webp", link: "https://trading2026-n3jr61ob9-rikorizkys-projects.vercel.app", category: "E-learning", tags: ["React", "Tailwind", "Supabase"] }
 ];
 
 const TOTAL = SLIDE_DATA.length;

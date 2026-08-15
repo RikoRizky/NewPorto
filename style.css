@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import "tailwindcss";
 *,
 *::before,
 *::after {
@@ -67,6 +68,26 @@ body {
 img {
 	max-width: 100%;
 	height: auto;
+	display: block;
+}
+
+/* Hero section image - bulletproof positioning tanpa bergantung Tailwind */
+.hero-bg-img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top center;
+}
+
+/* Picture element juga harus fill parent */
+.hero-bg-img,
+picture:has(.hero-bg-img) {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
 	display: block;
 }
 

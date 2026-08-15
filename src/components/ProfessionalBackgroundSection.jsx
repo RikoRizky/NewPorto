@@ -58,7 +58,7 @@ export const rawExperiences = [
         description: 'Sertifikasi kompetensi profesional nasional bidang Teknologi Informasi dengan standar industri yang teruji.',
         year: '2025',
         certificate: 'https://drive.google.com/file/d/1rsrf3LQ5EeqACZ4O7PvpAdpmTk8snZ5J/view?pli=1',
-        image: '/img/sertif.png',
+        image: '/img/sertif.webp',
     },
     {
         id: 4,
@@ -171,7 +171,7 @@ export const rawExperiences = [
 ];
 
 // ============ MAPPING GAMBAR ============
-const PLACEHOLDER_IMAGE = '/img/cert_placeholder.png';
+const PLACEHOLDER_IMAGE = '/img/cert_placeholder.webp';
 
 const experiences = rawExperiences.map((exp) => {
     if (exp.image && !exp.image.includes('drive.google.com')) {

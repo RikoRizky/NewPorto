@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { scrollToSection } from '../utils/scrollToSection';
-import LandingPageDesktop from '../../LandingPage.png';
-import LandingPageMobile from '../../Mobile.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,18 +43,20 @@ const LandingPage = () => {
   return (
     <section ref={sectionRef} className="relative h-screen w-full overflow-hidden" id="beranda">
       <div ref={bgRef} className="absolute inset-0 will-change-transform">
-        <img
-          src={LandingPageDesktop}
-          alt="Landing Page"
-          fetchPriority="high"
-          className="hidden md:block absolute inset-0 w-full h-full object-cover object-top"
-        />
-        <img
-          src={LandingPageMobile}
-          alt="Landing Page Mobile"
-          fetchPriority="high"
-          className="block md:hidden absolute inset-0 w-full h-full object-cover object-top"
-        />
+        <picture>
+          <source
+            media="(min-width: 768px)"
+            srcSet="/img/landingpage-hero.webp"
+            type="image/webp"
+          />
+          <img
+            src="/img/mobile-hero.webp"
+            alt="Hero background portfolio Riko Rizky Baswara"
+            fetchPriority="high"
+            decoding="async"
+            className="hero-bg-img"
+          />
+        </picture>
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/50" />
 
