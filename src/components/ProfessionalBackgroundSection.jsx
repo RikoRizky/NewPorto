@@ -422,7 +422,7 @@ export default function RelatedExperience() {
                 {/* Section Header */}
                 <div ref={headerRef} className="relative text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-3 sm:space-y-4 selection:bg-orange-500/30 px-4 sm:px-6">
                     {/* Ambient Glow behind Header */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[120px] sm:h-[180px] bg-gradient-to-r from-orange-600/25 via-amber-500/20 to-orange-500/15 blur-[95px] rounded-full pointer-events-none -z-10 animate-pulse" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[120px] sm:h-[180px] bg-gradient-to-r from-orange-600/25 via-amber-500/20 to-orange-500/15 blur-[95px] rounded-full pointer-events-none -z-10" />
 
                     {/* Top Badge */}
                     {/* <div className="sertif-header-reveal inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-neutral-900/90 border border-orange-500/35 backdrop-blur-xl shadow-lg shadow-orange-500/15 hover:border-orange-500/60 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105 group cursor-default">

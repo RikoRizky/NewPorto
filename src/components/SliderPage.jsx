@@ -140,7 +140,7 @@ const SliderPage = () => {
       const createSlide = (content, className) => {
         const div = document.createElement('div');
         div.className = `slide-container ${className}`;
-        div.innerHTML = `<div class="slide-img"><img src="${content.img}" alt="${content.name}" loading="eager"></div>`;
+        div.innerHTML = `<div class="slide-img"><img src="${content.img}" alt="${content.name}" loading="lazy" decoding="async"></div>`;
         return div;
       };
 

@@ -283,6 +283,16 @@
   }
 }
 
+.about-stat-card:last-child {
+  grid-column: span 2;
+}
+
+@media (min-width: 640px) {
+  .about-stat-card:last-child {
+    grid-column: span 1;
+  }
+}
+
 .about-stat-card {
   position: relative;
   background: rgba(255, 255, 255, 0.04);
