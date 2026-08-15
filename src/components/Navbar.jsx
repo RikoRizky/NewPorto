@@ -4,7 +4,7 @@ import { rawExperiences } from './ProfessionalBackgroundSection';
 import { scrollToSection } from '../utils/scrollToSection';
 import './Navbar.css';
 
-const MENU_DURATION = 0.75;
+const MENU_DURATION = 0.4;
 const MENU_EASE = 'power4.inOut';
 
 const NAV_LINKS = [
@@ -21,21 +21,21 @@ const FEATURED_PROJECTS = [
     title: 'BYD Cirebon',
     desc: 'Automotive landing page',
     tag: 'Web App',
-    image: '/img/byd.jpg',
+    image: '/img/byd.webp',
     href: 'https://bydcirebon.id/',
   },
   {
     title: 'Mariposas Tour',
     desc: 'Travel agency website',
     tag: 'Travel',
-    image: '/img/mariposas.png',
+    image: '/img/mariposas.webp',
     href: 'https://mariposasindonesia.com',
   },
   {
     title: 'SILADATA',
     desc: 'Sistem Layanan Dokumen Akreditasi',
     tag: 'Management System',
-    image: '/img/siladata.png',
+    image: '/img/siladata.webp',
     href: 'https://siladata.my.id',
   },
 ];
@@ -263,7 +263,7 @@ export default function Navbar() {
           const pending = pendingScrollRef.current;
           pendingScrollRef.current = null;
           if (pending) {
-            gsap.delayedCall(0.05, () => scrollToHash(pending));
+            scrollToHash(pending);
           }
         },
       });
@@ -441,7 +441,7 @@ export default function Navbar() {
                 <div className="mega-profile-header">
                   <div className="profile-avatar-container">
                     <img
-                      src="/img/rikobgmerah.jpg"
+                      src="/img/rikobgmerah.webp"
                       alt="Riko Rizky Baswara"
                       className="mega-profile-avatar"
                       onError={(e) => {
