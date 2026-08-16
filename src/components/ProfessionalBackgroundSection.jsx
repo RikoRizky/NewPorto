@@ -124,6 +124,18 @@ export const rawExperiences = [
         certificate: 'https://drive.google.com/file/d/1hg0A45EwjA7j1GAH9M84KCQJyhRZAqPe/view?usp=sharing',
     },
     {
+        id: 'cert-frontend',
+        title: 'Sertifikat Dicoding',
+        role: 'Belajar Membuat Front-End Web untuk Pemula',
+        issuer: 'Dicoding',
+        category: 'Belajar Membuat Front-End Web untuk Pemula',
+        icon: 'fa-display',
+        tags: ['HTML', 'CSS', 'JavaScript', 'Front-End'],
+        description: 'Sertifikat kelulusan Sertifikat Kompetensi Kelulusan kelas Belajar Membuat Front-End Web untuk Pemula dari Dicoding Academy.',
+        year: '2026',
+        certificate: 'https://drive.google.com/file/d/1sT6WQ4zXFCuxNt1GqkRPEXSwG2liCY-2/view?usp=sharing',
+    },
+    {
         id: 'cert-new-2',
         title: 'Sertifikat Dicoding',
         role: 'Belajar Dasar Pemrograman Web',

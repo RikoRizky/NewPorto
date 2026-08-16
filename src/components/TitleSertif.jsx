@@ -67,7 +67,7 @@ export default function TitleSertif() {
           </div>
           <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-neutral-900/70 border border-white/10 hover:border-orange-500/30 transition-colors backdrop-blur-md">
             <i className="fas fa-award text-amber-400 text-xs" />
-            <span>9+ Dokumen Resmi</span>
+            <span>10+ Dokumen Resmi</span>
           </div>
           <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-neutral-900/70 border border-white/10 hover:border-orange-500/30 transition-colors backdrop-blur-md">
             <i className="fas fa-building-columns text-orange-400 text-xs" />
