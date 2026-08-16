@@ -66,7 +66,7 @@ const yearsExperience = Math.max(1, currentYear - startYear);
 const STATS = [
   { value: SLIDE_DATA.length, suffix: '+', label: 'Projects Built', icon: 'fas fa-laptop-code' },
   { value: rawExperiences.length, suffix: '+', label: 'Certifications', icon: 'fas fa-certificate' },
-  { value: yearsExperience, suffix: 'Tahun+', label: 'Pengalaman Kerja', icon: 'fas fa-briefcase' },
+  { value: yearsExperience, suffix: ' Tahun+', label: 'Pengalaman Kerja', icon: 'fas fa-briefcase' },
   // { value: 100, suffix: '%', label: 'Passion Driven', icon: 'fas fa-fire' },
 ];
 
