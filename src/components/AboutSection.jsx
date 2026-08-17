@@ -80,12 +80,13 @@ function ProfileAvatar() {
         {!imgError ? (
           <img
             src={PROFILE_PHOTO}
-            alt="Riko Rizky"
+            alt="Foto profil Riko Rizky Baswara – Web Developer & Frontend Engineer dari Cirebon Indonesia"
             className="about-avatar-photo"
             loading="lazy"
             decoding="async"
             width="120"
             height="120"
+            itemProp="image"
             onError={() => setImgError(true)}
           />
         ) : (
@@ -181,7 +182,13 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="biodata" className="about-section">
+    <section
+      ref={sectionRef}
+      id="biodata"
+      className="about-section"
+      itemScope
+      itemType="https://schema.org/Person"
+    >
       <div className="about-section-glow about-section-glow--orange" />
       <div className="about-section-glow about-section-glow--amber" />
       <div className="about-grid-pattern" />
@@ -203,30 +210,29 @@ export default function AboutSection() {
             <div className="about-profile-card">
               <div className="about-profile-glow" />
               <ProfileAvatar />
-              <h3 className="about-profile-name">Riko Rizky Baswara</h3>
-              <p className="about-profile-role">Web Developer</p>
+              <h3 className="about-profile-name" itemProp="name">Riko Rizky Baswara</h3>
+              <p className="about-profile-role" itemProp="jobTitle">Web Developer &amp; Frontend Engineer</p>
               <div className="about-profile-divider" />
               <ul className="about-profile-info">
-                <li><i className="fas fa-map-marker-alt" /> Bandung, Indonesia</li>
-                <li><i className="fas fa-graduation-cap" /> Teknik Informatika</li>
-                <li><i className="fas fa-code" /> UI/UX Designer & Web Developer</li>
+                <li><i className="fas fa-map-marker-alt" /> <span itemProp="homeLocation">Cirebon, Jawa Barat, Indonesia</span></li>
+                <li><i className="fas fa-graduation-cap" /> <span itemProp="alumniOf">D4 Teknik Informatika, ULBI</span></li>
+                <li><i className="fas fa-code" /> <span itemProp="description">UI/UX Designer &amp; Web Developer</span></li>
               </ul>
               <div className="about-profile-socials">
-                <a href="https://github.com/rikorizky" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <a href="https://github.com/rikorizky" target="_blank" rel="noopener noreferrer me" aria-label="GitHub Riko Rizky Baswara" itemProp="sameAs">
                   <i className="fab fa-github" />
                 </a>
-                <a href="mailto:rikorizky20@gmail.com" aria-label="Email">
+                <a href="mailto:rikorizky20@gmail.com" aria-label="Email Riko Rizky Baswara" itemProp="email">
                   <i className="fas fa-envelope" />
                 </a>
                 <a
-                  href="#feedback"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection('#feedback');
-                  }}
-                  aria-label="Feedback"
+                  href="https://id.linkedin.com/in/riko-rizky-baswara-921262338"
+                  target="_blank"
+                  rel="noopener noreferrer me"
+                  aria-label="LinkedIn Riko Rizky Baswara"
+                  itemProp="sameAs"
                 >
-                  <i className="fas fa-comment-dots" />
+                  <i className="fab fa-linkedin" />
                 </a>
               </div>
             </div>

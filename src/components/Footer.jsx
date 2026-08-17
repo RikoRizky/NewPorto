@@ -14,10 +14,11 @@ const QUICK_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: 'fab fa-github', href: 'https://github.com/rikorizky', label: 'GitHub' },
-  { icon: 'fab fa-twitter', href: 'https://x.com/sir_ikoo', label: 'Twitter' },
-  { icon: 'fab fa-facebook-f', href: 'https://www.facebook.com/riko.basawara', label: 'Facebook' },
-  { icon: 'fab fa-instagram', href: 'https://instagram.com/sir_ikoo', label: 'Instagram' },
+  { icon: 'fab fa-github', href: 'https://github.com/rikorizky', label: 'GitHub Riko Rizky Baswara' },
+  { icon: 'fab fa-twitter', href: 'https://x.com/sir_ikoo', label: 'Twitter Riko Rizky' },
+  { icon: 'fab fa-facebook-f', href: 'https://www.facebook.com/riko.basawara', label: 'Facebook Riko Rizky Baswara' },
+  { icon: 'fab fa-instagram', href: 'https://instagram.com/callme_ikoo', label: 'Instagram callme_ikoo' },
+  { icon: 'fab fa-linkedin', href: 'https://id.linkedin.com/in/riko-rizky-baswara-921262338', label: 'LinkedIn Riko Rizky Baswara' },
 ];
 
 export default function Footer() {
@@ -91,9 +92,10 @@ export default function Footer() {
             <div className="footer-brand-header">
               {/* ========== DIUBAH ========== */}
               <img
-                src="/img/rikobgmerah.jpg"   // sesuaikan path dengan foto Anda
-                alt="Riko Rizky"
+                src="/img/rikobgmerah.webp"
+                alt="Riko Rizky Baswara – Web Developer & Frontend Engineer"
                 className="footer-avatar"
+                itemProp="image"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.style.display = 'none';
@@ -104,7 +106,7 @@ export default function Footer() {
                 }}
               />
               {/* ========== END DIUBAH ========== */}
-              <h3>Riko Rizky Baswara</h3>
+              <h3 itemProp="name">Riko Rizky Baswara</h3>
             </div>
             <p>
               Pengembang web yang penuh semangat yang berfokus pada penciptaan
@@ -116,8 +118,9 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   aria-label={social.label}
+                  itemProp="sameAs"
                 >
                   <i className={social.icon} />
                 </a>
@@ -147,11 +150,11 @@ export default function Footer() {
             <ul className="footer-contact">
               <li>
                 <i className="fas fa-envelope" />
-                <a href="mailto:rikorizky20@gmail.com">rikorizky20@gmail.com</a>
+                <a href="mailto:rikorizky20@gmail.com" itemProp="email">rikorizky20@gmail.com</a>
               </li>
               <li>
                 <i className="fas fa-map-marker-alt" />
-                <span>Kota Bandung, Indonesia</span>
+                <span itemProp="homeLocation">Cirebon, Jawa Barat, Indonesia</span>
               </li>
             </ul>
           </div>
