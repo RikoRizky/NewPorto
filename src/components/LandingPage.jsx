@@ -46,11 +46,11 @@ const LandingPage = () => {
         <picture>
           <source
             media="(min-width: 768px)"
-            srcSet="/img/landingpage-hero.webp"
+            srcSet="/img/LandingPage.webp"
             type="image/webp"
           />
           <img
-            src="/img/mobile-hero.webp"
+            src="/img/Mobile.webp"
             alt="Hero background portfolio Riko Rizky Baswara"
             fetchPriority="high"
             decoding="async"
